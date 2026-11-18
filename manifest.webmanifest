@@ -1,0 +1,33 @@
+{
+  "background_color": "#FFF1E6",
+  "description": "Plan your Lahore Orange Line journey. Explore all 26 stations, estimated train arrivals, station boards, route timings and nearby station directions.",
+  "dir": "ltr",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any",
+      "sizes": "192x192",
+      "src": "icon-192.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "512x512",
+      "src": "icon-512.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "maskable",
+      "sizes": "512x512",
+      "src": "icon-maskable-512.png",
+      "type": "image/png"
+    }
+  ],
+  "lang": "en",
+  "name": "Orange Line Lahore — Live Tracker",
+  "orientation": "portrait",
+  "scope": "./",
+  "short_name": "Orange Line",
+  "start_url": "./index.html",
+  "theme_color": "#C2410C"
+}

@@ -1,0 +1,1871 @@
+<!--
+  Orange Line Lahore — Journey Planner & Train Estimates
+  © 2026 Muhammad Aftab Latif — SA Global Enterprises. All rights reserved.
+  Built 17–18 Nov 2026. This file, its design and its data compilation are the
+  author's original work. No part may be copied, reproduced or republished
+  under another name without written permission.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" content="#C2410C" />
+<meta name="description" content="Plan your Lahore Orange Line journey. Explore all 26 stations, estimated train arrivals, station boards, route timings and nearby station directions." />
+<meta name="author" content="Muhammad Aftab Latif — SA Global Enterprises" />
+<meta name="copyright" content="© 2026 Muhammad Aftab Latif — SA Global Enterprises. All rights reserved." />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<!-- Security: this page has no server, no logins and makes no network requests of its own.
+     This policy blocks third-party scripts, framing by other sites, and any data connection. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; frame-ancestors 'self'; base-uri 'self'; form-action 'none'" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Orange Line Lahore — Journey Planner & Train Estimates" />
+<meta property="og:description" content="Explore stations, plan your journey and check timetable-based Orange Line arrival estimates." />
+<meta name="twitter:card" content="summary" />
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Orange Line" />
+<link rel="apple-touch-icon" href="data:image/png;base64,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" />
+<link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,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" />
+<title>Orange Line Lahore | Stations, Train Estimates & Journey Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#ea580c; --orange2:#f97316; --orange-dark:#c2410c; --orange-soft:#ffedd5;
+  --ac:#ea580c; --ac-h:#c2410c; --ac-soft:#ffedd5; --ac-fg:#ffffff; --slate:#0f172a;
+  --r:16px; --r-sm:10px;
+  --ease-spring:cubic-bezier(0.34,1.56,0.64,1); --ease-out:cubic-bezier(0.16,1,0.3,1); --ease-glide:cubic-bezier(0.65,0,0.35,1);
+  --green:#0E7C3E; --green2:#16A34A; --green-soft:#E6F4EA;
+  --bg:#f7f8f7; --surface:#FFFFFF; --surface2:#F1F3F4; --ink:#0f172a; --muted:#5B6472; --line:#E5E7EB;
+  --board:#0B1220; --board2:#111C33; --amber:#F59E0B; --red:#DC2626;
+  --shadow:0 10px 30px rgba(17,24,39,.08); --shadow-sm:0 2px 10px rgba(17,24,39,.06);
+  --radius:18px;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0B0F14; --surface:#131A22; --surface2:#1A232E; --ink:#F3F4F6; --muted:#9AA3B2; --line:#26303C; --orange-soft:#2A1A0E; --green-soft:#0F2A1A; --ac:#fb923c; --ac-h:#fdba74; --ac-soft:#431407; --shadow:0 10px 30px rgba(0,0,0,.35); }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:var(--orange-dark)}
+h1,h2,h3,.brand b{font-family:"Space Grotesk","Inter",sans-serif;letter-spacing:-.02em}
+button,select{font:inherit;min-height:44px}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+
+/* Header */
+.topbar{position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.topbar-in{max-width:1080px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.logo{width:44px;height:44px;border-radius:12px;background:var(--orange);display:grid;place-items:center;color:#fff;flex:0 0 auto;box-shadow:0 6px 16px rgba(232,93,4,.35)}
+.logo svg{width:26px;height:26px}
+.brand{line-height:1.05;min-width:0}
+.brand b{font-size:17px;letter-spacing:-.02em;display:block;white-space:nowrap}
+.brand span{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+.clockbox{margin-left:auto;text-align:right}
+.clockbox .time{font-weight:800;font-size:18px;letter-spacing:-.02em}
+.clockbox .date{font-size:11px;color:var(--muted);font-weight:600}
+.live-dot{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.08em}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green2);box-shadow:0 0 0 0 rgba(22,163,74,.5);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(22,163,74,.45)}70%{box-shadow:0 0 0 8px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
+@media (prefers-reduced-motion: reduce){.dot{animation:none}}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,#9A3412 0%,var(--orange) 45%,#F59E0B 110%);color:#fff;overflow:hidden;position:relative}
+.hero::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.12)}
+.hero-in{max-width:1080px;margin:0 auto;padding:22px 16px 20px;position:relative;z-index:1}
+.hero h1{margin:0;font-size:clamp(26px,5vw,40px);line-height:1.02;letter-spacing:-.03em;font-weight:800;max-width:640px}
+.hero h1 em{font-style:normal;text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);text-decoration-thickness:3px;text-underline-offset:4px}
+.hero p{margin:10px 0 0;max-width:620px;font-size:15px;line-height:1.55;color:rgba(255,255,255,.92)}
+.estimate-badge{display:inline-flex;align-items:center;gap:8px;background:#111827;color:#FDE68A;border:1px solid rgba(253,230,138,.5);font-weight:800;font-size:12px;letter-spacing:.06em;padding:8px 12px;border-radius:999px;margin-bottom:14px}
+.estimate-badge i{width:8px;height:8px;border-radius:50%;background:var(--amber);display:inline-block}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.install-hint{margin-top:12px;max-width:620px;background:rgba(17,24,39,.94);color:#FDE68A;border:1px solid rgba(253,230,138,.45);border-radius:12px;padding:11px 14px;font-size:13.5px;line-height:1.6;font-weight:600}
+.install-hint b{color:#fff}
+.install-hint[hidden]{display:none}
+#installBtn[hidden]{display:none}
+.btn{border:0;border-radius:999px;padding:0 18px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;min-height:46px}
+.btn-white{background:#fff;color:#9A3412}
+.btn-ghost{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.35)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+@media(max-width:640px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+.hstat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:12px 12px}
+.hstat b{font-size:19px;display:block;line-height:1}
+.hstat span{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.9}
+
+.wrap{max-width:1080px;margin:0 auto;padding:16px}
+.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
+.card-h{padding:16px 16px 12px;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;border-bottom:1px solid var(--line)}
+.card-h h2{margin:0;font-size:17px;letter-spacing:-.02em}
+.card-h p{margin:4px 0 0;color:var(--muted);font-size:13px;line-height:1.5}
+.pill{font-size:11px;font-weight:800;letter-spacing:.06em;padding:6px 10px;border-radius:999px;white-space:nowrap}
+.pill-green{background:var(--green-soft);color:var(--green)}
+.pill-amber{background:#FEF3C7;color:#92400E}
+.pill-orange{background:var(--orange-soft);color:var(--orange-dark)}
+.card-b{padding:16px}
+
+/* Status banner */
+.status{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.status-main{flex:1 1 220px}
+.status-main b{font-size:16px}
+.status-main span{display:block;color:var(--muted);font-size:13px;margin-top:2px;line-height:1.5}
+.kpi{display:flex;gap:10px;flex-wrap:wrap}
+.kpi div{background:var(--surface2);border-radius:12px;padding:10px 12px;min-width:96px;text-align:center}
+.kpi b{font-size:18px;display:block}
+.kpi span{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+
+/* Departure board */
+.board{background:var(--board);color:#E5E7EB;border-radius:16px;overflow:hidden;border:1px solid #1F2A44}
+.board-h{background:var(--board2);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.board-h b{font-size:13px;letter-spacing:.08em}
+.board-h span{font-size:12px;color:#93C5FD;font-weight:700}
+.board-row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px 14px;border-top:1px solid rgba(255,255,255,.07);border-left:4px solid transparent;align-items:center}
+.board-row:first-of-type{border-top:0}
+.board-row.dir-down{border-left-color:#ea580c}
+.board-row.dir-up{border-left-color:#14b8a6}
+.board-row .dest{font-weight:700;font-size:14px}
+.board-row .meta{font-size:12px;color:#9CA3AF;margin-top:2px}
+.eta{text-align:right}
+.eta b{font-size:30px;color:#FBBF24;line-height:1}
+.board-row.dir-up .eta b{color:#2DD4BF}
+.board-row.next .eta b{font-size:36px}
+.eta span{display:block;font-size:11px;color:#9CA3AF;font-weight:700;letter-spacing:.05em}
+select.station-select{width:100%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:0 12px;font-weight:700}
+.station-search{width:100%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:10px 12px;font-weight:600;margin-bottom:8px;font-size:14px}
+.station-search::placeholder{color:var(--muted);font-weight:600}
+.alert-banner{background:#FEF3C7;border:1px solid #FDE68A;color:#92400E;border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.6;margin-bottom:14px}
+.alert-banner .alert-note{opacity:.75}
+.dir-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.dir-tab{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px;font-weight:800;font-size:13px;cursor:pointer;color:var(--muted);min-height:48px}
+.dir-tab.active{border-color:var(--orange);color:var(--orange-dark);background:var(--orange-soft)}
+@media (prefers-color-scheme: dark){.dir-tab.active{color:#FDBA74}}
+
+/* Line diagram */
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:6px}
+.legend i{width:22px;height:12px;border-radius:6px;display:inline-block;vertical-align:-1px;margin-right:5px}
+.diagram-wrap{position:relative;padding:6px 2px 6px 0}
+.track{position:relative;margin-left:118px;margin-right:8px}
+@media(max-width:520px){.track{margin-left:96px}}
+.track-line{position:absolute;left:50%;top:14px;bottom:14px;width:6px;transform:translateX(-50%);background:linear-gradient(var(--orange2),var(--orange));border-radius:99px;opacity:.9}
+.station-row{position:relative;height:46px;display:flex;align-items:center}
+.station-dot{position:absolute;left:50%;transform:translate(-50%,0);width:14px;height:14px;border-radius:50%;background:var(--surface);border:3.5px solid var(--orange);z-index:2}
+.station-dot.terminal{width:18px;height:18px;background:var(--orange)}
+.station-name{position:absolute;right:calc(50% + 16px);text-align:right;font-size:13px;font-weight:700;line-height:1.15;max-width:104px}
+@media(max-width:520px){.station-name{max-width:82px;font-size:12px}}
+.station-name small{display:block;font-weight:600;color:var(--muted);font-size:10px;letter-spacing:.04em}
+.station-side{position:absolute;left:calc(50% + 16px);font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap}
+.train-marker{position:absolute;z-index:5;transform:translateY(-50%);display:flex;align-items:center;gap:0;transition:top 1.2s linear;pointer-events:none}
+.train-marker .chip{display:inline-flex;align-items:center;gap:5px;color:#fff;font-weight:800;font-size:11px;padding:5px 8px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.25);white-space:nowrap}
+.train-marker.down{left:calc(50% + 12px)}
+.train-marker.up{right:calc(50% + 12px);flex-direction:row-reverse}
+.train-marker.down .chip{background:var(--orange)}
+.train-marker.up .chip{background:var(--green)}
+.train-marker .arr{font-size:10px;opacity:.9}
+.train-marker .chip-next{font-weight:600}
+@media(max-width:640px){
+  .train-marker .chip{font-size:10px;padding:4px 7px;max-width:118px}
+  .train-marker .chip-next{display:none}
+  .train-marker.down{left:calc(50% + 10px)}
+  .train-marker.up{right:calc(50% + 10px)}
+}
+.progress-note{font-size:12px;color:var(--muted);line-height:1.55;background:var(--surface2);border-radius:12px;padding:10px 12px;margin-top:12px}
+
+/* Train list */
+.train-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.train-grid{grid-template-columns:1fr}}
+.train-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--surface)}
+.train-card top{display:flex}
+.tc-top{display:flex;align-items:center;gap:8px}
+.tc-id{font-weight:800;font-size:13px;background:var(--ink);color:var(--surface);padding:4px 8px;border-radius:8px}
+.tc-dir{font-size:12px;font-weight:800}
+.tc-dir.down{color:var(--orange-dark)} .tc-dir.up{color:var(--green)}
+.tc-next{margin-top:8px;font-size:14px;font-weight:700;line-height:1.4}
+.tc-next span{color:var(--muted);font-weight:600;font-size:12px;display:block}
+.tc-bar{height:6px;background:var(--surface2);border-radius:99px;margin-top:10px;overflow:hidden}
+.tc-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--orange2),var(--amber));border-radius:99px}
+.tc-foot{display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--muted);font-weight:600}
+.empty{border:1.5px dashed var(--line);border-radius:14px;padding:22px 16px;text-align:center}
+.empty b{font-size:16px;display:block}
+.empty p{color:var(--muted);font-size:13px;line-height:1.6;margin:6px 0 0}
+
+/* Accuracy */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}}
+.factbox{border-radius:14px;padding:14px;border:1px solid var(--line)}
+.factbox.verified{background:var(--green-soft);border-color:rgba(22,163,74,.25)}
+.factbox.assumed{background:#FFFBEB;border-color:#FDE68A}
+@media (prefers-color-scheme: dark){.factbox.assumed{background:#2A2110}}
+.factbox h3{margin:0 0 8px;font-size:14px}
+.factbox ul{margin:0;padding-left:18px;font-size:13px;line-height:1.7;color:var(--ink)}
+.callout{margin-top:12px;background:var(--board);color:#fff;border-radius:14px;padding:14px;font-size:14px;line-height:1.6}
+.callout b{color:#FBBF24}
+footer{max-width:1080px;margin:0 auto;padding:6px 16px 28px;color:var(--muted);font-size:12px;line-height:1.7;text-align:center}
+.refresh-line{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-weight:600}
+.refresh-line button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:0 14px;font-weight:800;cursor:pointer;color:var(--ink)}
+.section-gap{margin-top:16px}
+details.faq{border-top:1px solid var(--line);padding:12px 0}
+details.faq summary{font-weight:800;font-size:14px;cursor:pointer;min-height:36px;display:flex;align-items:center}
+details.faq p{color:var(--muted);font-size:13px;line-height:1.65;margin:6px 0 0}
+
+/* Timetable */
+.tt-honest{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:10px 12px;font-size:12.5px;line-height:1.55;color:#78350F}
+@media (prefers-color-scheme: dark){.tt-honest{background:#2A2110;color:#FDE68A}}
+.tt-honest b{letter-spacing:.04em}
+.tt-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0 0}
+.tt-tab{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:11px 10px;font-weight:800;font-size:13.5px;cursor:pointer;color:var(--muted);min-height:48px}
+.tt-tab.active{border-color:var(--orange);color:var(--orange-dark);background:var(--orange-soft)}
+@media (prefers-color-scheme: dark){.tt-tab.active{color:#FDBA74}}
+.tt-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:640px){.tt-controls{grid-template-columns:1fr}}
+.tt-controls label{font-size:12px;font-weight:800;letter-spacing:.05em;display:block;margin-bottom:6px}
+.tt-dirfilter{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.tt-dirfilter button{border:1.5px solid var(--line);background:var(--surface);border-radius:10px;font-weight:800;font-size:12px;cursor:pointer;color:var(--muted);padding:0 6px;min-height:44px}
+.tt-dirfilter button.active{border-color:var(--orange);color:var(--orange-dark);background:var(--orange-soft)}
+@media (prefers-color-scheme: dark){.tt-dirfilter button.active{color:#FDBA74}}
+.tt-list{margin-top:14px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.tt-arr-row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:13px 14px;align-items:center;background:var(--surface)}
+.tt-arr-row + .tt-arr-row{border-top:1px solid var(--line)}
+.tt-arr-row.is-next{background:var(--orange-soft)}
+.tt-arr-main b{font-size:14.5px;display:block;line-height:1.3}
+.tt-arr-main span{font-size:12px;color:var(--muted);display:block;margin-top:2px;line-height:1.5}
+.dir-badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;padding:3px 8px;border-radius:999px;margin-bottom:5px}
+.dir-badge.down{background:var(--orange-soft);color:var(--orange-dark);border:1px solid rgba(232,93,4,.35)}
+.dir-badge.up{background:var(--green-soft);color:var(--green);border:1px solid rgba(22,163,74,.3)}
+.tt-arr-time{text-align:right;min-width:86px}
+.tt-arr-time b{font-size:17px;display:block;line-height:1.1}
+.tt-arr-time span{font-size:12px;font-weight:800;color:var(--orange-dark)}
+@media (prefers-color-scheme: dark){.tt-arr-time span{color:#FDBA74}}
+.tt-table{margin-top:14px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.tt-thead,.tt-trow{display:grid;grid-template-columns:34px 1fr auto auto;gap:10px;align-items:center;padding:10px 14px}
+.tt-thead{background:var(--board);color:#E5E7EB;font-size:11px;font-weight:800;letter-spacing:.07em}
+.tt-thead span:last-child,.tt-trow .tt-elapsed{text-align:right}
+.tt-trow{background:var(--surface);font-size:13.5px}
+.tt-trow + .tt-trow{border-top:1px solid var(--line)}
+.tt-trow .tt-num{width:26px;height:26px;border-radius:50%;background:var(--surface2);display:grid;place-items:center;font-size:11.5px;font-weight:800;color:var(--muted)}
+.tt-trow.is-terminal .tt-num{background:var(--orange);color:#fff}
+.tt-trow.is-next-station{background:var(--orange-soft)}
+.tt-trow.is-passed{opacity:.55}
+.tt-trow .tt-stname{font-weight:700;line-height:1.25}
+.tt-trow .tt-stname small{display:block;font-weight:700;font-size:10px;letter-spacing:.05em;color:var(--orange-dark)}
+.tt-trow .tt-atime{font-weight:800;white-space:nowrap}
+.tt-trow .tt-elapsed{color:var(--muted);font-size:12px;font-weight:700;white-space:nowrap;min-width:52px}
+.tt-status{font-size:10.5px;font-weight:800;letter-spacing:.04em;padding:3px 7px;border-radius:999px;white-space:nowrap}
+.tt-status.next{background:var(--orange);color:#fff}
+.tt-status.done{background:var(--surface2);color:var(--muted)}
+@media(max-width:520px){.tt-thead,.tt-trow{grid-template-columns:28px 1fr auto;gap:8px;padding:10px 12px}.tt-thead span:nth-child(4),.tt-trow .tt-elapsed{display:none}}
+.tt-summary{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tt-summary div{background:var(--surface2);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:700;color:var(--muted)}
+.tt-summary b{color:var(--ink);font-size:13px}
+
+/* Live GPS */
+/* Inline location help — shown in place inside the Live GPS card when the
+   rider denies the browser's automatic prompt. No full-screen gate. */
+.loc-help{margin-top:14px;border:1.5px solid #F59E0B;background:#FFFBEB;border-radius:14px;padding:14px}
+@media (prefers-color-scheme: dark){.loc-help{background:#2A2110}}
+.loc-help[hidden]{display:none}
+.loc-help strong{font-size:14.5px}
+.loc-help .loc-honest{margin:10px 0 0;font-size:13px;line-height:1.6;background:var(--surface);border:1px solid #FDE68A;border-radius:12px;padding:11px 13px;color:#78350F}
+@media (prefers-color-scheme: dark){.loc-help .loc-honest{color:#FDE68A}}
+.loc-help ol{margin:8px 0 0;padding-left:20px;font-size:13.5px;line-height:1.65}
+.loc-help li{margin:4px 0}
+.loc-help-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+@media(max-width:480px){.loc-help-actions{grid-template-columns:1fr}}
+.loc-retry-btn{width:100%;background:var(--orange);color:#fff;border:0;border-radius:999px;min-height:52px;font-size:15.5px;font-weight:800;cursor:pointer}
+.loc-settings-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#052E16;color:#86EFAC;border:1px solid rgba(20,83,45,.6);border-radius:999px;min-height:52px;font-size:15.5px;font-weight:800;text-decoration:none;padding:0 14px;text-align:center}
+.loc-settings-note{margin:10px 0 0;font-size:12.5px;line-height:1.6;color:var(--muted)}
+.loc-settings-note[hidden]{display:none}
+.gps-badge{display:inline-flex;align-items:center;gap:8px;background:#052E16;color:#86EFAC;border:1px solid rgba(134,239,172,.45);font-weight:800;font-size:12px;letter-spacing:.06em;padding:8px 12px;border-radius:999px}
+.gps-badge i{width:8px;height:8px;border-radius:50%;background:#4ADE80;display:inline-block;animation:pulse 1.8s infinite}
+.pill-livegps{background:#052E16;color:#86EFAC}
+.btn-gps{background:#052E16;color:#86EFAC;border:1px solid rgba(134,239,172,.55)}
+.btn-gps.on{background:#DC2626;color:#fff;border-color:#DC2626}
+.gps-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+@media(max-width:640px){.gps-stats{grid-template-columns:repeat(2,1fr)}}
+.gps-stat{background:var(--surface2);border-radius:12px;padding:12px}
+.gps-stat span{font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;display:block}
+.gps-stat b{font-size:17px;display:block;margin-top:4px;line-height:1.2}
+.gps-msg{border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.6;font-weight:600;margin-top:12px}
+.gps-msg.info{background:var(--surface2);color:var(--muted)}
+.gps-msg.err{background:#FEF2F2;color:#991B1B}
+.gps-msg.ok{background:var(--green-soft);color:var(--green)}
+@media (prefers-color-scheme: dark){.gps-msg.err{background:#2A1212;color:#FCA5A5}}
+.dir-panel{margin-top:14px;border:1.5px solid rgba(37,99,235,.35);background:rgba(37,99,235,.05);border-radius:14px;padding:14px}
+@media (prefers-color-scheme: dark){.dir-panel{background:rgba(37,99,235,.10)}}
+.dir-panel h3{margin:0;font-size:15px;letter-spacing:-.01em}
+.dir-panel .dir-sub{margin:5px 0 0;font-size:13px;color:var(--muted);line-height:1.55}
+.dir-panel label{font-size:12px;font-weight:800;letter-spacing:.05em;display:block;margin:12px 0 6px}
+.dir-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+@media(max-width:640px){.dir-stats{grid-template-columns:1fr}}
+.dir-stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.dir-stat span{font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;display:block}
+.dir-stat b{font-size:17px;display:block;margin-top:4px;line-height:1.2}
+.btn-maps{background:#2563EB;color:#fff;border:1px solid #2563EB}
+.dir-note{font-size:12.5px;color:var(--muted);line-height:1.6;margin:10px 0 0}
+.dir-unavail{margin-top:12px;border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.6;font-weight:600;background:#FFFBEB;color:#92400E;border:1px solid #FDE68A}
+@media (prefers-color-scheme: dark){.dir-unavail{background:#2A2110;color:#FDE68A}}
+.you-marker{position:absolute;z-index:8;left:50%;transform:translate(-9px,-50%);display:flex;align-items:center;gap:6px;pointer-events:none}
+.you-marker .you-dot{width:18px;height:18px;border-radius:50%;background:#2563EB;border:3px solid #fff;box-shadow:0 0 0 5px rgba(37,99,235,.25),0 4px 10px rgba(0,0,0,.3);flex:0 0 auto}
+.you-marker .you-chip{background:#2563EB;color:#fff;font-weight:800;font-size:11px;padding:4px 8px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.25);white-space:nowrap}
+.radar-you{position:absolute;z-index:7;left:50%;transform:translate(-8px,-50%);display:flex;align-items:center;gap:6px;pointer-events:none}
+.radar-you .you-dot{width:16px;height:16px;border-radius:50%;background:#60A5FA;border:3px solid #fff;box-shadow:0 0 0 6px rgba(96,165,250,.25),0 0 18px rgba(96,165,250,.9);flex:0 0 auto}
+.radar-you span.lbl{font-size:10px;font-weight:800;color:#fff;background:rgba(37,99,235,.9);padding:2px 6px;border-radius:99px;white-space:nowrap}
+
+/* Glass card (design-system 2.12, cheap CSS version) — only on the live-GPS card
+   and the PWA install banner, where there is content behind to refract. */
+.glass{background:rgba(255,255,255,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6)}
+@media (prefers-color-scheme: dark){.glass{background:rgba(19,26,34,.72);border-color:rgba(255,255,255,.14)}}
+.install-hint.glass{background:rgba(17,24,39,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(253,230,138,.45)}
+/* GPS loader (design-system 2.14) — standalone inline SVG, no JS library.
+   Shown while waiting for a GPS fix; hidden on fix, error or stop.
+   The reduced-motion guard at the end of this stylesheet freezes the spin. */
+.gps-loader{display:flex;align-items:center;gap:12px;margin-top:12px;border-radius:12px;padding:12px 14px;background:var(--surface2);color:var(--muted);font-size:13.5px;font-weight:600}
+.gps-loader[hidden]{display:none}
+.gps-loader-svg{color:var(--orange);flex:0 0 auto;animation:gpsSpin 1.1s linear infinite}
+@keyframes gpsSpin{to{transform:rotate(360deg)}}
+/* FAQ spring chevron (design-system 2.5) */
+details.faq summary::after{content:'+';font-size:1.2rem;color:var(--orange);margin-left:auto;transition:transform .35s var(--ease-spring)}
+details.faq[open] summary::after{transform:rotate(45deg)}
+
+/* View tabs */
+.view-tabs{max-width:1080px;margin:0 auto;padding:14px 16px 0;display:flex;gap:8px;flex-wrap:wrap}
+.view-tab{flex:1 1 auto;text-align:center;text-decoration:none;font-weight:800;font-size:13px;padding:12px 10px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);min-height:46px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.view-tab.radar-tab{background:#071A0F;color:#4ADE80;border-color:#14532D}
+.view-tab.class-tab{background:var(--orange);color:#fff;border-color:var(--orange)}
+
+/* Train estimates */
+.radar-card{background:#050D08;border-color:#14532D;color:#E7FBEF}
+.radar-card .card-h{border-bottom-color:rgba(74,222,128,.22)}
+.radar-card .card-h h2{color:#fff}
+.radar-card .card-h p{color:#9BC7A9}
+.radar-scope{position:relative;height:580px;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(34,197,94,.14),transparent 55%),repeating-linear-gradient(0deg,rgba(74,222,128,.07) 0 1px,transparent 1px 44px),repeating-linear-gradient(90deg,rgba(74,222,128,.07) 0 1px,transparent 1px 44px),#04120A;border:1px solid rgba(74,222,128,.3)}
+@media(max-width:640px){.radar-scope{height:520px}}
+.radar-rings{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:760px;height:760px;border-radius:50%;border:1px solid rgba(74,222,128,.22);box-shadow:0 0 0 110px rgba(0,0,0,0),inset 0 0 0 1px rgba(74,222,128,.08);pointer-events:none}
+.radar-rings::before,.radar-rings::after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(74,222,128,.18)}
+.radar-rings::before{inset:120px}.radar-rings::after{inset:240px}
+.radar-cross{position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(74,222,128,.14);pointer-events:none}
+.radar-cross.h{left:0;right:0;top:50%;bottom:auto;width:auto;height:1px}
+.radar-sweep{position:absolute;left:50%;top:50%;width:820px;height:820px;transform:translate(-50%,-50%);border-radius:50%;background:conic-gradient(from 0deg,rgba(74,222,128,.34),rgba(74,222,128,.06) 55deg,transparent 80deg);animation:sweep 6s linear infinite;pointer-events:none}
+@keyframes sweep{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.radar-sweep{animation:none}.radar-blip{animation:none!important}}
+.radar-line{position:absolute;left:50%;top:18px;bottom:18px;width:4px;transform:translateX(-50%);background:linear-gradient(#F97316,#4ADE80);border-radius:99px;opacity:.85;box-shadow:0 0 14px rgba(74,222,128,.35)}
+.radar-station{position:absolute;left:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:#0B2417;border:2px solid rgba(167,243,208,.85);z-index:2}
+.radar-station.term{width:13px;height:13px;background:#F97316;border-color:#FED7AA}
+.radar-stlabel{position:absolute;right:calc(50% + 14px);transform:translateY(-50%);font-size:10.5px;font-weight:700;color:#A7CDB2;text-align:right;white-space:nowrap;letter-spacing:.02em}
+.radar-blip{position:absolute;z-index:6;width:44px;height:44px;margin:-22px 0 0 -22px;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;animation:blipPulse 1.8s infinite}
+.radar-blip i{width:15px;height:15px;border-radius:50%;display:block;background:#FDE047;border:2px solid #fff;box-shadow:0 0 0 5px rgba(253,224,71,.22),0 0 18px rgba(253,224,71,.85)}
+.radar-blip.down i{background:#FB923C;box-shadow:0 0 0 5px rgba(251,146,60,.22),0 0 18px rgba(251,146,60,.9)}
+.radar-blip.up i{background:#4ADE80;box-shadow:0 0 0 5px rgba(74,222,128,.22),0 0 18px rgba(74,222,128,.9)}
+.radar-blip.selected i{outline:3px solid #fff;outline-offset:2px}
+.radar-blip span{position:absolute;top:2px;left:26px;font-size:10px;font-weight:800;color:#fff;background:rgba(0,0,0,.65);padding:2px 6px;border-radius:99px;white-space:nowrap}
+@keyframes blipPulse{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+.radar-detail{margin-top:12px;background:#0A1F13;border:1px solid rgba(74,222,128,.3);border-radius:14px;padding:14px;color:#D1FAE5}
+.radar-detail b{color:#fff;font-size:15px}
+.radar-detail p{margin:5px 0 0;font-size:13px;line-height:1.6;color:#A7CDB2}
+.radar-detail .rd-eta{font-size:22px;font-weight:800;color:#FDE047}
+.radar-legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12px;color:#9BC7A9;font-weight:700;margin-top:10px}
+
+/* Catch your train */
+.class-grid{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;align-items:end}
+@media(max-width:760px){.class-grid{grid-template-columns:1fr}}
+.class-grid label{font-size:12px;font-weight:800;letter-spacing:.05em;display:block;margin-bottom:6px}
+.class-grid input[type="time"]{width:100%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:0 12px;font-weight:700;min-height:48px;font:inherit}
+.class-result{margin-top:14px}
+.class-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:640px){.class-stats{grid-template-columns:repeat(2,1fr)}}
+.class-stat{background:var(--surface2);border-radius:12px;padding:12px}
+.class-stat span{font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;display:block}
+.class-stat b{font-size:18px;display:block;margin-top:4px;line-height:1.15}
+.class-warn{margin-top:12px;border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.6;font-weight:700}
+.class-warn.ok{background:var(--green-soft);color:var(--green)}
+.class-warn.tight{background:#FEF3C7;color:#92400E}
+.class-warn.bad{background:#FEF2F2;color:#991B1B}
+@media (prefers-color-scheme: dark){.class-warn.tight{background:#2A2110;color:#FDE68A}.class-warn.bad{background:#2A1212;color:#FCA5A5}}
+.class-line{font-size:14px;font-weight:800;line-height:1.55;margin:0 0 12px}
+
+/* Professional usability layer */
+:focus-visible{outline:3px solid #2563EB;outline-offset:3px}
+button,a,select,input{touch-action:manipulation}
+.btn,.dir-tab,.tt-tab,.tt-dirfilter button,.refresh-line button{transition:transform .2s var(--ease-spring),box-shadow .2s var(--ease-out),background-color .2s var(--ease-out)}
+.btn:hover,.dir-tab:hover,.tt-tab:hover,.tt-dirfilter button:hover,.refresh-line button:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(17,24,39,.12)}
+.view-tabs{position:sticky;top:65px;z-index:40;box-shadow:0 5px 14px rgba(17,24,39,.06)}
+@media(max-width:520px){.view-tabs{top:64px;overflow-x:auto;justify-content:flex-start;scrollbar-width:none}.view-tabs::-webkit-scrollbar{display:none}.view-tab{flex:0 0 auto}}
+.card{scroll-margin-top:126px}
+.hero-in{padding-top:28px;padding-bottom:26px}
+.hero h1{max-width:760px}
+.hero p{max-width:720px}
+@media(max-width:520px){.topbar-in{padding:8px 12px}.logo{width:40px;height:40px}.brand b{font-size:15px}.brand span{font-size:10px}.clockbox .time{font-size:16px}.hero-in{padding-top:22px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* ============ Mobile interface — most riders are on phones ============ */
+html{-webkit-text-size-adjust:100%}
+body{overflow-x:clip;-webkit-tap-highlight-color:transparent}
+input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tapped */
+
+/* Bottom navigation — phones only, in the thumb zone */
+.bottom-nav{display:none}
+@media(max-width:640px){
+  .bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(17,24,39,.10);padding-bottom:env(safe-area-inset-bottom,0)}
+  .bottom-nav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:9px 2px 8px;text-decoration:none;color:var(--muted);font-size:11px;font-weight:800;min-height:56px}
+  .bottom-nav a .ico{font-size:20px;line-height:1}
+  .bottom-nav a.active{color:var(--orange-dark)}
+  .bottom-nav a.active .ico{transform:scale(1.15)}
+  body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+  /* top tab strip is replaced by the bottom nav on phones */
+  .view-tabs{display:none}
+  .card{scroll-margin-top:76px}
+  /* compact hero — the trains come first, not a wall of text */
+  .hero-in{padding:16px 16px 18px}
+  .hero h1{font-size:26px}
+  .hero h1 + p{display:none}
+  .hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .hero-actions .btn{justify-content:center;padding:0 10px;font-size:13px}
+  .hero-stats{margin-top:14px;gap:8px}
+  .hstat{padding:10px}
+  /* bigger, thumb-friendly rows */
+  .board-row{padding:14px}
+  .eta b{font-size:32px}
+  .board-row.next .eta b{font-size:38px}
+  .tt-trow{padding:12px}
+  .tt-trow .tt-stname{font-size:14px}
+  .btn{min-height:48px}
+  select.station-select,.station-search{font-size:16px}
+}
+</style>
+</head>
+<body>
+
+<div id="appContent">
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="13" rx="3"/><path d="M4 10h16M8 20l2-4M16 20l-2-4"/><circle cx="8.5" cy="13" r=".6" fill="currentColor"/><circle cx="15.5" cy="13" r=".6" fill="currentColor"/></svg>
+    </div>
+    <div class="brand"><b>Orange Line</b><span>LAHORE • TRANSIT GUIDE</span></div>
+    <div class="clockbox">
+      <div class="live-dot"><span class="dot"></span> <span id="serviceDotLabel">TIMETABLE ESTIMATE</span></div>
+      <div class="time mono" id="clock">--:--:--</div>
+      <div class="date" id="dateLine">—</div>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-in">
+    <div class="estimate-badge"><i></i> ESTIMATE — TIMETABLE-BASED, NOT LIVE GPS</div>
+    <h1>Plan your Orange Line journey. <em>Know your stations, route and estimated arrival.</em></h1>
+    <p>An independent passenger guide for Lahore's Orange Line. Explore all 26 stations, check timetable-based arrival estimates, compare directions, plan your trip and find a nearby station. Train positions and arrival times on this page are estimates—not official live train GPS.</p>
+    <div class="hero-actions">
+      <button class="btn btn-white" id="installBtn" type="button">📲 Install app</button>
+      <button class="btn btn-gps" id="gpsBtn" type="button">📍 Use my live location</button>
+      <a class="btn btn-white" href="#radar">◎ &nbsp;View train estimates</a>
+      <a class="btn btn-ghost" href="#catch-class">Catch your train ↓</a>
+      <a class="btn btn-ghost" href="#my-station">Find my station ↓</a>
+      <a class="btn btn-ghost" href="#timetable">Full timetable ↓</a>
+    </div>
+    <div class="install-hint glass" id="installHint" role="status" hidden></div>
+    <div class="hero-stats">
+      <div class="hstat"><b>26</b><span>Stations</span></div>
+      <div class="hstat"><b>6 AM – 10 PM</b><span>Daily service</span></div>
+      <div class="hstat"><b>Rs 25–45</b><span>Fare by distance</span></div>
+      <div class="hstat"><b>~49 min</b><span>End to end *</span></div>
+    </div>
+    <p style="font-size:11px;margin-top:10px;opacity:.85">* End-to-end time (49 min) measured from Google Maps full runs, 18 Nov 2026; frequency is modelled. Check current service notices and fares with the operator before travelling.</p>
+  </div>
+</section>
+
+<nav class="view-tabs" aria-label="Views">
+  <a class="view-tab" href="#tracker">▦ Route view</a>
+  <a class="view-tab" href="#live-gps" style="background:#052E16;color:#86EFAC;border-color:#14532D">📍 Live GPS</a>
+  <a class="view-tab radar-tab" href="#radar">◎ Train estimates</a>
+  <a class="view-tab class-tab" href="#catch-class">🚆 Catch Your Train</a>
+  <a class="view-tab" href="#timetable">🕐 Timetable</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="alert-banner" id="alertBanner" role="status"><b>⚠ Service alert:</b> <span id="alertText">No service alerts reported — trains running to the normal timetable.</span> <span class="alert-note">Alerts are updated by hand; this is not a live PMA feed.</span></div>
+
+  <!-- LIVE STATUS -->
+  <section class="card" id="tracker">
+    <div class="card-b">
+      <div class="status">
+        <div class="status-main">
+          <b id="statusTitle">Checking service…</b>
+          <span id="statusSub">Working out train positions from the timetable model.</span>
+        </div>
+        <div class="kpi">
+          <div><b id="kpiActive">—</b><span>Trains running</span></div>
+          <div><b id="kpiHeadway">—</b><span>Every (now)</span></div>
+          <div><b id="kpiNext">—</b><span>Next departure</span></div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap">
+        <div class="refresh-line"><span id="updatedAt">Updated just now</span> • Positions recalculate automatically</div>
+        <button id="refreshBtn" type="button">↻ Refresh now</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE GPS -->
+  <section class="card section-gap glass" id="live-gps">
+    <div class="card-h">
+      <div>
+        <h2>📍 Live GPS — your real position on the line</h2>
+        <p>This part is genuinely live: your own phone's GPS, plotted on the Orange Line in real time. Location is requested automatically when the app opens — tap <strong>Allow</strong> on your browser's prompt and your live position appears here right away. Your location stays in your browser — it is never sent to or stored on any server.</p>
+      </div>
+      <span class="pill pill-livegps">LIVE GPS</span>
+    </div>
+    <div class="card-b">
+      <div class="gps-badge"><i></i> LIVE GPS — YOUR POSITION</div>
+      <div class="gps-msg info" id="gpsMsg"><b>Asking for your location automatically…</b> Choose <b>Allow</b> in your browser's location prompt — a blue <b>YOU</b> marker then appears on the line diagram and the radar below, showing your nearest station, the distance to your next station and your speed, moving as you move. The rest of the app — timetable, radar and planner — works either way.</div>
+      <div class="gps-loader" id="gpsLoader" role="status" aria-label="Waiting for GPS position"><svg class="gps-loader-svg" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><circle cx="24" cy="24" r="19" fill="none" stroke="currentColor" stroke-opacity=".2" stroke-width="4"/><circle cx="24" cy="24" r="19" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="80 40"/></svg><span>Waiting for GPS — finding your position…</span></div>
+      <div class="loc-help" id="gpsDeniedHelp" hidden>
+        <strong>📍 Location is off — turn it on for Live GPS</strong>
+        <p class="loc-honest"><strong>Please note:</strong> your browser only shows its own Allow / Deny prompt <strong>once</strong>. After a denial, this app cannot make that prompt appear again — first switch location on in your browser settings (steps below), then tap Try again. Everything else in the app keeps working without location.</p>
+        <ol>
+          <li>Tap the <strong>lock / tune icon</strong> in the address bar at the top of your browser.</li>
+          <li>Tap <strong>Site settings</strong> → <strong>Location</strong> → <strong>Allow</strong>.</li>
+          <li>Come back here and tap <strong>Try again</strong> below.</li>
+        </ol>
+        <p style="margin:8px 0 0;font-size:12.5px;line-height:1.6;color:var(--muted)">On iPhone Safari: Settings → Privacy &amp; Security → Location Services → Safari Websites → While Using the App. Then return and tap Try again.</p>
+        <div class="loc-help-actions">
+          <a class="loc-settings-btn" id="locSettingsBtn" href="intent:#Intent;action=android.settings.LOCATION_SOURCE_SETTINGS;end">⚙ Open location settings</a>
+          <button class="loc-retry-btn" id="locRetryBtn" type="button">↻ Try again</button>
+        </div>
+        <p class="loc-settings-note">“Open location settings” opens your <strong>phone's system Location settings</strong> (Android) — switch Location on there if it is off. The permission for <strong>this site</strong> itself is switched on in your <strong>browser's site settings</strong> (the lock-icon steps above): a web page cannot open Chrome's site settings screen directly, so if the button does not open anything on your device, just follow those steps, then tap Try again.</p>
+        <p class="loc-settings-note" id="locSettingsFallback" hidden><strong>That button works on Android phones.</strong> On this device it cannot open settings directly — please follow the lock-icon steps above (Site settings → Location → Allow), then tap Try again.</p>
+      </div>
+      <div class="gps-stats" id="gpsStats" hidden>
+        <div class="gps-stat"><span>Nearest station</span><b id="gpsNearest">—</b></div>
+        <div class="gps-stat"><span>Next station</span><b id="gpsNext">—</b></div>
+        <div class="gps-stat"><span>Distance to next</span><b id="gpsDistNext">—</b></div>
+        <div class="gps-stat"><span>Your speed</span><b id="gpsSpeed">—</b></div>
+      </div>
+      <p id="gpsWhere" style="font-size:13px;color:var(--muted);line-height:1.6;margin:12px 0 0" hidden></p>
+      <div class="dir-panel" id="dirPanel" hidden>
+        <h3>🧭 How to reach your station</h3>
+        <p class="dir-sub">Sitting a little away from your station — like just outside Anarkali? This uses your live GPS position to show how far the station really is and the exact walking route to it. It opens on your <strong>nearest station</strong>; pick any other station below.</p>
+        <label for="dirStationSelect">STATION YOU WANT TO REACH</label>
+        <select class="station-select" id="dirStationSelect"></select>
+        <div id="dirBody" aria-live="polite"></div>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-gps" id="gpsBtnCard" type="button">📍 Use my live location</button>
+        <a class="btn" href="#radar" style="background:var(--surface2);color:var(--ink);border:1px solid var(--line)">See my marker on the radar ↓</a>
+      </div>
+      <p style="font-size:12px;color:var(--muted);line-height:1.6;margin:12px 0 0">Honest limits: GPS shows <strong>your</strong> phone position only; it does not locate trains. Train positions remain timetable estimates because this project is not connected to an authorized train-location feed. Your coordinates are used in the browser to draw your marker and are not sent to this project server. Station matching is approximate; mapped coordinates for two stations are currently missing.</p>
+    </div>
+  </section>
+
+  <!-- TRAIN ESTIMATE RADAR -->
+  <section class="card radar-card section-gap" id="radar">
+    <div class="card-h">
+      <div>
+        <h2>Train movement estimate — route overview</h2>
+        <p>Explore the modelled train positions along the route. Tap a marker to view its next station and estimated arrival. This is a timetable simulation, not a live train-location feed.</p>
+      </div>
+      <span class="pill pill-amber">ESTIMATED DATA</span>
+    </div>
+    <div class="card-b">
+      <div class="estimate-badge" style="margin-bottom:12px"><i></i> ESTIMATE — TIMETABLE-BASED, NOT LIVE GPS</div>
+      <div class="radar-scope" id="radarScope" aria-label="Radar view of Orange Line trains">
+        <div class="radar-rings"></div>
+        <div class="radar-cross"></div>
+        <div class="radar-cross h"></div>
+        <div class="radar-sweep" aria-hidden="true"></div>
+        <div class="radar-line"></div>
+        <div id="radarStations"></div>
+        <div id="radarBlips"></div>
+        <div id="radarYou"></div>
+      </div>
+      <div class="radar-legend">
+        <span>● Ali Town (top) → Dera Gujran (bottom)</span>
+        <span style="color:#FB923C">● Train to Dera Gujran</span>
+        <span style="color:#4ADE80">● Train to Ali Town</span>
+        <span style="color:#60A5FA">● YOU — your live GPS (when switched on)</span>
+        <span id="radarCount">Scanning…</span>
+      </div>
+      <div class="radar-detail" id="radarDetail" aria-live="polite">
+        <b>Tap a train blip</b>
+        <p>Select any moving blip on the radar to see its next station, ETA and destination arrival. Blips move in real time from the timetable model — first trains 6:13 AM (Ali Town) / 6:14 AM (Dera Gujran), last 10:00 PM / 9:59 PM, every ~5 min at peak and ~10 min off-peak, 49 min end to end with real per-station times.</p>
+      </div>
+      <p style="font-size:12px;color:#7FA98C;line-height:1.6;margin:10px 0 0">A radar-style display does not make an estimate more accurate. Positions here are calculated from the timetable model, not received from train GPS. See “How accurate is this?” for the assumptions and limitations.</p>
+    </div>
+  </section>
+
+  <div class="grid section-gap">
+    <!-- LEFT: DIAGRAM -->
+    <section class="card">
+      <div class="card-h">
+        <div>
+          <h2>Orange Line route view — all 26 stations</h2>
+          <p>Ali Town (top) → Dera Gujran (bottom). Orange chips travel downwards, green chips travel upwards. A chip between two stations is between those stations right now — on the timetable model.</p>
+        </div>
+        <span class="pill pill-amber">ESTIMATED DATA</span>
+      </div>
+      <div class="card-b">
+        <div class="legend">
+          <span><i style="background:var(--orange)"></i>To Dera Gujran ↓</span>
+          <span><i style="background:var(--green)"></i>To Ali Town ↑</span>
+          <span>● Terminal &nbsp; ○ Station</span>
+        </div>
+        <div class="diagram-wrap">
+          <div class="track" id="track">
+            <div class="track-line"></div>
+            <div id="stationRows"></div>
+            <div id="trainLayer"></div>
+            <div id="youLayer"></div>
+          </div>
+        </div>
+        <div class="progress-note"><strong>How to read this:</strong> each chip shows a train number and its next station. Times use real per-station timings measured from Google Maps full runs (18 Nov 2026): <strong>49 minutes end to end</strong>, each segment 1–3 minutes. Google's own times vary by about a minute between runs, and real trains can be a minute or two early or late — treat this as “should be here,” not a GPS guarantee.</div>
+        <div class="progress-note" style="margin-top:8px"><strong>ESTIMATE — timetable-based, not live GPS.</strong> This project is not connected to an authorized live train-location feed or an official per-station operational feed. Positions on this page are calculated, not tracked.</div>
+      </div>
+    </section>
+
+    <!-- RIGHT: MY STATION + TRAINS -->
+    <div>
+      <section class="card" id="my-station">
+        <div class="card-h">
+          <div>
+            <h2>My station — next trains</h2>
+            <p>Pick your station to see the next estimated arrivals, just like a station departure board.</p>
+          </div>
+          <span class="pill pill-green">BOARD</span>
+        </div>
+        <div class="card-b">
+          <label for="stationSelect" style="font-size:12px;font-weight:800;letter-spacing:.05em">YOUR STATION</label>
+          <input type="search" class="station-search" id="stationSearch" placeholder="Search station… e.g. Anarkali" aria-label="Search station" />
+          <select class="station-select" id="stationSelect" style="margin-top:6px"></select>
+          <div class="dir-tabs" role="tablist" aria-label="Direction">
+            <button class="dir-tab active" id="tabDown" type="button">→ Dera Gujran</button>
+            <button class="dir-tab" id="tabUp" type="button">→ Ali Town</button>
+          </div>
+          <div class="board" aria-live="polite">
+            <div class="board-h"><b>DEPARTURES • <span id="boardStation">—</span></b><span id="boardClock">--:--</span></div>
+            <div id="boardRows"></div>
+          </div>
+          <p style="font-size:12px;color:var(--muted);line-height:1.6;margin:10px 0 0">Fare is <strong>Rs 25–45</strong> depending on distance travelled (PMA; Google Maps shows a flat Rs 40). Helpline: <strong>1762</strong>. If the board is empty, service may be finished for today — first trains 6:13 AM (Ali Town) / 6:14 AM (Dera Gujran).</p>
+        </div>
+      </section>
+
+      <section class="card section-gap">
+        <div class="card-h">
+          <div>
+            <h2>All trains running now</h2>
+            <p id="trainListSub">Every train the model places on the line at this moment.</p>
+          </div>
+          <span class="pill pill-orange" id="trainCountPill">— TRAINS</span>
+        </div>
+        <div class="card-b">
+          <div id="trainList"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- CATCH YOUR TRAIN -->
+  <section class="card section-gap" id="catch-class">
+    <div class="card-h">
+      <div>
+        <h2>🚆 Catch your train — the latest train you can take</h2>
+        <p>For anyone whose day does not forgive delays: pick your station, where you are going, and the time you must be there — class, office, an appointment, a connection, anything. This tool works backwards and tells you the last train that still gets you there in time.</p>
+      </div>
+      <span class="pill pill-amber">ESTIMATED DATA</span>
+    </div>
+    <div class="card-b">
+      <p class="class-line">⏱ 2 minutes late can mean a missed train — check before you leave.</p>
+      <div class="estimate-badge" style="margin-bottom:14px"><i></i> ESTIMATE — TIMETABLE-BASED, NOT LIVE GPS</div>
+      <div class="class-grid">
+        <div>
+          <label for="classFrom">YOUR STATION (GET ON)</label>
+          <input type="search" class="station-search" id="classFromSearch" placeholder="Search station…" aria-label="Search boarding station" />
+          <select class="station-select" id="classFrom"></select>
+        </div>
+        <div>
+          <label for="classTo">GOING TO (GET OFF)</label>
+          <input type="search" class="station-search" id="classToSearch" placeholder="Search station…" aria-label="Search destination station" />
+          <select class="station-select" id="classTo"></select>
+        </div>
+        <div>
+          <label for="classTime">YOU MUST BE THERE BY</label>
+          <input type="time" id="classTime" value="09:00" />
+        </div>
+        <button class="btn" id="classBtn" type="button" style="background:var(--orange);color:#fff">Find my train →</button>
+      </div>
+      <div class="class-result" id="classResult" aria-live="polite"></div>
+      <div style="margin-top:12px"><button class="btn" id="shareTripBtn" type="button" style="background:#0a6e57;color:#fff" hidden>↗ Share this trip plan</button></div>
+      <p style="font-size:12px;color:var(--muted);line-height:1.6;margin:12px 0 0">Plan for the train <em>before</em> the latest one when you can — the latest train leaves you no room if you are held up on the way to the station. Times use real per-station timings from Google Maps (18 Nov 2026): 49 min end to end, ~5 min at peak and ~10 min off-peak.</p>
+    </div>
+  </section>
+
+  <!-- TIMETABLE -->
+  <section class="card section-gap" id="timetable">
+    <div class="card-h">
+      <div>
+        <h2>Timetable — when does the train reach your station?</h2>
+        <p>Just like Google Maps: pick your station to see the next trains coming to you, or pick one departure and see the exact estimated time it reaches <strong>every</strong> station — for example, a train leaving Ali Town reaching Anarkali, GPO, Railway Station and on to Dera Gujran.</p>
+      </div>
+      <span class="pill pill-amber">ESTIMATED DATA</span>
+    </div>
+    <div class="card-b">
+      <div class="tt-honest"><span class="pill pill-amber">ESTIMATE — TIMETABLE-BASED, NOT LIVE GPS</span><span><b>Times now use real per-station timings</b> from Google Maps full runs (18 Nov 2026) — 49 min end to end. First trains 6:13 AM (Ali Town) / 6:14 AM (Dera Gujran); last 10:00 PM / 9:59 PM. Headway ~5 min at peak (verified 4:30 PM), ~10 min off-peak (modelled). Google's own times vary ~1 min between runs.</span></div>
+
+      <div class="tt-tabs" role="tablist" aria-label="Timetable views">
+        <button class="tt-tab active" id="ttTabStation" type="button">By station — next trains to me</button>
+        <button class="tt-tab" id="ttTabFull" type="button">Full timetable — one train, all 26 stations</button>
+      </div>
+
+      <!-- VIEW 1: BY STATION -->
+      <div id="ttViewStation">
+        <div class="tt-controls">
+          <div>
+            <label for="ttStationSelect">YOUR STATION</label>
+            <input type="search" class="station-search" id="ttStationSearch" placeholder="Search station…" aria-label="Search station" />
+            <select class="station-select" id="ttStationSelect"></select>
+          </div>
+          <div>
+            <label>DIRECTION</label>
+            <div class="tt-dirfilter" role="group" aria-label="Direction filter">
+              <button type="button" id="ttDirBoth" class="active">Both ways</button>
+              <button type="button" id="ttDirDown">→ Dera Gujran</button>
+              <button type="button" id="ttDirUp">→ Ali Town</button>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6;margin:12px 0 0" id="ttStationIntro">Next 5 trains arriving at <strong>Anarkali</strong> — recalculated from the current time.</p>
+        <div class="tt-list" id="ttStationList" aria-live="polite"></div>
+        <p style="font-size:12px;color:var(--muted);line-height:1.6;margin:10px 0 0">Standing further down the line? Your train may already be on its way — the first row is the very next train to reach you, whichever terminal it left from.</p>
+      </div>
+
+      <!-- VIEW 2: FULL TIMETABLE -->
+      <div id="ttViewFull" hidden>
+        <div class="tt-controls">
+          <div>
+            <label>DEPARTS FROM</label>
+            <div class="dir-tabs" style="margin:0" role="group" aria-label="Departure terminal">
+              <button class="dir-tab active" id="ttFullTabDown" type="button">Ali Town → Dera Gujran</button>
+              <button class="dir-tab" id="ttFullTabUp" type="button">Dera Gujran → Ali Town</button>
+            </div>
+          </div>
+          <div>
+            <label for="ttDepSelect">DEPARTURE TIME FROM TERMINAL</label>
+            <select class="station-select" id="ttDepSelect"></select>
+          </div>
+        </div>
+        <div class="tt-summary" id="ttFullSummary"></div>
+        <div class="tt-table" role="table" aria-label="Full timetable for selected train">
+          <div class="tt-thead" role="row"><span>#</span><span>STATION</span><span>ARRIVES (EST.)</span><span>FROM START</span></div>
+          <div id="ttFullRows"></div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);line-height:1.6;margin:10px 0 0">First row is the departure itself. Every later time is the real measured time from that terminal — the same timings used by the live diagram and departure board above.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCURACY -->
+  <section class="card section-gap" id="accuracy">
+    <div class="card-h">
+      <div>
+        <h2>How accurate is this?</h2>
+        <p>Straight answer: this is a good timetable estimate — not live GPS. Here is exactly what is verified and what is assumed, so you can judge it yourself.</p>
+      </div>
+      <span class="pill pill-amber">READ THIS</span>
+    </div>
+    <div class="card-b">
+      <div class="two-col">
+        <div class="factbox verified">
+          <h3>Reference information — verify before travel</h3>
+          <ul>
+            <li><strong>26 station names</strong> are included in this project, Ali Town Terminal → Dera Gujran Terminal.</li>
+            <li>Operating hours and fares can change; confirm current details with the transport operator.</li>
+            <li>This website is an independent passenger-information project and is not an official PMA service.</li>
+            <li>Station coordinates are sourced from mapped public data and may need field verification.</li>
+          </ul>
+        </div>
+        <div class="factbox assumed">
+          <h3>◐ What is measured, what is still modelled</h3>
+          <ul>
+            <li><strong>49 minutes</strong> end-to-end journey time — measured from Google Maps full runs, 18 Nov 2026</li>
+            <li><strong>1–3 minutes</strong> per segment — real per-station times, different for each segment and direction</li>
+            <li><strong>Headway ~5 min</strong> in peak hours — verified at 4:30 PM (three departures 4:42, 4:47, 4:52 PM at Anarkali)</li>
+            <li><strong>Headway 10 min</strong> off-peak — PMA does <strong>not</strong> publish a frequency, so this is an assumption, not a PMA figure</li>
+            <li><strong>First / last trains:</strong> 6:13 AM / 10:00 PM towards Dera Gujran; 6:14 AM / 9:59 PM towards Ali Town (Google Maps, Wed 18 Nov 2026)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="progress-note" style="margin-top:12px"><strong>GPS matching limitation:</strong> two station coordinates in the current map dataset are missing. The nearest-station result around that section may be approximate until those points are checked on the ground.</div>
+      <div class="progress-note" style="margin-top:12px"><strong>Station names:</strong> this page uses PMA's official names. Google Maps spells some differently — Shahnoor is shown as Khatam-e-Nabuwat, Lakshmi Chowk as Lakshami, Samanabad as Samnabad, Shalamar Garden as Shalimar Garden, Dera Gujran as Dera Gujjran, and Islam Park as Orange Train Islam Park. Same stations, different spellings.</div>
+      <div class="callout"><b>What changed:</b> the per-station times are now real — measured from Google Maps full runs on 18 Nov 2026, replacing the old uniform 1.8-minute guess. What is still modelled: the off-peak headway (~10 min) and the exact minute of any single train, because Google's own times vary by about a minute between runs.</div>
+
+      <details class="faq"><summary>What about my own live GPS?</summary><p>That part can be live today — and it is. Tap “Use my live location”, allow location access, and the page plots your phone's real GPS position on the line: a blue YOU marker on the diagram and radar, with your nearest station, distance to the next station and your speed, updating as you move. It is only <em>your</em> position, though — other trains still show timetable estimates because this project has no authorized train-location feed connected. Your location is processed in your browser for the on-screen marker; it is not sent to this project's server.</p></details>
+      <details class="faq"><summary>Why not just show real live GPS?</summary><p>This project is not connected to an authorized train-location feed. Until a reliable and permitted source is integrated, train positions and arrivals remain timetable-based estimates. We will label any future verified live data separately.</p></details>
+      <details class="faq"><summary>Why do all trains run daily on the same pattern?</summary><p>The Orange Line is a metro on a fixed, grade-separated track. There is no mixed traffic, no signals shared with cars, and departures are scheduled from both terminals all day. That regularity is exactly why a timetable model works well here — far better than it ever could for a road bus stuck in traffic.</p></details>
+      <details class="faq"><summary>What happens outside service hours?</summary><p>No trains are scheduled, so the tracker shows a “no trains running” state with the first-train times (6:13 AM from Ali Town, 6:14 AM from Dera Gujran) or, after the last departure, a last-train message. Trains already on their final run are shown until they complete their ~49-minute journey.</p></details>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  Orange Line Lahore is an independent passenger-information project and is not affiliated with or endorsed by the transport operator. <strong>Train positions and arrival times are timetable-based estimates, not live train GPS.</strong><br>
+  Route details, service hours and fares may change. Confirm current operational information with the official transport operator before travel. This project does not guarantee arrival times.<br>
+  Built by <strong>Aftab Latif — SA Global Enterprises</strong> © 2026. All rights reserved.
+</footer>
+
+</div><!-- /#appContent -->
+
+<nav class="bottom-nav" aria-label="Main sections">
+  <a href="#radar" data-nav="radar"><span class="ico">◎</span>Trains</a>
+  <a href="#my-station" data-nav="my-station"><span class="ico">▦</span>Board</a>
+  <a href="#timetable" data-nav="timetable"><span class="ico">🕐</span>Timetable</a>
+  <a href="#catch-class" data-nav="catch-class"><span class="ico">🚆</span>Plan trip</a>
+  <a href="#live-gps" data-nav="live-gps"><span class="ico">📍</span>Near me</a>
+</nav>
+
+<script>
+var STATIONS = ["Ali Town Terminal","Thokar Niaz Baig","Canal View","Hanjarwal","Wahdat Road","Awan Town","Sabzazar","Shahnoor","Salahudin Road","Band Road","Samanabad","Gulshan-e-Ravi","Chauburji","Anarkali","GPO","Lakshmi Chowk","Railway Station","Sultanpura","UET","Baghbanpura","Shalamar Garden","Pakistan Mint","Mahmood Booti","Salamatpura","Islam Park","Dera Gujran Terminal"];
+var SEGMENTS = 25, JOURNEY_MIN = 49;
+// Minutes from the departure terminal to each station (index 0 = Ali Town, 25 = Dera Gujran),
+// measured from Google Maps full runs on Wed 18 Nov 2026 (4:44 PM Ali Town -> Dera Gujran;
+// 4:43 PM Dera Gujran -> Ali Town). Google's own per-station times vary by about +/-1 min
+// between runs, so treat these as planning times, not a fixed minute-by-minute timetable.
+var OFF_DOWN = [0,1,3,5,7,9,11,12,14,16,18,19,21,24,25,28,30,33,35,37,39,41,43,45,47,49]; // Ali Town -> Dera Gujran
+var OFF_UP   = [49,47,44,42,40,38,36,34,33,31,29,27,25,23,21,19,17,14,13,11,9,7,5,3,1,0]; // Dera Gujran -> Ali Town
+function offsetFor(dir, stationIdx){ return dir==='down' ? OFF_DOWN[stationIdx] : OFF_UP[stationIdx]; }
+// First / last departures per direction (Google Maps, Wed 18 Nov 2026)
+var FIRST_DOWN = 6*60+13, LAST_DOWN = 22*60;   // Ali Town -> Dera Gujran: 6:13 AM, 10:00 PM
+var FIRST_UP = 6*60+14, LAST_UP = 22*60-1;     // Dera Gujran -> Ali Town: 6:14 AM, 9:59 PM
+var SERVICE_START = FIRST_DOWN, SERVICE_LAST_DEP = LAST_DOWN; // earliest first / latest last (service window)
+function depsFor(dir){ return dir==='down' ? DEP_DOWN : DEP_UP; }
+var ROW_H = 46;
+var boardDir = 'down';
+var selectedStation = 13; // Anarkali default - busy central station
+var boardStationManual = false; // follows nearest station from live GPS until the rider picks one (like Google Maps)
+
+function isPeak(m){ return (m>=7*60 && m<10*60) || (m>=17*60 && m<20*60); }
+function headwayAt(m){ return isPeak(m) ? 5 : 10; }
+
+function buildDepartures(start, last){
+  var deps=[]; var t=start; var guard=0;
+  while(t<=last && guard<400){ deps.push(t); t+=headwayAt(t); guard++; }
+  return deps;
+}
+var DEP_DOWN = buildDepartures(FIRST_DOWN, LAST_DOWN);
+var DEP_UP = buildDepartures(FIRST_UP, LAST_UP);
+
+function pad(n){ return (n<10?'0':'')+n; }
+function fmtClock(mins){
+  var m=((Math.round(mins)%1440)+1440)%1440; var h=Math.floor(m/60), mm=m%60;
+  var ap=h>=12?'PM':'AM'; var h12=h%12; if(h12===0)h12=12;
+  return h12+':'+pad(mm)+' '+ap;
+}
+function nowMinutes(){ var d=new Date(); return d.getHours()*60 + d.getMinutes() + d.getSeconds()/60; }
+
+function getActiveTrains(now){
+  var trains=[];
+  DEP_DOWN.forEach(function(dep, idx){
+    var elapsed = now - dep;
+    if(elapsed < 0 || elapsed >= JOURNEY_MIN) return;
+    trains.push(makeTrain('down', idx, dep, elapsed));
+  });
+  DEP_UP.forEach(function(dep, idx){
+    var elapsed = now - dep;
+    if(elapsed < 0 || elapsed >= JOURNEY_MIN) return;
+    trains.push(makeTrain('up', idx, dep, elapsed));
+  });
+  return trains;
+}
+// Interpolate elapsed minutes into a float station-index position along the line,
+// using the real per-station offsets (not a uniform per-segment time).
+function linePosition(dir, elapsed){
+  var off = dir==='down' ? OFF_DOWN : OFF_UP;
+  var stops = [];
+  for(var i=0;i<26;i++){ var idx = dir==='down' ? i : 25-i; stops.push({idx: idx, off: off[idx]}); }
+  if(elapsed <= stops[0].off) return {pos: stops[0].idx, prevIdx: stops[0].idx, nextIdx: stops[1].idx, etaNext: stops[1].off - elapsed};
+  for(var s=0;s<25;s++){
+    var a=stops[s], b=stops[s+1];
+    if(elapsed < b.off){
+      var frac = (elapsed - a.off)/(b.off - a.off);
+      return {pos: a.idx + (b.idx-a.idx)*frac, prevIdx: a.idx, nextIdx: b.idx, etaNext: b.off - elapsed};
+    }
+  }
+  return {pos: stops[25].idx, prevIdx: stops[25].idx, nextIdx: stops[25].idx, etaNext: 0};
+}
+function makeTrain(dir, idx, dep, elapsed){
+  var lp = linePosition(dir, elapsed);
+  var destName = dir==='down' ? STATIONS[25] : STATIONS[0];
+  return {
+    id: (dir==='down'?'OL-D':'OL-U') + pad(idx+1),
+    dir: dir, dep: dep, elapsed: elapsed,
+    linePos: lp.pos, nextIdx: lp.nextIdx,
+    prevName: STATIONS[lp.prevIdx], nextName: STATIONS[lp.nextIdx], destName: destName,
+    etaNext: Math.max(0, lp.etaNext),
+    progressPct: Math.round(elapsed/JOURNEY_MIN*100),
+    arrivalAtDest: dep + JOURNEY_MIN
+  };
+}
+
+function arrivalsForStation(stationIdx, dir, now){
+  // returns next arrivals (incl. trains not yet departed) sorted by arrival time
+  var out=[];
+  depsFor(dir).forEach(function(dep, idx){
+    var arr = dep + offsetFor(dir, stationIdx);
+    if(arr >= now - 0.3 && arr <= now + 60){
+      out.push({ id:(dir==='down'?'OL-D':'OL-U')+pad(idx+1), dep:dep, arr:arr, eta:arr-now, dest:(dir==='down'?STATIONS[25]:STATIONS[0]) });
+    }
+  });
+  out.sort(function(a,b){return a.arr-b.arr;});
+  return out.slice(0,4);
+}
+
+function nextDepartureAfter(now, dir){
+  // dir optional: next departure in that direction; without it, the next departure either way
+  var lists = dir ? [depsFor(dir)] : [DEP_DOWN, DEP_UP];
+  var best = null;
+  lists.forEach(function(list){
+    for(var i=0;i<list.length;i++){ if(list[i]>=now){ if(best===null || list[i]<best) best=list[i]; break; } }
+  });
+  return best;
+}
+
+/* ---------- Timetable ---------- */
+var ttView = 'station';           // 'station' | 'full'
+var ttStation = 13;               // Anarkali default
+var ttStationManual = false; // follows nearest station from live GPS until the rider picks one
+var ttDirFilter = 'both';         // 'both' | 'down' | 'up'
+var ttFullDir = 'down';           // departure terminal direction
+var ttFullDep = null;             // chosen departure (minutes); null = auto (next departure)
+var ttFullManual = false;         // true once the user picks a departure themselves
+
+function arrivalsCombined(stationIdx, now, count){
+  var out=[];
+  ['down','up'].forEach(function(dir){
+    if(ttDirFilter!=='both' && ttDirFilter!==dir) return;
+    depsFor(dir).forEach(function(dep, idx){
+      var arr = dep + offsetFor(dir, stationIdx);
+      if(arr >= now - 0.3){
+        out.push({ id:(dir==='down'?'OL-D':'OL-U')+pad(idx+1), dir:dir, dep:dep, arr:arr, eta:arr-now,
+          dest:(dir==='down'?STATIONS[25]:STATIONS[0]), origin:(dir==='down'?STATIONS[0]:STATIONS[25]) });
+      }
+    });
+  });
+  out.sort(function(a,b){ return a.arr-b.arr; });
+  return out.slice(0, count);
+}
+
+function fmtElapsed(mins){
+  if(mins<=0) return 'Start';
+  if(mins<10) return '+' + mins.toFixed(1).replace(/\.0$/,'') + ' min';
+  return '+' + Math.round(mins) + ' min';
+}
+
+function renderTtStation(){
+  var now = nowMinutes();
+  var name = STATIONS[ttStation];
+  document.getElementById('ttStationIntro').innerHTML = 'Next 5 trains arriving at <strong>' + name + '</strong>'
+    + (ttDirFilter==='down' ? ' — towards Dera Gujran only' : ttDirFilter==='up' ? ' — towards Ali Town only' : ' — both directions')
+    + ' — recalculated from the current time (' + fmtClock(now) + ').';
+  var rows = arrivalsCombined(ttStation, now, 5);
+  var el = document.getElementById('ttStationList');
+  if(!rows.length){
+    el.innerHTML = '<div class="tt-arr-row"><div class="tt-arr-main"><b>No more trains to ' + name + ' today</b><span>Last trains: 10:00 PM towards Dera Gujran, 9:59 PM towards Ali Town. First tomorrow: 6:13 AM from Ali Town, 6:14 AM from Dera Gujran.</span></div><div class="tt-arr-time"><b>—</b><span>ESTIMATE</span></div></div>';
+    return;
+  }
+  el.innerHTML = rows.map(function(r,i){
+    var dirLabel = r.dir==='down' ? 'Towards Dera Gujran' : 'Towards Ali Town';
+    var away = r.eta<=0.6 ? 'Due now' : (r.eta<1.5 ? '1 min away' : Math.round(r.eta) + ' min away');
+    var state = nowMinutes() < r.dep ? 'Not yet departed — leaves ' + r.origin.replace(' Terminal','') + ' at ' + fmtClock(r.dep)
+      : 'On its way — left ' + r.origin.replace(' Terminal','') + ' at ' + fmtClock(r.dep);
+    return '<div class="tt-arr-row' + (i===0?' is-next':'') + '"><div class="tt-arr-main">'
+      + '<span class="dir-badge ' + r.dir + '">' + (r.dir==='down'?'↓ ':'↑ ') + dirLabel + '</span>'
+      + '<b>Train ' + r.id + ' → ' + r.dest + '</b>'
+      + '<span>' + state + ' • Estimate</span></div>'
+      + '<div class="tt-arr-time"><b class="mono">' + fmtClock(r.arr) + '</b><span>' + away + '</span></div></div>';
+  }).join('');
+}
+
+function ttFullOrder(){
+  // station indices in travel order for the selected direction
+  var order=[]; var i;
+  if(ttFullDir==='down'){ for(i=0;i<26;i++) order.push(i); }
+  else { for(i=25;i>=0;i--) order.push(i); }
+  return order;
+}
+
+function renderTtFull(){
+  var now = nowMinutes();
+  var sel = document.getElementById('ttDepSelect');
+  // Auto mode: follow the next departure until the user picks one manually
+  if(!ttFullManual || ttFullDep===null){
+    var nd = nextDepartureAfter(now, ttFullDir);
+    var dl = depsFor(ttFullDir);
+    ttFullDep = (nd!==null) ? nd : dl[dl.length-1];
+  }
+  if(sel.value !== String(ttFullDep)) sel.value = String(ttFullDep);
+  var dep = ttFullDep;
+  var origin = ttFullDir==='down' ? STATIONS[0] : STATIONS[25];
+  var dest = ttFullDir==='down' ? STATIONS[25] : STATIONS[0];
+  var trainId = '';
+  var di = depsFor(ttFullDir).indexOf(dep);
+  if(di>=0) trainId = (ttFullDir==='down'?'OL-D':'OL-U') + pad(di+1);
+  var arrDest = dep + JOURNEY_MIN;
+  var statusText = now < dep ? ('Departs in ' + Math.max(1, Math.round(dep-now)) + ' min')
+    : (now < arrDest ? 'On its way now — ' + Math.round((now-dep)/JOURNEY_MIN*100) + '% of journey done' : 'Journey completed');
+  document.getElementById('ttFullSummary').innerHTML =
+    '<div>Train <b>' + trainId + '</b></div>'
+    + '<div>Leaves <b>' + origin + '</b> at <b>' + fmtClock(dep) + '</b></div>'
+    + '<div>Reaches <b>' + dest + '</b> at <b>' + fmtClock(arrDest) + '</b></div>'
+    + '<div>Status: <b>' + statusText + '</b></div>';
+
+  // Find the next station for this train right now (if en route)
+  var nextStep = -1;
+  if(now>=dep && now<arrDest){
+    var el2 = now - dep; var ord2 = ttFullOrder();
+    for(var s2=0;s2<26;s2++){ if(offsetFor(ttFullDir, ord2[s2]) > el2){ nextStep = s2; break; } }
+    if(nextStep<0) nextStep=25;
+  }
+  var order = ttFullOrder();
+  document.getElementById('ttFullRows').innerHTML = order.map(function(stIdx, step){
+    var arr = dep + offsetFor(ttFullDir, stIdx);
+    var isTerm = (step===0 || step===25);
+    var passed = now >= arr + 0.3 && now >= dep;
+    var isNext = (step===nextStep);
+    var badge = step===0 ? '<small>DEPARTS</small>' : (step===25 ? '<small>FINAL STOP</small>' : '');
+    var status = isNext ? '<span class="tt-status next">NEXT STOP</span>' : (passed && step>0 ? '<span class="tt-status done">PASSED</span>' : '');
+    return '<div class="tt-trow' + (isTerm?' is-terminal':'') + (isNext?' is-next-station':'') + (passed&&!isNext?' is-passed':'') + '" role="row">'
+      + '<span class="tt-num">' + (step+1) + '</span>'
+      + '<span class="tt-stname">' + STATIONS[stIdx] + badge + '</span>'
+      + '<span class="tt-atime mono">' + fmtClock(arr) + (status ? ' ' + status : '') + '</span>'
+      + '<span class="tt-elapsed">' + fmtElapsed(offsetFor(ttFullDir, stIdx)) + '</span></div>';
+  }).join('');
+}
+
+function renderTimetable(){
+  if(ttView==='station') renderTtStation(); else renderTtFull();
+}
+
+function syncTtTabs(){
+  document.getElementById('ttTabStation').classList.toggle('active', ttView==='station');
+  document.getElementById('ttTabFull').classList.toggle('active', ttView==='full');
+  document.getElementById('ttViewStation').hidden = ttView!=='station';
+  document.getElementById('ttViewFull').hidden = ttView!=='full';
+}
+function syncTtDirFilter(){
+  document.getElementById('ttDirBoth').classList.toggle('active', ttDirFilter==='both');
+  document.getElementById('ttDirDown').classList.toggle('active', ttDirFilter==='down');
+  document.getElementById('ttDirUp').classList.toggle('active', ttDirFilter==='up');
+}
+function syncTtFullDir(){
+  document.getElementById('ttFullTabDown').classList.toggle('active', ttFullDir==='down');
+  document.getElementById('ttFullTabUp').classList.toggle('active', ttFullDir==='up');
+}
+
+(function initTimetable(){
+  var stSel = document.getElementById('ttStationSelect');
+  stSel.innerHTML = STATIONS.map(function(n,i){ return '<option value="'+i+'"'+(i===ttStation?' selected':'')+'>'+(i+1)+'. '+n+'</option>'; }).join('');
+  stSel.addEventListener('change', function(){ ttStation = parseInt(stSel.value,10); ttStationManual = true; renderTtStation(); });
+
+  var depSel = document.getElementById('ttDepSelect');
+  function rebuildDepSelect(){
+    depSel.innerHTML = depsFor(ttFullDir).map(function(t){ return '<option value="'+t+'">'+fmtClock(t)+'</option>'; }).join('');
+    if(ttFullDep!==null && depSel.value !== String(ttFullDep)) depSel.value = String(ttFullDep);
+  }
+  rebuildDepSelect();
+  depSel.addEventListener('change', function(){ ttFullDep = parseInt(depSel.value,10); ttFullManual = true; renderTtFull(); });
+
+  document.getElementById('ttTabStation').addEventListener('click', function(){ ttView='station'; syncTtTabs(); renderTimetable(); });
+  document.getElementById('ttTabFull').addEventListener('click', function(){ ttView='full'; syncTtTabs(); renderTimetable(); });
+  document.getElementById('ttDirBoth').addEventListener('click', function(){ ttDirFilter='both'; syncTtDirFilter(); renderTtStation(); });
+  document.getElementById('ttDirDown').addEventListener('click', function(){ ttDirFilter='down'; syncTtDirFilter(); renderTtStation(); });
+  document.getElementById('ttDirUp').addEventListener('click', function(){ ttDirFilter='up'; syncTtDirFilter(); renderTtStation(); });
+  document.getElementById('ttFullTabDown').addEventListener('click', function(){ ttFullDir='down'; ttFullManual=false; ttFullDep=null; syncTtFullDir(); rebuildDepSelect(); renderTtFull(); });
+  document.getElementById('ttFullTabUp').addEventListener('click', function(){ ttFullDir='up'; ttFullManual=false; ttFullDep=null; syncTtFullDir(); rebuildDepSelect(); renderTtFull(); });
+  syncTtTabs(); syncTtDirFilter(); syncTtFullDir();
+})();
+
+/* ---------- Train estimates ---------- */
+var radarSelectedId = null;
+(function buildRadarStations(){
+  var el = document.getElementById('radarStations');
+  var labelIdx = {0:1, 12:1, 13:1, 14:1, 16:1, 19:1, 25:1};
+  el.innerHTML = STATIONS.map(function(name,i){
+    var pct = (i/25*100).toFixed(2);
+    var style = 'top:calc(18px + (100% - 36px) * ' + (i/25) + ')';
+    var label = labelIdx[i] ? '<span class="radar-stlabel" style="' + style + '">' + name.replace(' Terminal','') + '</span>' : '';
+    return label + '<span class="radar-station' + ((i===0||i===25)?' term':'') + '" style="' + style + '" title="' + name + '"></span>';
+  }).join('');
+})();
+
+function radarDetailHtml(t, now){
+  var eta = t.etaNext;
+  var etaTxt = eta < 0.5 ? 'Arriving now' : eta.toFixed(1) + ' min';
+  return '<b>🚆 Train ' + t.id + ' — ' + (t.dir==='down' ? 'to Dera Gujran' : 'to Ali Town') + '</b>'
+    + '<p>Next station: <strong style="color:#fff">' + t.nextName + '</strong> &nbsp;•&nbsp; Just left: ' + t.prevName + '<br>'
+    + 'Reaches ' + t.destName + ' at ' + fmtClock(t.arrivalAtDest) + ' &nbsp;•&nbsp; ' + t.progressPct + '% of journey done &nbsp;•&nbsp; Estimate</p>'
+    + '<p>ETA to next station<br><span class="rd-eta">' + etaTxt + '</span></p>';
+}
+
+var radarLatestTrains = [];
+var radarLatestNow = 0;
+function renderRadar(trains, now){
+  var layer = document.getElementById('radarBlips');
+  var countEl = document.getElementById('radarCount');
+  if(!layer) return;
+  radarLatestTrains = trains;
+  radarLatestNow = now;
+  if(!trains.length){
+    if(layer.firstChild) layer.innerHTML = '';
+    countEl.textContent = 'No trains on radar — service runs 6:13 AM to 10:00 PM.';
+    if(radarSelectedId){ radarSelectedId = null; }
+    return;
+  }
+  countEl.textContent = trains.length + ' trains on radar now • Sweep updates in real time • Estimate';
+  // Update blips in place instead of rebuilding them every second, so a tap
+  // on a blip is never interrupted by its button being replaced mid-tap.
+  var seen = {};
+  var existing = {};
+  var nodes = layer.querySelectorAll('.radar-blip');
+  for(var n=0;n<nodes.length;n++){ existing[nodes[n].getAttribute('data-train')] = nodes[n]; }
+  trains.forEach(function(t){
+    seen[t.id] = true;
+    var topStyle = 'top:calc(18px + (100% - 36px) * ' + (t.linePos/25) + ');left:calc(50% + ' + (t.dir==='down' ? 22 : -22) + 'px)';
+    var label = 'Train ' + t.id + ' to ' + t.destName + ', next station ' + t.nextName;
+    var btn = existing[t.id];
+    if(btn){
+      if(btn.getAttribute('style') !== topStyle) btn.setAttribute('style', topStyle);
+      var cls = 'radar-blip ' + t.dir + (radarSelectedId===t.id?' selected':'');
+      if(btn.className !== cls) btn.className = cls;
+      if(btn.getAttribute('aria-label') !== label) btn.setAttribute('aria-label', label);
+    } else {
+      btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'radar-blip ' + t.dir + (radarSelectedId===t.id?' selected':'');
+      btn.setAttribute('data-train', t.id);
+      btn.setAttribute('style', topStyle);
+      btn.setAttribute('aria-label', label);
+      btn.innerHTML = '<i></i><span>' + t.id + '</span>';
+      btn.addEventListener('click', function(){
+        radarSelectedId = this.getAttribute('data-train');
+        var cur = radarLatestTrains.filter(function(x){ return x.id===radarSelectedId; })[0];
+        if(cur) document.getElementById('radarDetail').innerHTML = radarDetailHtml(cur, radarLatestNow);
+        renderRadar(getActiveTrains(nowMinutes()), nowMinutes());
+      });
+      layer.appendChild(btn);
+    }
+  });
+  Object.keys(existing).forEach(function(id){
+    if(!seen[id] && existing[id].parentNode) existing[id].parentNode.removeChild(existing[id]);
+  });
+  if(radarSelectedId){
+    var sel = trains.filter(function(x){ return x.id===radarSelectedId; })[0];
+    if(sel) document.getElementById('radarDetail').innerHTML = radarDetailHtml(sel, now);
+    else radarSelectedId = null;
+  }
+}
+
+/* ---------- Catch your train ---------- */
+var classFrom = 13, classTo = 19; // Anarkali -> UET default (busy central route)
+var lastPlan = null; // latest successful plan, used by the Share button
+function timeInputToMins(v){
+  if(!v) return 9*60;
+  var p = v.split(':'); return parseInt(p[0],10)*60 + parseInt(p[1]||'0',10);
+}
+function renderClass(){
+  var from = classFrom, to = classTo;
+  var classMins = timeInputToMins(document.getElementById('classTime').value);
+  var now = nowMinutes();
+  var el = document.getElementById('classResult');
+  lastPlan = null;
+  if(classMins <= now){
+    el.innerHTML = '<div class="class-warn bad">The arrival deadline you selected has already passed today. Choose a future time today, then calculate again. This planner currently plans same-day journeys only.</div>';
+    syncShareBtn();
+    return;
+  }
+  if(from===to){
+    el.innerHTML = '<div class="class-warn bad">Pick two different stations — your boarding station and destination are the same.</div>';
+    syncShareBtn();
+    return;
+  }
+  var dir = to>from ? 'down' : 'up';
+  var travelSegs = Math.abs(to-from);
+  var travelMins = Math.abs(offsetFor(dir, to) - offsetFor(dir, from));
+  var best = null, first = null;
+  depsFor(dir).forEach(function(dep, idx){
+    var arrBoard = dep + offsetFor(dir, from);
+    var arrDest = arrBoard + travelMins;
+    var rec = { id:(dir==='down'?'OL-D':'OL-U')+pad(idx+1), dep:dep, arrBoard:arrBoard, arrDest:arrDest };
+    // Only consider trains that have not already reached the passenger's boarding station.
+    if(arrBoard >= now){
+      if(!first) first = rec;
+      if(arrDest <= classMins) best = rec;
+    }
+  });
+  var fromName = STATIONS[from], toName = STATIONS[to];
+  var dirTxt = dir==='down' ? 'Towards Dera Gujran' : 'Towards Ali Town';
+  if(!best){
+    el.innerHTML = '<div class="class-stats">'
+      + '<div class="class-stat"><span>Your station</span><b>' + fromName + '</b></div>'
+      + '<div class="class-stat"><span>Destination</span><b>' + toName + '</b></div>'
+      + '<div class="class-stat"><span>You must be there by</span><b>' + fmtClock(classMins) + '</b></div>'
+      + '<div class="class-stat"><span>First train reaches at</span><b>' + (first?fmtClock(first.arrDest):'—') + '</b></div></div>'
+      + '<div class="class-warn bad">⚠ No remaining modelled train can get you to ' + toName + ' by ' + fmtClock(classMins) + '. ' + (first ? ('The next train is estimated to reach your destination at ' + fmtClock(first.arrDest) + '.') : 'No more modelled departures are available today.') + ' Consider another transport option or a later arrival time.</div>';
+    syncShareBtn();
+    return;
+  }
+  var buffer = Math.round(classMins - best.arrDest);
+  var warnClass = buffer>=10 ? 'ok' : (buffer>=5 ? 'tight' : 'bad');
+  var warnTxt = buffer>=10
+    ? '✓ Comfortable — this train gets you there with ' + buffer + ' minutes to spare. Still aim to be at ' + fromName + ' a few minutes before ' + fmtClock(best.arrBoard) + '.'
+    : buffer>=5
+    ? '⚠ Tight — only ' + buffer + ' minutes of buffer. One small delay on your way to the station and you miss it. Take the train before this one if you can.'
+    : '⚠ Very risky — only ' + buffer + ' minutes of buffer. 2 minutes late can mean a missed train — take an earlier train.';
+  el.innerHTML = '<div class="class-stats">'
+    + '<div class="class-stat"><span>Latest train to catch</span><b>🚆 ' + best.id + '</b></div>'
+    + '<div class="class-stat"><span>Arrives at ' + fromName + '</span><b>' + fmtClock(best.arrBoard) + '</b></div>'
+    + '<div class="class-stat"><span>You reach ' + toName + '</span><b>' + fmtClock(best.arrDest) + '</b></div>'
+    + '<div class="class-stat"><span>Buffer before you must be there</span><b>' + buffer + ' min</b></div></div>'
+    + '<p style="font-size:13px;color:var(--muted);line-height:1.6;margin:10px 0 0">' + dirTxt + ' • Ride time ' + fromName + ' → ' + toName + ': ~' + (travelMins<10?travelMins.toFixed(1).replace(/\.0$/,''):Math.round(travelMins)) + ' min (' + travelSegs + ' stations) • Be on the platform before <strong>' + fmtClock(best.arrBoard) + '</strong> — do not plan to arrive at the station at the same minute as the train. Estimate.</p>'
+    + '<div class="class-warn ' + warnClass + '">' + warnTxt + '</div>';
+  lastPlan = {fromName:fromName, toName:toName, trainId:best.id, boardTime:fmtClock(best.arrBoard), destTime:fmtClock(best.arrDest), buffer:buffer, dirTxt:dirTxt};
+  syncShareBtn();
+}
+function syncShareBtn(){
+  var b = document.getElementById('shareTripBtn');
+  if(b) b.hidden = !lastPlan;
+}
+document.getElementById('shareTripBtn').addEventListener('click', function(){
+  if(!lastPlan) return;
+  var text = 'Orange Line Lahore: ' + lastPlan.fromName + ' to ' + lastPlan.toName + '. Take train ' + lastPlan.trainId + ' (' + lastPlan.dirTxt + ') — leaves ' + lastPlan.fromName + ' at ' + lastPlan.boardTime + ', reach ' + lastPlan.toName + ' at ' + lastPlan.destTime + ' (estimate, ' + lastPlan.buffer + ' min buffer).';
+  if(navigator.share){
+    navigator.share({title:'Orange Line trip plan', text:text}).catch(function(){});
+  } else if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){ alert('Trip plan copied — paste it anywhere to share.'); }, function(){ window.open('https://wa.me/?text='+encodeURIComponent(text), '_blank'); });
+  } else {
+    window.open('https://wa.me/?text='+encodeURIComponent(text), '_blank');
+  }
+});
+(function initClass(){
+  var f = document.getElementById('classFrom'), t = document.getElementById('classTo');
+  var deadlineInput = document.getElementById('classTime');
+  var suggestedDeadline = Math.ceil((nowMinutes()+60)/5)*5;
+  if(suggestedDeadline <= SERVICE_LAST_DEP) deadlineInput.value = pad(Math.floor(suggestedDeadline/60))+':'+pad(suggestedDeadline%60);
+  else deadlineInput.value = '22:00';
+  var opts = function(sel){ return STATIONS.map(function(n,i){ return '<option value="'+i+'"'+(i===sel?' selected':'')+'>'+(i+1)+'. '+n+'</option>'; }).join(''); };
+  f.innerHTML = opts(classFrom); t.innerHTML = opts(classTo);
+  f.addEventListener('change', function(){ classFrom = parseInt(f.value,10); renderClass(); });
+  t.addEventListener('change', function(){ classTo = parseInt(t.value,10); renderClass(); });
+  document.getElementById('classTime').addEventListener('change', renderClass);
+  document.getElementById('classBtn').addEventListener('click', renderClass);
+  renderClass();
+})();
+
+/* ---------- Render: stations ---------- */
+(function renderStations(){
+  var html='';
+  STATIONS.forEach(function(name,i){
+    var isTerm = (i===0||i===25);
+    html += '<div class="station-row">'
+      + '<div class="station-name">'+name.replace(' Terminal','')+(isTerm?'<small>TERMINAL</small>':'')+'</div>'
+      + '<div class="station-dot'+(isTerm?' terminal':'')+'"></div>'
+      + '<div class="station-side mono">'+fmtClock(FIRST_DOWN + OFF_DOWN[i]).replace(' ','&nbsp;')+'</div>'
+      + '</div>';
+  });
+  document.getElementById('stationRows').innerHTML = html;
+  var sel = document.getElementById('stationSelect');
+  sel.innerHTML = STATIONS.map(function(n,i){ return '<option value="'+i+'"'+(i===selectedStation?' selected':'')+'>'+(i+1)+'. '+n+'</option>'; }).join('');
+  sel.addEventListener('change', function(){ selectedStation = parseInt(sel.value,10); boardStationManual = true; renderBoard(); });
+})();
+
+document.getElementById('tabDown').addEventListener('click', function(){ boardDir='down'; syncTabs(); renderBoard(); });
+document.getElementById('tabUp').addEventListener('click', function(){ boardDir='up'; syncTabs(); renderBoard(); });
+
+/* ---------- Station search — type to filter any station dropdown ---------- */
+function stationOptionsHTML(selectedIdx, query){
+  var q = (query||'').trim().toLowerCase();
+  return STATIONS.map(function(n,i){
+    if(q && n.toLowerCase().indexOf(q)===-1 && i!==selectedIdx) return '';
+    return '<option value="'+i+'"'+(i===selectedIdx?' selected':'')+'>'+(i+1)+'. '+n+'</option>';
+  }).join('');
+}
+function attachStationSearch(inputId, selectId, getSelected){
+  var inp = document.getElementById(inputId), sel = document.getElementById(selectId);
+  if(!inp || !sel) return;
+  inp.addEventListener('input', function(){
+    var cur = getSelected();
+    sel.innerHTML = stationOptionsHTML(cur, inp.value);
+    sel.value = String(cur);
+  });
+}
+function resetStationSearches(){
+  var inp = document.getElementById('stationSearch');
+  if(inp) inp.value = '';
+  var inp2 = document.getElementById('ttStationSearch');
+  if(inp2) inp2.value = '';
+  var bSel = document.getElementById('stationSelect');
+  if(bSel) bSel.innerHTML = stationOptionsHTML(selectedStation, '');
+  var tSel = document.getElementById('ttStationSelect');
+  if(tSel) tSel.innerHTML = stationOptionsHTML(ttStation, '');
+}
+attachStationSearch('stationSearch','stationSelect',function(){ return selectedStation; });
+attachStationSearch('classFromSearch','classFrom',function(){ return classFrom; });
+attachStationSearch('classToSearch','classTo',function(){ return classTo; });
+attachStationSearch('ttStationSearch','ttStationSelect',function(){ return ttStation; });
+
+/* ---------- Service alerts — add a line to SERVICE_ALERTS to post one ---------- */
+var SERVICE_ALERTS = [];
+function renderAlertBanner(){
+  var t = document.getElementById('alertText');
+  if(!t) return;
+  t.textContent = SERVICE_ALERTS.length ? SERVICE_ALERTS[0] : 'No service alerts reported — trains running to the normal timetable.';
+}
+renderAlertBanner();
+function syncTabs(){
+  document.getElementById('tabDown').classList.toggle('active', boardDir==='down');
+  document.getElementById('tabUp').classList.toggle('active', boardDir==='up');
+}
+document.getElementById('refreshBtn').addEventListener('click', function(){ tick(true); });
+
+function etaLabel(eta){
+  if(eta<=0.6) return 'Due';
+  if(eta<1.5) return '1 min';
+  return Math.round(eta)+' min';
+}
+
+function renderBoard(){
+  var now = nowMinutes();
+  var boardIsNearest = gpsMatch && !boardStationManual && selectedStation === gpsMatch.nearestIdx;
+  document.getElementById('boardStation').textContent = STATIONS[selectedStation].toUpperCase() + (boardIsNearest ? ' • NEAREST TO YOU' : '');
+  var rows = arrivalsForStation(selectedStation, boardDir, now);
+  var el = document.getElementById('boardRows');
+  if(!rows.length){
+    el.innerHTML = '<div class="board-row dir-'+boardDir+'"><div><div class="dest">No trains in the next hour</div><div class="meta">Service hours 6:13 AM – 10:00 PM • First trains 6:13 / 6:14 AM</div></div><div class="eta"><b>—</b><span>ESTIMATE</span></div></div>';
+    return;
+  }
+  el.innerHTML = rows.map(function(r,i){
+    return '<div class="board-row dir-'+boardDir+(i===0?' next':'')+'"><div><div class="dest">'+(i===0?'▶ ':'')+'Train '+r.id+' → '+r.dest+'</div><div class="meta">Departs terminal '+fmtClock(r.dep)+' • Arrives here '+fmtClock(r.arr)+' • Estimate</div></div>'
+      + '<div class="eta"><b>'+etaLabel(r.eta)+'</b><span>'+(r.eta<=0.6?'ARRIVING':'ETA')+'</span></div></div>';
+  }).join('');
+}
+
+function renderAll(){
+  var now = nowMinutes();
+  var d = new Date();
+  // clock
+  document.getElementById('clock').textContent = pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+  document.getElementById('dateLine').textContent = d.toLocaleDateString('en-GB',{weekday:'short', day:'numeric', month:'short', year:'numeric'});
+  document.getElementById('boardClock').textContent = pad(d.getHours())+':'+pad(d.getMinutes());
+
+  var trains = getActiveTrains(now);
+  var inServiceWindow = now>=SERVICE_START && now < SERVICE_LAST_DEP + JOURNEY_MIN;
+  var beforeService = now < SERVICE_START;
+  var afterService = now >= SERVICE_LAST_DEP + JOURNEY_MIN;
+
+  var title = document.getElementById('statusTitle');
+  var sub = document.getElementById('statusSub');
+  var nd = nextDepartureAfter(now);
+
+  if(beforeService){
+    title.textContent = '⏸ No trains running now — first train 6:13 AM';
+    sub.textContent = 'Service has not started yet today. The first trains leave Ali Town at 6:13 AM and Dera Gujran at 6:14 AM. The diagram below will light up as soon as service begins.';
+  } else if(afterService){
+    title.textContent = '⏸ No trains running now — service finished for today';
+    sub.textContent = 'The last trains left at 10:00 PM (towards Dera Gujran) and 9:59 PM (towards Ali Town) and have completed their journeys. First trains tomorrow: 6:13 AM from Ali Town, 6:14 AM from Dera Gujran.';
+  } else if(now>=SERVICE_LAST_DEP){
+    title.textContent = '🌙 Last trains finishing their journeys';
+    sub.textContent = 'No new departures — the final trains that left at 10:00 PM / 9:59 PM are completing their ~49-minute runs. '+trains.length+' train(s) still on the line (estimate).';
+  } else {
+    title.textContent = isPeak(now) ? '🟢 Service running — peak hours' : '🟢 Service running';
+    sub.textContent = (isPeak(now)?'Peak headway in the model: a train every ~5 minutes. ':'Off-peak headway in the model: a train every ~10 minutes. ')
+      + 'This model repeats a configured departure pattern in both directions. Actual service frequency and disruptions may differ. Estimate, not live GPS.';
+  }
+
+  countUp(document.getElementById('kpiActive'), inServiceWindow ? trains.length : 0);
+  document.getElementById('kpiHeadway').textContent = (now>=SERVICE_START && now<=SERVICE_LAST_DEP) ? ('~'+headwayAt(now)+' min') : '—';
+  document.getElementById('kpiNext').textContent = nd!==null ? fmtClock(nd) : '6:13 AM';
+  document.getElementById('trainCountPill').textContent = trains.length + ' TRAINS';
+  document.getElementById('serviceDotLabel').textContent = inServiceWindow ? 'TIMETABLE ESTIMATE' : 'SERVICE CLOSED';
+  document.getElementById('updatedAt').textContent = 'Updated ' + pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+
+  // Diagram markers: total height = 26 rows * ROW_H; station i centre at i*ROW_H + ROW_H/2
+  var layer = document.getElementById('trainLayer');
+  if(!trains.length){
+    layer.innerHTML='';
+  } else {
+    layer.innerHTML = trains.map(function(t){
+      var top = t.linePos*ROW_H + ROW_H/2;
+      var arrow = t.dir==='down' ? '▼' : '▲';
+      return '<div class="train-marker '+t.dir+'" style="top:'+top+'px"><span class="chip"><span class="chip-id">'+t.id+'</span> <span class="arr">'+arrow+'</span><span class="chip-next"> → '+t.nextName+'</span></span></div>';
+    }).join('');
+  }
+  // Track height fix: train layer is inside .track which sizes to station rows; markers positioned absolutely relative to track
+  document.getElementById('track').style.position='relative';
+  layer.style.position='absolute'; layer.style.left='0'; layer.style.right='0'; layer.style.top='0'; layer.style.bottom='0'; layer.style.pointerEvents='none';
+
+  // Train list
+  var list = document.getElementById('trainList');
+  document.getElementById('trainListSub').textContent = trains.length ? ('Every train the model places on the line at '+fmtClock(now)+'. Sorted in the order they left their terminal.') : 'No trains are on the line right now.';
+  if(!trains.length){
+    list.innerHTML = '<div class="empty"><b>'+(beforeService?'First train at 6:13 AM':'Service finished — back at 6:13 AM')+'</b><p>'+(beforeService?'Trains leave Ali Town at 6:13 AM and Dera Gujran at 6:14 AM and then run all day until the last departures at 10:00 PM / 9:59 PM.':'The last departures were 10:00 PM (towards Dera Gujran) and 9:59 PM (towards Ali Town). Trains start again tomorrow at 6:13 AM from Ali Town and 6:14 AM from Dera Gujran.')+'<br><br><span class="pill pill-amber">ESTIMATE — timetable-based, not live GPS</span></p></div>';
+  } else {
+    list.innerHTML = '<div class="train-grid">' + trains.map(function(t){
+      return '<article class="train-card"><div class="tc-top"><span class="tc-id mono">'+t.id+'</span><span class="tc-dir '+t.dir+'">'+(t.dir==='down'?'↓ To Dera Gujran':'↑ To Ali Town')+'</span></div>'
+        + '<div class="tc-next"><span>Next station • ETA ~'+(t.etaNext<0.5?'arriving now':t.etaNext.toFixed(1)+' min')+'</span>'+t.nextName+'</div>'
+        + '<div style="font-size:12px;color:var(--muted);margin-top:4px">Just left '+t.prevName+' • Reaches '+t.destName+' at '+fmtClock(t.arrivalAtDest)+'</div>'
+        + '<div class="tc-bar"><i style="width:'+t.progressPct+'%"></i></div>'
+        + '<div class="tc-foot"><span>Left terminal '+fmtClock(t.dep)+'</span><span>'+t.progressPct+'% of journey</span></div></article>';
+    }).join('') + '</div>'
+    + '<p style="font-size:11px;color:var(--muted);margin:12px 0 0">ESTIMATE — timetable-based, not live GPS. ETAs use real per-station timings from Google Maps (18 Nov 2026); headway is modelled.</p>';
+  }
+
+  renderRadar(trains, now);
+  renderBoard();
+  renderTimetable();
+  positionYouMarkers();
+}
+
+/* ---------- Live GPS — the rider's own real position ---------- */
+// Real station coordinates from OpenStreetMap, verified 17 Nov 2026 (railway=station /
+// station=subway objects on the Lahore Metro Orange Line). null = no verified OSM
+// station point exists for that station yet — left unmatched rather than guessed.
+var STATION_GEO = [
+  [31.4643210,74.2438263],[31.4736422,74.2418249],[31.4806954,74.2492040],[31.4862956,74.2583504],[31.4946893,74.2633664],
+  [31.5033102,74.2682841],[31.5101229,74.2728442],[31.5174240,74.2776467],[31.5245991,74.2833141],[31.5322399,74.2876480],
+  [31.5397538,74.2928181],[31.5448979,74.2952995],[31.5523284,74.3027334],[31.5624800,74.3093567],null,null,
+  [31.5722982,74.3361528],[31.5757716,74.3507937],[31.5775197,74.3606133],[31.5794163,74.3707828],[31.5834744,74.3797505],
+  [31.5853078,74.3892695],[31.5868291,74.4024351],[31.5879090,74.4130374],[31.5888788,74.4228338],[31.5897383,74.4313009]
+];
+function haversineM(aLat,aLon,bLat,bLon){
+  var R=6371000, dLa=(bLat-aLat)*Math.PI/180, dLo=(bLon-aLon)*Math.PI/180;
+  var s=Math.sin(dLa/2)*Math.sin(dLa/2)+Math.cos(aLat*Math.PI/180)*Math.cos(bLat*Math.PI/180)*Math.sin(dLo/2)*Math.sin(dLo/2);
+  return 2*R*Math.asin(Math.sqrt(s));
+}
+function bearingDeg(aLat,aLon,bLat,bLon){
+  var y=Math.sin((bLon-aLon)*Math.PI/180)*Math.cos(bLat*Math.PI/180);
+  var x=Math.cos(aLat*Math.PI/180)*Math.sin(bLat*Math.PI/180)-Math.sin(aLat*Math.PI/180)*Math.cos(bLat*Math.PI/180)*Math.cos((bLon-aLon)*Math.PI/180);
+  return (Math.atan2(y,x)*180/Math.PI+360)%360;
+}
+function fmtDist(m){ return m<1000 ? Math.round(m)+' m' : (m/1000).toFixed(1)+' km'; }
+
+/* ---------- Design-system helpers: count-up + GPS loader ---------- */
+var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function countUp(el, target){
+  if(!el) return;
+  var from = parseInt(el.textContent, 10);
+  if(isNaN(from) || prefersReducedMotion || from === target){ el.textContent = target; return; }
+  var start = null;
+  function step(ts){
+    if(start === null) start = ts;
+    var p = Math.min(1, (ts - start) / 800);
+    var eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (target - from) * eased);
+    if(p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function setGpsLoader(on){
+  var l = document.getElementById('gpsLoader');
+  if(l) l.hidden = !on;
+}
+
+function matchToLine(lat, lon){
+  var idx=[]; var i;
+  for(i=0;i<26;i++){ if(STATION_GEO[i]) idx.push(i); }
+  var best=null;
+  for(var s=0;s<idx.length-1;s++){
+    var i0=idx[s], i1=idx[s+1];
+    // Do not draw a false segment across missing station points (GPO/Lakshmi Chowk).
+    if(i1-i0!==1) continue;
+    var A=STATION_GEO[i0], B=STATION_GEO[i1];
+    var kx=111320*Math.cos(lat*Math.PI/180), ky=110540;
+    var ax=(A[1]-lon)*kx, ay=(A[0]-lat)*ky, bx=(B[1]-lon)*kx, by=(B[0]-lat)*ky;
+    var dx=bx-ax, dy=by-ay, L2=dx*dx+dy*dy;
+    var t = L2>0 ? Math.max(0, Math.min(1, -(ax*dx+ay*dy)/L2)) : 0;
+    var px=ax+t*dx, py=ay+t*dy, dist=Math.sqrt(px*px+py*py);
+    if(!best || dist<best.offLine){
+      best={ i0:i0, i1:i1, t:t, offLine:dist, segLen:haversineM(A[0],A[1],B[0],B[1]) };
+    }
+  }
+  var nI=-1, nD=Infinity;
+  idx.forEach(function(j){
+    var d=haversineM(lat,lon,STATION_GEO[j][0],STATION_GEO[j][1]);
+    if(d<nD){ nD=d; nI=j; }
+  });
+  best.linePos = best.i0 + (best.i1-best.i0)*best.t;
+  best.nearestIdx = nI; best.nearestDist = nD;
+  return best;
+}
+
+var gpsOn=false, gpsWatchId=null, gpsPrev=null, gpsMatch=null;
+var gpsLat=null, gpsLon=null;
+var dirStationIdx=13, dirStationManual=false; // directions target; defaults to nearest station until the rider picks one
+
+function setGpsMsg(kind, html){
+  var el=document.getElementById('gpsMsg');
+  el.className='gps-msg '+kind; el.innerHTML=html;
+}
+function syncGpsButtons(){
+  ['gpsBtn','gpsBtnCard'].forEach(function(id){
+    var b=document.getElementById(id);
+    if(b){ b.textContent = gpsOn ? '■ Stop live location' : '📍 Use my live location'; b.classList.toggle('on', gpsOn); }
+  });
+}
+function toggleGps(){ if(gpsOn) stopGps(); else startGps(); }
+
+function startGps(){
+  if(!('geolocation' in navigator)){
+    setGpsMsg('err','<b>GPS is not available on this device or browser.</b> Live GPS cannot start on this device. The timetable, radar and planner still work below.');
+    showLocationHelp();
+    return;
+  }
+  if(gpsWatchId!==null) return;
+  gpsOn=true; syncGpsButtons();
+  setGpsMsg('info','<b>Asking for location permission…</b> Choose <b>Allow</b> in your browser\'s location prompt to switch on Live GPS.');
+  setGpsLoader(true);
+  gpsWatchId = navigator.geolocation.watchPosition(onGpsFix, onGpsError, {enableHighAccuracy:true, timeout:20000, maximumAge:3000});
+}
+function stopGpsInternal(){
+  setGpsLoader(false);
+  if(gpsWatchId!==null && ('geolocation' in navigator)) navigator.geolocation.clearWatch(gpsWatchId);
+  gpsWatchId=null; gpsOn=false; gpsMatch=null; gpsPrev=null; gpsLat=null; gpsLon=null;
+  syncGpsButtons();
+  document.getElementById('gpsStats').hidden=true;
+  document.getElementById('gpsWhere').hidden=true;
+  document.getElementById('dirPanel').hidden=true;
+  positionYouMarkers();
+}
+function stopGps(){
+  stopGpsInternal();
+  setGpsMsg('info','Live GPS is <b>off</b>. Tap “Use my live location” any time to show your real position on the line again. Train positions remain timetable estimates.');
+}
+function onGpsError(err){
+  stopGpsInternal();
+  if(err.code===1){
+    // Denied: the browser will not show its system prompt again until the
+    // rider enables location in settings — show the in-place help below.
+    showLocationHelp();
+    setGpsMsg('err','<b>Location permission denied.</b> Live GPS is off, but the rest of the app still works. To switch Live GPS on, allow location in your browser settings (lock / tune icon → Site settings → Location → Allow), then tap Try again below.');
+  } else if(err.code===2){
+    setGpsMsg('err','<b>GPS position unavailable.</b> Your device could not get a fix — common indoors or in the underground section (Anarkali–Railway Station). Try again at an elevated station or near a window.');
+  } else {
+    setGpsMsg('err','<b>GPS timed out.</b> No position arrived in time. Tap “Use my live location” to try again.');
+  }
+}
+function onGpsFix(pos){
+  setGpsLoader(false);
+  hideLocationHelp();
+  var c=pos.coords, nowT=Date.now();
+  var speed=(c.speed!=null && !isNaN(c.speed)) ? c.speed : null;
+  var heading=(c.heading!=null && !isNaN(c.heading)) ? c.heading : null;
+  if(gpsPrev){
+    var dt=(nowT-gpsPrev.t)/1000;
+    if(dt>0.5){
+      var dd=haversineM(gpsPrev.lat,gpsPrev.lon,c.latitude,c.longitude);
+      if(speed===null) speed=dd/dt;
+      if(heading===null && dd>3){
+        heading=(Math.atan2((c.longitude-gpsPrev.lon)*Math.cos(c.latitude*Math.PI/180), c.latitude-gpsPrev.lat)*180/Math.PI+360)%360;
+      }
+    }
+  }
+  gpsPrev={lat:c.latitude, lon:c.longitude, t:nowT};
+  gpsLat=c.latitude; gpsLon=c.longitude;
+  var m=matchToLine(c.latitude, c.longitude);
+  // Next station: the station at the end of the current segment the rider is heading towards
+  var A=STATION_GEO[m.i0], B=STATION_GEO[m.i1];
+  var brg=bearingDeg(A[0],A[1],B[0],B[1]);
+  var nextIdx, distNext;
+  if(heading!==null){
+    var diff=Math.abs(((heading-brg+540)%360)-180); // 0 = heading matches i0 -> i1 direction, 180 = opposite
+    if(diff<90){ nextIdx=m.i1; distNext=(1-m.t)*m.segLen; }
+    else { nextIdx=m.i0; distNext=m.t*m.segLen; }
+  } else if(m.t>=0.5){ nextIdx=m.i1; distNext=(1-m.t)*m.segLen; }
+  else { nextIdx=m.i0; distNext=m.t*m.segLen; }
+  m.nextIdx=nextIdx; m.distNext=distNext; m.speed=speed; m.acc=c.accuracy;
+  gpsMatch=m;
+  updateGpsPanel();
+  positionYouMarkers();
+}
+/* ---------- Nearest station auto-follow (like Google Maps) ---------- */
+/* When live GPS is on, the departure board and the timetable follow the
+   rider's nearest station automatically — the same behaviour as Google
+   Maps showing Anarkali because the rider is near Anarkali. As soon as
+   the rider picks a station by hand, that panel stops following. */
+function syncNearestStation(){
+  if(!gpsMatch) return;
+  var n = gpsMatch.nearestIdx;
+  if(!boardStationManual && selectedStation !== n){
+    selectedStation = n;
+    resetStationSearches();
+    var bSel = document.getElementById('stationSelect');
+    if(bSel) bSel.value = String(n);
+    renderBoard();
+  }
+  if(!ttStationManual && ttStation !== n){
+    ttStation = n;
+    resetStationSearches();
+    var tSel = document.getElementById('ttStationSelect');
+    if(tSel) tSel.value = String(n);
+    renderTtStation();
+  }
+}
+function updateGpsPanel(){
+  var m=gpsMatch; if(!m) return;
+  document.getElementById('gpsStats').hidden=false;
+  document.getElementById('gpsNearest').textContent=STATIONS[m.nearestIdx];
+  document.getElementById('gpsNext').textContent=STATIONS[m.nextIdx];
+  document.getElementById('gpsDistNext').textContent=fmtDist(m.distNext);
+  document.getElementById('gpsSpeed').textContent=(m.speed!=null && !isNaN(m.speed)) ? (Math.round(m.speed*3.6)+' km/h') : '—';
+  var where=document.getElementById('gpsWhere');
+  where.hidden=false;
+  var between = (m.i0===m.i1) ? STATIONS[m.i0] : ('Between <strong>'+STATIONS[m.i0]+'</strong> and <strong>'+STATIONS[m.i1]+'</strong>');
+  where.innerHTML = between
+    + ' • Nearest station <strong>'+STATIONS[m.nearestIdx]+'</strong> is '+fmtDist(m.nearestDist)+' away'
+    + (m.offLine>400 ? ' • You are currently '+fmtDist(m.offLine)+' from the line itself' : ' • You are on the line')
+    + (m.acc ? ' • GPS accuracy ±'+Math.round(m.acc)+' m' : '')
+    + ' • <strong>LIVE GPS — your position</strong>, updated as you move.';
+  setGpsMsg('ok','<b>Live GPS is on.</b> Your real position is plotted below — watch the blue YOU marker move on the line diagram and radar. The departure board and timetable now follow your <b>nearest station</b>, like Google Maps. Trains remain timetable estimates.');
+  syncNearestStation();
+  renderDirections();
+}
+
+/* ---------- Directions to the station (from the rider's live GPS) ---------- */
+function fmtWalkTime(distM){
+  var mins = distM/5000*60; // ~5 km/h walking pace
+  if(mins<1) return 'Under 1 min';
+  if(mins<60) return '~'+Math.round(mins)+' min walk';
+  var h=Math.floor(mins/60), r=Math.round(mins%60);
+  return '~'+h+' h'+(r>0?' '+r+' min':'')+' walk';
+}
+function renderDirections(){
+  var panel=document.getElementById('dirPanel');
+  var body=document.getElementById('dirBody');
+  if(!panel || !body) return;
+  if(!gpsOn || gpsLat===null || gpsLon===null || !gpsMatch){ panel.hidden=true; return; }
+  panel.hidden=false;
+  // Follow the nearest station until the rider picks a station themselves
+  if(!dirStationManual) dirStationIdx = gpsMatch.nearestIdx;
+  var sel=document.getElementById('dirStationSelect');
+  if(sel && sel.value !== String(dirStationIdx)) sel.value = String(dirStationIdx);
+  var name = STATIONS[dirStationIdx];
+  var geo = STATION_GEO[dirStationIdx];
+  var isNearest = gpsMatch && dirStationIdx===gpsMatch.nearestIdx;
+  if(!geo){
+    body.innerHTML = '<div class="dir-unavail"><strong>'+name+'</strong> — directions are not available for this station yet: its exact point is not verified yet, so this page will not guess a location for it. Pick any other station above, or head to your nearest verified station.</div>';
+    return;
+  }
+  var distM = haversineM(gpsLat, gpsLon, geo[0], geo[1]);
+  var mapsUrl = 'https://www.google.com/maps/dir/?api=1&origin=' + gpsLat + ',' + gpsLon
+    + '&destination=' + geo[0] + ',' + geo[1] + '&travelmode=walking';
+  body.innerHTML = '<div class="dir-stats">'
+    + '<div class="dir-stat"><span>Station</span><b>' + name + (isNearest ? ' • nearest to you' : '') + '</b></div>'
+    + '<div class="dir-stat"><span>Distance from you</span><b>' + fmtDist(distM) + '</b></div>'
+    + '<div class="dir-stat"><span>Walking time</span><b>' + fmtWalkTime(distM) + '</b></div>'
+    + '</div>'
+    + '<div style="margin-top:12px"><a class="btn btn-maps" href="' + mapsUrl + '" target="_blank" rel="noopener">🧭 Get walking directions →</a></div>'
+    + '<p class="dir-note">Distance is the straight line from your live GPS position to the station\'s verified point (OpenStreetMap). The real walking route along streets is a little longer — tap the button and Google Maps draws the exact turn-by-turn route from where you are standing to <strong>' + name + '</strong>. Your coordinates go only into that Google Maps link, when you tap it.</p>';
+}
+(function initDirections(){
+  var sel=document.getElementById('dirStationSelect');
+  if(!sel) return;
+  sel.innerHTML = STATIONS.map(function(n,i){ return '<option value="'+i+'"'+(i===dirStationIdx?' selected':'')+'>'+(i+1)+'. '+n+'</option>'; }).join('');
+  sel.addEventListener('change', function(){ dirStationIdx = parseInt(sel.value,10); dirStationManual = true; renderDirections(); });
+})();
+function positionYouMarkers(){
+  var dy=document.getElementById('youLayer'), ry=document.getElementById('radarYou');
+  if(!dy || !ry) return;
+  if(!gpsOn || !gpsMatch){ dy.innerHTML=''; ry.innerHTML=''; return; }
+  var top = gpsMatch.linePos*ROW_H + ROW_H/2;
+  dy.style.position='absolute'; dy.style.left='0'; dy.style.right='0'; dy.style.top='0'; dy.style.bottom='0'; dy.style.pointerEvents='none';
+  dy.innerHTML='<div class="you-marker" style="top:'+top+'px"><span class="you-dot"></span><span class="you-chip">YOU • LIVE GPS</span></div>';
+  ry.innerHTML='<div class="radar-you" style="top:calc(18px + (100% - 36px) * '+(gpsMatch.linePos/25)+')"><span class="you-dot"></span><span class="lbl">YOU • LIVE</span></div>';
+}
+document.getElementById('gpsBtn').addEventListener('click', toggleGps);
+document.getElementById('gpsBtnCard').addEventListener('click', toggleGps);
+
+/* ---------- Automatic location on open ----------
+   No gate: the app is fully visible straight away. The moment the page
+   opens, location is requested automatically, so the browser's own
+   Allow / Deny prompt appears by itself — no button tap needed first.
+   No web page can read location without the rider tapping Allow on that
+   browser prompt at least once; that is a browser rule, not a choice.
+   Allowed -> live GPS starts immediately (marker, nearest/next, speed,
+              directions). Denied -> the browser will not show its system
+              prompt again, so the in-place help inside the Live GPS card
+              (#gpsDeniedHelp: Open location settings, manual steps, Try
+              again) is shown instead. The rest of the app works either way. */
+function showLocationHelp(){
+  setGpsLoader(false);
+  var d = document.getElementById('gpsDeniedHelp');
+  if(d) d.hidden = false;
+}
+function hideLocationHelp(){
+  var d = document.getElementById('gpsDeniedHelp');
+  if(d) d.hidden = true;
+  var fb = document.getElementById('locSettingsFallback');
+  if(fb) fb.hidden = true;
+}
+function requestLocationNow(){
+  // watchPosition triggers the standard browser Allow/Deny prompt when the
+  // permission is still undecided; if it is already denied, onGpsError
+  // fires instead and the in-place help with the settings steps is shown.
+  startGps();
+  // Fallback for browsers where a watch alone stays silent while undecided:
+  // a one-shot request surfaces the prompt right away.
+  if(('geolocation' in navigator) && navigator.geolocation.getCurrentPosition){
+    navigator.geolocation.getCurrentPosition(function(pos){ onGpsFix(pos); }, function(err){ if(err && err.code===1) onGpsError(err); }, {enableHighAccuracy:true, timeout:20000, maximumAge:3000});
+  }
+}
+var locRetryBtn = document.getElementById('locRetryBtn');
+if(locRetryBtn) locRetryBtn.addEventListener('click', function(){
+  setGpsMsg('info','<b>Checking location again…</b> If you just switched location on in settings, your live position will appear here in a moment.');
+  requestLocationNow();
+});
+var locSettingsBtn = document.getElementById('locSettingsBtn');
+if(locSettingsBtn) locSettingsBtn.addEventListener('click', function(e){
+  // Best effort, Android only: the intent link opens the phone's system
+  // Location settings. Everywhere else (or if the browser ignores the
+  // intent), fall back to the manual lock-icon steps shown above the button.
+  var isAndroid = /android/i.test(window.navigator.userAgent || '');
+  if(!isAndroid){
+    e.preventDefault();
+    var fb = document.getElementById('locSettingsFallback');
+    if(fb) fb.hidden = false;
+  }
+  // On Android, let the intent link navigate — no preventDefault. If the
+  // browser does not handle it, the rider stays on this page and the steps
+  // above remain their fallback.
+});
+(function initAutoLocation(){
+  if(!('geolocation' in navigator)){
+    setGpsMsg('err','<b>GPS is not available on this device or browser.</b> Live GPS cannot start on this device. The timetable, radar and planner still work below.');
+    showLocationHelp();
+    return;
+  }
+  if(!('permissions' in navigator) || !navigator.permissions.query){
+    // Permission state cannot be read here — request automatically anyway;
+    // the browser shows its prompt (or fires the denied error) by itself.
+    requestLocationNow();
+    return;
+  }
+  navigator.permissions.query({name:'geolocation'}).then(function(status){
+    if(status.state === 'granted'){
+      if(!gpsOn) startGps();
+    } else if(status.state === 'denied'){
+      showLocationHelp();
+      setGpsMsg('err','<b>Location permission is off.</b> Live GPS is off, but the rest of the app still works. To switch Live GPS on, allow location in your browser settings (lock / tune icon → Site settings → Location → Allow), then tap Try again below.');
+    } else {
+      // 'prompt' — undecided: ask automatically right now, no tap needed.
+      requestLocationNow();
+    }
+    status.onchange = function(){
+      if(status.state === 'granted'){
+        hideLocationHelp();
+        if(!gpsOn) startGps();
+      } else if(status.state === 'denied'){
+        showLocationHelp();
+      }
+    };
+  }).catch(function(){ requestLocationNow(); });
+})();
+
+function tick(manual){ renderAll(); }
+renderAll();
+// Smooth live feel: clock + positions update every 5 seconds (well within the 30s refresh promise), full model stays timetable-based.
+setInterval(function(){ renderAll(); }, 5000);
+setInterval(function(){
+  var d=new Date();
+  document.getElementById('clock').textContent = pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+  // Radar blips move in real time — refresh positions every second from the same timetable model
+  var n = nowMinutes();
+  renderRadar(getActiveTrains(n), n);
+}, 1000);
+</script>
+<script>
+/* ---------- PWA: install prompt + service worker ---------- */
+(function initPwa(){
+  var installBtn = document.getElementById('installBtn');
+  var installHint = document.getElementById('installHint');
+  var installEventSeen = false;
+
+  function isStandalone(){
+    return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+  }
+  function isIos(){
+    var ua = window.navigator.userAgent || '';
+    return /iphone|ipad|ipod/i.test(ua) || (window.navigator.platform === 'MacIntel' && window.navigator.maxTouchPoints > 1);
+  }
+  function showHint(html){
+    if(!installHint) return;
+    installHint.innerHTML = html;
+    installHint.hidden = false;
+  }
+  function hideInstallUi(){
+    if(installBtn) installBtn.hidden = true;
+  }
+
+  if(isStandalone()){ hideInstallUi(); }
+
+  window.addEventListener('beforeinstallprompt', function(e){
+    // Keep the browser's own install UI available via the browser menu; the
+    // page itself never opens a dialog — the Install button shows in-page steps.
+    installEventSeen = true;
+    if(installBtn && !isStandalone()) installBtn.hidden = false;
+  });
+
+  window.addEventListener('appinstalled', function(){
+    installEventSeen = false;
+    hideInstallUi();
+    showHint('<b>Installed ✓</b> Orange Line is now on your home screen — open it any time, even offline.');
+  });
+
+  if(installBtn){
+    installBtn.addEventListener('click', function(){
+      if(isStandalone()){
+        showHint('<b>Already installed ✓</b> You are using the installed app right now.');
+      } else if(isIos()){
+        showHint('<b>Install on iPhone:</b> tap the <b>Share</b> button in Safari, then choose <b>“Add to Home Screen”</b> — Orange Line then opens like an app, straight from your home screen.');
+      } else {
+        showHint('<b>Install this app:</b> open your browser menu (⋮) and choose <b>“Install app”</b> or <b>“Add to Home screen”</b> — no app store needed. After your first visit it also opens offline.');
+      }
+    });
+  }
+
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('sw.js').catch(function(){
+        /* Offline install support is unavailable here; the page itself keeps working normally. */
+      });
+    });
+  }
+})();
+</script>
+<script>
+/* ---------- Mobile bottom nav: highlight the section in view ---------- */
+(function initBottomNav(){
+  try{
+    if(!document.querySelectorAll) return;
+    var links = document.querySelectorAll('.bottom-nav a');
+    if(!links.length) return;
+    var order = ['live-gps','radar','my-station','catch-class','timetable'];
+    function onScroll(){
+      var pos = (window.scrollY || 0) + 140;
+      var current = 'radar';
+      order.forEach(function(id){
+        var el = document.getElementById(id);
+        if(el && el.offsetTop <= pos) current = id;
+      });
+      links.forEach(function(a){
+        a.classList.toggle('active', a.getAttribute('data-nav') === current);
+      });
+    }
+    window.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+  }catch(e){ /* bottom-nav highlight is cosmetic; never break the page */ }
+})();
+</script>
+</body>
+</html>
