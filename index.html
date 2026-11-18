@@ -86,6 +86,7 @@ button,select{font:inherit;min-height:44px}
 .install-hint b{color:#fff}
 .install-hint[hidden]{display:none}
 #installBtn[hidden]{display:none}
+#installBtn{font-size:16px;font-weight:800;padding:13px 22px;background:#ea580c;color:#fff;border-color:#ea580c;box-shadow:0 6px 18px rgba(234,88,12,.35)}
 .btn{border:0;border-radius:999px;padding:0 18px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;min-height:46px}
 .btn-white{background:#fff;color:#9A3412}
 .btn-ghost{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.35)}
@@ -460,7 +461,7 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
     <h1>Plan your Orange Line journey. <em>Know your stations, route and estimated arrival.</em></h1>
     <p>An independent passenger guide for Lahore's Orange Line. Explore all 26 stations, check timetable-based arrival estimates, compare directions, plan your trip and find a nearby station. Train positions and arrival times on this page are estimates—not official live train GPS.</p>
     <div class="hero-actions">
-      <button class="btn btn-white" id="installBtn" type="button">📲 Install app</button>
+      <button class="btn btn-white" id="installBtn" type="button">📲 App Download Karo</button>
       <button class="btn btn-gps" id="gpsBtn" type="button">📍 Use my live location</button>
       <a class="btn btn-white" href="#radar">◎ &nbsp;View train estimates</a>
       <a class="btn btn-ghost" href="#catch-class">Catch your train ↓</a>
@@ -1790,6 +1791,7 @@ setInterval(function(){
   var installBtn = document.getElementById('installBtn');
   var installHint = document.getElementById('installHint');
   var installEventSeen = false;
+  var deferredPrompt = null;
 
   function isStandalone(){
     return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
@@ -1810,14 +1812,17 @@ setInterval(function(){
   if(isStandalone()){ hideInstallUi(); }
 
   window.addEventListener('beforeinstallprompt', function(e){
-    // Keep the browser's own install UI available via the browser menu; the
-    // page itself never opens a dialog — the Install button shows in-page steps.
+    // Save the browser's install prompt so the Download button can open it
+    // directly (native "Install app?" dialog) instead of only showing steps.
+    e.preventDefault();
+    deferredPrompt = e;
     installEventSeen = true;
     if(installBtn && !isStandalone()) installBtn.hidden = false;
   });
 
   window.addEventListener('appinstalled', function(){
     installEventSeen = false;
+    deferredPrompt = null;
     hideInstallUi();
     showHint('<b>Installed ✓</b> Orange Line is now on your home screen — open it any time, even offline.');
   });
@@ -1826,6 +1831,12 @@ setInterval(function(){
     installBtn.addEventListener('click', function(){
       if(isStandalone()){
         showHint('<b>Already installed ✓</b> You are using the installed app right now.');
+      } else if(deferredPrompt){
+        // Native install dialog: "Install" / "Cancel" — the real download step.
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function(choice){
+          if(choice && choice.outcome === 'accepted'){ deferredPrompt = null; }
+        });
       } else if(isIos()){
         showHint('<b>Install on iPhone:</b> tap the <b>Share</b> button in Safari, then choose <b>“Add to Home Screen”</b> — Orange Line then opens like an app, straight from your home screen.');
       } else {
