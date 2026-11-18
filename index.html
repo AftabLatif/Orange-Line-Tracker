@@ -442,6 +442,20 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
 </style>
 </head>
 <body>
+<style>
+  #installBanner{position:fixed;top:0;left:0;right:0;z-index:9999;display:none;align-items:center;gap:12px;background:#ea580c;color:#fff;padding:12px 14px;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+  #installBanner.show{display:flex}
+  #installBanner .ib-text{flex:1;font-size:15px;font-weight:700;line-height:1.35}
+  #installBanner .ib-text small{display:block;font-weight:500;font-size:12.5px;opacity:.92}
+  #installBanner .ib-install{background:#fff;color:#C2410C;border:0;border-radius:10px;font-weight:800;font-size:15px;padding:10px 16px;cursor:pointer;white-space:nowrap}
+  #installBanner .ib-close{background:transparent;border:0;color:#fff;font-size:20px;line-height:1;padding:4px 8px;cursor:pointer}
+  @media (max-width:480px){ #installBanner .ib-text{font-size:14px} #installBanner .ib-install{padding:10px 12px;font-size:14px} }
+</style>
+<div id="installBanner" role="dialog" aria-label="Install Orange Line app">
+  <div class="ib-text">Orange Line app install karo<small>Ek tap mein — phir bina browser ke khulegi</small></div>
+  <button class="ib-install" id="installBannerBtn" type="button">Install Karo</button>
+  <button class="ib-close" id="installBannerClose" type="button" aria-label="Close">✕</button>
+</div>
 
 <div id="appContent">
 
@@ -1794,6 +1808,9 @@ setInterval(function(){
 (function initPwa(){
   var installBtn = document.getElementById('installBtn');
   var installHint = document.getElementById('installHint');
+  var installBanner = document.getElementById('installBanner');
+  var installBannerBtn = document.getElementById('installBannerBtn');
+  var installBannerClose = document.getElementById('installBannerClose');
   var installEventSeen = false;
   var deferredPrompt = null;
 
@@ -1812,6 +1829,12 @@ setInterval(function(){
   function hideInstallUi(){
     if(installBtn) installBtn.hidden = true;
   }
+  function showInstallBanner(){
+    if(installBanner && !isStandalone()) installBanner.classList.add('show');
+  }
+  function hideInstallBanner(){
+    if(installBanner) installBanner.classList.remove('show');
+  }
 
   if(isStandalone()){ hideInstallUi(); }
 
@@ -1822,12 +1845,14 @@ setInterval(function(){
     deferredPrompt = e;
     installEventSeen = true;
     if(installBtn && !isStandalone()) installBtn.hidden = false;
+    showInstallBanner();
   });
 
   window.addEventListener('appinstalled', function(){
     installEventSeen = false;
     deferredPrompt = null;
     hideInstallUi();
+    hideInstallBanner();
     showHint('<b>Installed ✓</b> Orange Line is now on your home screen — open it any time, even offline.');
   });
 
@@ -1847,6 +1872,27 @@ setInterval(function(){
         showHint('<b>Install this app:</b> open your browser menu (⋮) and choose <b>“Install app”</b> or <b>“Add to Home screen”</b> — no app store needed. After your first visit it also opens offline.');
       }
     });
+  }
+
+  if(installBannerBtn){
+    installBannerBtn.addEventListener('click', function(){
+      if(isStandalone()){
+        hideInstallBanner();
+        showHint('<b>Already installed ✓</b> You are using the installed app right now.');
+      } else if(deferredPrompt){
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function(choice){
+          if(choice && choice.outcome === 'accepted'){ deferredPrompt = null; hideInstallBanner(); }
+        });
+      } else if(isIos()){
+        showHint('<b>Install on iPhone:</b> tap the <b>Share</b> button in Safari, then choose <b>“Add to Home Screen”</b> — Orange Line then opens like an app, straight from your home screen.');
+      } else {
+        showHint('<b>Install this app:</b> open your browser menu (⋮) and choose <b>“Install app”</b> or <b>“Add to Home screen”</b> — no app store needed. After your first visit it also opens offline.');
+      }
+    });
+  }
+  if(installBannerClose){
+    installBannerClose.addEventListener('click', function(){ hideInstallBanner(); });
   }
 
   if('serviceWorker' in navigator){
