@@ -22,7 +22,7 @@
 <meta name="robots" content="index,follow,max-image-preview:large" />
 <!-- Security: this page has no server, no logins and makes no network requests of its own.
      This policy blocks third-party scripts, framing by other sites, and any data connection. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://nap5k.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://nap5k.com; connect-src https://nap5k.com; frame-src https://nap5k.com; frame-ancestors 'self'; base-uri 'self'; form-action 'none'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://nap5k.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://nap5k.com; connect-src https://nap5k.com https://orange-line-tracker-api.aftabmunna0786.workers.dev; frame-src https://nap5k.com; frame-ancestors 'self'; base-uri 'self'; form-action 'none'" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Orange Line Lahore — Journey Planner & Train Estimates" />
 <meta property="og:description" content="Explore stations, plan your journey and check timetable-based Orange Line arrival estimates." />
@@ -825,6 +825,39 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
       <details class="faq"><summary>Why not just show real live GPS?</summary><p>This project is not connected to an authorized train-location feed. Until a reliable and permitted source is integrated, train positions and arrivals remain timetable-based estimates. We will label any future verified live data separately.</p></details>
       <details class="faq"><summary>Why do all trains run daily on the same pattern?</summary><p>The Orange Line is a metro on a fixed, grade-separated track. There is no mixed traffic, no signals shared with cars, and departures are scheduled from both terminals all day. That regularity is exactly why a timetable model works well here — far better than it ever could for a road bus stuck in traffic.</p></details>
       <details class="faq"><summary>What happens outside service hours?</summary><p>No trains are scheduled, so the tracker shows a “no trains running” state with the first-train times (6:13 AM from Ali Town, 6:14 AM from Dera Gujran) or, after the last departure, a last-train message. Trains already on their final run are shown until they complete their ~49-minute journey.</p></details>
+    </div>
+  </section>
+
+  <section class="card section-gap" id="report-time">
+    <div class="card-h">
+      <div>
+        <h2>🚆 Report your train time</h2>
+        <p>Rode the Orange Line? Tell us how long one hop took — your reports help everyone see real travel times between stations.</p>
+      </div>
+      <span class="pill pill-amber">COMMUNITY DATA</span>
+    </div>
+    <div class="card-b">
+      <div class="class-grid">
+        <div>
+          <label for="reportFrom">FROM STATION (GOT ON)</label>
+          <select class="station-select" id="reportFrom"></select>
+        </div>
+        <div>
+          <label for="reportTo">TO STATION (GOT OFF)</label>
+          <select class="station-select" id="reportTo"></select>
+        </div>
+        <div>
+          <label for="reportMinutes">MINUTES IT TOOK</label>
+          <input type="number" id="reportMinutes" min="0.5" max="10" step="0.5" value="2" style="min-height:46px" />
+        </div>
+        <button class="btn" id="reportBtn" type="button" style="background:var(--orange);color:#fff">Send my report →</button>
+      </div>
+      <p id="reportDirection" style="font-size:13px;color:var(--muted);margin:10px 0 0"></p>
+      <div class="class-result" id="reportResult" aria-live="polite"></div>
+      <h3 style="margin:22px 0 8px;font-size:16px">What riders reported</h3>
+      <p style="font-size:12px;color:var(--muted);margin:0 0 10px">Median minutes per hop, from community reports. Only hops with at least one report are shown.</p>
+      <div id="communityTimings" aria-live="polite"><p style="font-size:13px;color:var(--muted)">Loading community reports…</p></div>
+      <p style="font-size:12px;color:var(--muted);line-height:1.6;margin:12px 0 0">Anonymous only — no name, phone number or location is stored. One hop means two stations next to each other. Reports are limited to 10 per 10 minutes to stop spam.</p>
     </div>
   </section>
 
@@ -1926,6 +1959,119 @@ setInterval(function(){
     window.addEventListener('scroll', onScroll, {passive:true});
     onScroll();
   }catch(e){ /* bottom-nav highlight is cosmetic; never break the page */ }
+})();
+</script>
+<script>
+/* ---------- Community timings: report a hop + show rider medians ---------- */
+(function initCommunityTimings(){
+  var API = 'https://orange-line-tracker-api.aftabmunna0786.workers.dev/api/timings';
+  var FALLBACK_STATIONS = ["Ali Town Terminal","Thokar Niaz Baig","Canal View","Hanjarwal","Wahdat Road","Awan Town","Sabzazar","Shahnoor","Salahudin Road","Band Road","Samanabad","Gulshan-e-Ravi","Chauburji","Anarkali","GPO","Lakshmi Chowk","Railway Station","Sultanpura","UET","Baghbanpura","Shalamar Garden","Pakistan Mint","Mahmood Booti","Salamatpura","Islam Park","Dera Gujran Terminal"];
+  var stations = (typeof STATIONS !== 'undefined' && STATIONS && STATIONS.length) ? STATIONS : FALLBACK_STATIONS;
+  var fromEl = document.getElementById('reportFrom');
+  var toEl = document.getElementById('reportTo');
+  var minEl = document.getElementById('reportMinutes');
+  var btn = document.getElementById('reportBtn');
+  var dirEl = document.getElementById('reportDirection');
+  var resEl = document.getElementById('reportResult');
+  var listEl = document.getElementById('communityTimings');
+  if(!fromEl || !toEl || !btn) return;
+
+  function fillSelect(el, selected){
+    el.innerHTML = '';
+    stations.forEach(function(name, i){
+      var opt = document.createElement('option');
+      opt.value = name;
+      opt.textContent = name;
+      if(i === selected) opt.selected = true;
+      el.appendChild(opt);
+    });
+  }
+  function directionFor(i, j){
+    return j > i ? 'towards_dera_gujran' : 'towards_ali_town';
+  }
+  function directionLabel(i, j){
+    return j > i ? 'Direction: towards Dera Gujran' : 'Direction: towards Ali Town';
+  }
+  function updateDirection(){
+    var i = stations.indexOf(fromEl.value);
+    var j = stations.indexOf(toEl.value);
+    if(i === -1 || j === -1){ dirEl.textContent = ''; return; }
+    if(Math.abs(i - j) !== 1){
+      dirEl.textContent = 'Pick two stations next to each other — one hop only.';
+      return;
+    }
+    dirEl.textContent = directionLabel(i, j) + ' · ' + fromEl.value + ' → ' + toEl.value;
+  }
+  function say(msg, ok){
+    if(!resEl) return;
+    resEl.textContent = msg;
+    resEl.style.color = ok ? '#0a6e57' : '#b91c1c';
+  }
+
+  fillSelect(fromEl, 13); /* Anarkali */
+  fillSelect(toEl, 14);   /* GPO — the next station, so the first hop is valid */
+  fromEl.addEventListener('change', function(){
+    var i = stations.indexOf(fromEl.value);
+    var j = stations.indexOf(toEl.value);
+    if(Math.abs(i - j) !== 1){
+      toEl.selectedIndex = (i + 1 < stations.length) ? i + 1 : i - 1;
+    }
+    updateDirection();
+  });
+  toEl.addEventListener('change', updateDirection);
+  updateDirection();
+
+  function loadMedians(){
+    if(!listEl) return;
+    fetch(API).then(function(r){ return r.json(); }).then(function(data){
+      if(!data || !data.ok || !data.segments || !data.segments.length){
+        listEl.innerHTML = '<p style="font-size:13px;color:var(--muted)">No community reports yet — be the first to report a hop.</p>';
+        return;
+      }
+      var html = '<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.9">';
+      data.segments.forEach(function(s){
+        var label = String(s.segment).replace('towards_dera_gujran', 'towards Dera Gujran').replace('towards_ali_town', 'towards Ali Town');
+        html += '<li><strong>' + label + '</strong> — median ' + s.median_minutes + ' min · ' + s.reports + (s.reports === 1 ? ' report' : ' reports') + '</li>';
+      });
+      html += '</ul>';
+      listEl.innerHTML = html;
+    }).catch(function(){
+      listEl.innerHTML = '<p style="font-size:13px;color:var(--muted)">Community reports could not be loaded right now — the timetable above still works.</p>';
+    });
+  }
+  loadMedians();
+
+  btn.addEventListener('click', function(){
+    var i = stations.indexOf(fromEl.value);
+    var j = stations.indexOf(toEl.value);
+    if(i === -1 || j === -1 || Math.abs(i - j) !== 1){
+      say('Please pick two stations next to each other — one hop only.', false);
+      return;
+    }
+    var minutes = parseFloat(minEl.value);
+    if(isNaN(minutes) || minutes < 0.5 || minutes > 10){
+      say('Minutes must be between 0.5 and 10.', false);
+      return;
+    }
+    btn.disabled = true;
+    say('Sending your report…', true);
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: fromEl.value, to: toEl.value, direction: directionFor(i, j), minutes: minutes })
+    }).then(function(r){ return r.json().then(function(d){ return { status: r.status, data: d }; }); }).then(function(out){
+      if(out.status === 201 && out.data && out.data.ok){
+        say('Thanks — your report was saved.', true);
+        loadMedians();
+      } else if(out.status === 429){
+        say('Too many reports from this device — please wait a few minutes and try again.', false);
+      } else {
+        say((out.data && out.data.error) ? out.data.error : 'That report could not be saved — please try again.', false);
+      }
+    }).catch(function(){
+      say('Could not reach the server — check your connection and try again.', false);
+    }).finally(function(){ btn.disabled = false; });
+  });
 })();
 </script>
 </body>
