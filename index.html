@@ -3729,6 +3729,11 @@ function fmtClock(mins){
   var ap=h>=12?'PM':'AM'; var h12=h%12; if(h12===0)h12=12;
   return h12+':'+pad(mm)+' '+ap;
 }
+// 12-hour clock for the header/board (the public reads AM/PM, not 24-hour time).
+function fmtNow12(d, withSec){
+  var h=d.getHours(), ap=h>=12?'PM':'AM', h12=h%12; if(h12===0)h12=12;
+  return h12+':'+pad(d.getMinutes())+(withSec? ':'+pad(d.getSeconds()):'')+' '+ap;
+}
 function nowMinutes(){ var d=new Date(); return d.getHours()*60 + d.getMinutes() + d.getSeconds()/60; }
 
 function getActiveTrains(now){
@@ -4716,9 +4721,9 @@ function renderAll(){
   var now = nowMinutes();
   var d = new Date();
   // clock
-  document.getElementById('clock').textContent = pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+  document.getElementById('clock').textContent = fmtNow12(d, true);
   document.getElementById('dateLine').textContent = d.toLocaleDateString((function(){ for (var i=0;i<LANGS.length;i++){ if (LANGS[i].code===curLang) return LANGS[i].locale; } return 'en-GB'; })(),{weekday:'short', day:'numeric', month:'short', year:'numeric'});
-  document.getElementById('boardClock').textContent = pad(d.getHours())+':'+pad(d.getMinutes());
+  document.getElementById('boardClock').textContent = fmtNow12(d, false);
 
   var trains = getActiveTrains(now);
   var inServiceWindow = now>=SERVICE_START && now < SERVICE_LAST_DEP + JOURNEY_MIN;
@@ -4757,7 +4762,7 @@ function renderAll(){
   document.getElementById('kpiNext').textContent = nd!==null ? fmtClock(nd) : '6:13 AM';
   document.getElementById('trainCountPill').textContent = trains.length + ' TRAINS';
   document.getElementById('serviceDotLabel').textContent = inServiceWindow ? 'TIMETABLE ESTIMATE' : 'SERVICE CLOSED';
-  document.getElementById('updatedAt').textContent = 'Updated ' + pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+  document.getElementById('updatedAt').textContent = 'Updated ' + fmtNow12(d, true);
 
   // Diagram markers: total height = 26 rows * ROW_H; station i centre at i*ROW_H + ROW_H/2
   var layer = document.getElementById('trainLayer');
@@ -5604,7 +5609,7 @@ setInterval(function(){ renderAll(); translateHtml(); translateDom(); }, 5000);
 setInterval(translateDom, 1000);
 setInterval(function(){
   var d=new Date();
-  document.getElementById('clock').textContent = pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+  document.getElementById('clock').textContent = fmtNow12(d, true);
   // Radar blips move in real time — refresh positions every second from the same timetable model
   var n = nowMinutes();
   renderRadar(getActiveTrains(n), n);
