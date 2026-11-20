@@ -61,7 +61,7 @@ button,select{font:inherit;min-height:44px}
 .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
 
 /* Header */
-.topbar{position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--line);backdrop-filter:blur(10px);padding-top:env(safe-area-inset-top,0px)}
+.topbar{position:sticky;top:0;z-index:50;background:var(--surface);border-top:4px solid var(--orange-dark);border-bottom:1px solid var(--line);backdrop-filter:blur(10px);padding-top:env(safe-area-inset-top,0px)}
 .topbar-in{max-width:1080px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
 .logo{width:44px;height:44px;border-radius:12px;background:var(--orange);display:grid;place-items:center;color:#fff;flex:0 0 auto;box-shadow:0 6px 16px rgba(232,93,4,.35)}
 .logo svg{width:26px;height:26px}
@@ -71,7 +71,9 @@ button,select{font:inherit;min-height:44px}
 .clockbox{margin-left:auto;text-align:right}
 .clockbox .time{font-weight:800;font-size:18px;letter-spacing:-.02em}
 .clockbox .date{font-size:11px;color:var(--muted);font-weight:600}
-.lang-select{background:var(--surface2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 6px;font-size:13px;font-weight:700;max-width:118px}
+.langbox{flex:0 0 auto}
+.lang-select{background:var(--surface2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:4px 4px;font-size:12px;font-weight:700;width:76px;max-width:76px;min-height:32px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lang-select:focus{outline:2px solid rgba(37,99,235,.45);outline-offset:1px}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .live-dot{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.08em}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--green2);box-shadow:0 0 0 0 rgba(22,163,74,.5);animation:pulse 1.8s infinite}
@@ -475,7 +477,7 @@ button,a,select,input{touch-action:manipulation}
 .hero-in{padding-top:28px;padding-bottom:26px}
 .hero h1{max-width:760px}
 .hero p{max-width:720px}
-@media(max-width:520px){.topbar-in{padding:8px 12px}.logo{width:40px;height:40px}.brand b{font-size:15px}.brand span{font-size:10px}.clockbox .time{font-size:16px}.hero-in{padding-top:22px}.bottom-nav a{font-size:10px}.bottom-nav a .ico{font-size:18px}}
+@media(max-width:520px){.topbar-in{padding:8px 10px;gap:8px;flex-wrap:wrap}.logo{width:36px;height:36px}.brand{min-width:0;flex:1 1 auto}.brand b{font-size:15px}.brand span{display:block;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lang-select{width:72px;max-width:72px}.clockbox{flex:0 1 auto;min-width:0}.clockbox .live-dot{font-size:10px;white-space:nowrap}.clockbox .time{font-size:15px;white-space:nowrap}.clockbox .date{font-size:10px;white-space:nowrap}.hero-in{padding-top:22px}.bottom-nav a{font-size:10px}.bottom-nav a .ico{font-size:18px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
 /* ============ Mobile interface — most riders are on phones ============ */
@@ -546,6 +548,23 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
     </div>
   </div>
 </header>
+
+  <!-- Adsterra ads (v8): Native Banner + Banner 300x250 -->
+  <div class="ad-slot" style="text-align:center;margin:16px 0;min-height:250px">
+    <script async="async" data-cfasync="false" src="https://bauval.org/21/fcef207bc44138396000c307c295ceba"></script>
+    <div id="container-fcef207bc44138396000c307c295ceba"></div>
+    <script>
+    atOptions = {
+      'key' : '188856bee7f47909335f9000b19bc681',
+      'format' : 'iframe',
+      'height' : 250,
+      'width' : 300,
+      'params' : {}
+    };
+    </script>
+    <script src="https://bauval.org/22/188856bee7f47909335f9000b19bc681"></script>
+  </div>
+
 
 <section class="hero">
   <div class="hero-in">
@@ -815,21 +834,6 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
     </div>
   </section>
 
-  <!-- Adsterra ads (v8): Native Banner + Banner 300x250 -->
-  <div class="ad-slot" style="text-align:center;margin:16px 0;min-height:250px">
-    <script async="async" data-cfasync="false" src="https://bauval.org/21/fcef207bc44138396000c307c295ceba"></script>
-    <div id="container-fcef207bc44138396000c307c295ceba"></div>
-    <script>
-    atOptions = {
-      'key' : '188856bee7f47909335f9000b19bc681',
-      'format' : 'iframe',
-      'height' : 250,
-      'width' : 300,
-      'params' : {}
-    };
-    </script>
-    <script src="https://bauval.org/22/188856bee7f47909335f9000b19bc681"></script>
-  </div>
 
   <!-- TIMETABLE -->
   <section class="card section-gap" id="timetable">
@@ -997,12 +1001,12 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
    script; where a clean translation was not possible the Urdu-script
    form is used as the fallback, never Latin script. */
 var LANGS = [
-  {code:"en", label:"English", locale:"en-GB"},
-  {code:"ur", label:"اردو", locale:"ur-PK"},
-  {code:"skr", label:"سرائیکی", locale:"ur-PK"},
-  {code:"ps", label:"پشتو", locale:"ps"},
-  {code:"sd", label:"سنڌي", locale:"sd"},
-  {code:"bal", label:"بلوچی", locale:"bal"}
+  {code:"en", label:"English", short:"EN", locale:"en-GB"},
+  {code:"ur", label:"اردو", short:"اردو", locale:"ur-PK"},
+  {code:"skr", label:"سرائیکی", short:"سرائیکی", locale:"ur-PK"},
+  {code:"ps", label:"پشتو", short:"پشتو", locale:"ps"},
+  {code:"sd", label:"سنڌي", short:"سنڌي", locale:"sd"},
+  {code:"bal", label:"بلوچی", short:"بلوچی", locale:"bal"}
 ];
 var LANG_KEY = "ol_lang_v1";
 var DATE_LOCALE = {en:"en-GB", ur:"ur-PK", skr:"ur-PK", ps:"ps", sd:"sd", bal:"bal"};
@@ -3601,6 +3605,21 @@ function translateValue(s, depth){
   }
   return s;
 }
+function isKnownTranslation(cur, orig){
+  // Is cur a translation of the English string orig in some language?
+  // Tells a translated node apart from a node re-rendered with fresh
+  // English content (renderAll rewrites live text/titles in place).
+  if (cur === orig) return true;
+  for (var li=0; li<LANGS.length; li++){
+    if (LANGS[li].code === curLang) continue; // caller already compared tr
+    var saved = curLang; curLang = LANGS[li].code;
+    var tv;
+    try { tv = translateValue(orig); } catch (e) { tv = null; }
+    curLang = saved;
+    if (tv !== null && tv === cur) return true;
+  }
+  return false;
+}
 function isAdSlot(el){ while (el){ if (el.nodeType===1 && el.classList && el.classList.contains('ad-slot')) return true; el = el.parentNode; } return false; }
 function translateHtml(){
   var all = document.body.getElementsByTagName('*');
@@ -3643,7 +3662,15 @@ function translateDom(){
     if (orig === null || orig === undefined) continue;
     if (!/[A-Za-z\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/.test(orig)) continue;
     var tr = translateValue(orig);
-    if (tr !== orig){
+    if (n.__i18nOrig !== undefined && n.nodeValue !== orig && tr !== n.nodeValue && !isKnownTranslation(n.nodeValue, orig)){
+      // Node was re-rendered with fresh content since the original was
+      // captured (renderAll rewrites live text in place): forget the stale
+      // original and treat the current value as the new original.
+      delete n.__i18nOrig;
+      orig = n.nodeValue;
+      tr = translateValue(orig);
+    }
+    if (tr !== n.nodeValue){
       if (n.__i18nOrig === undefined) n.__i18nOrig = orig;
       n.nodeValue = tr;
     }
@@ -3656,13 +3683,23 @@ function translateDom(){
     if (ti !== null){
       var oti = (e2.__i18nTitleOrig !== undefined) ? e2.__i18nTitleOrig : ti;
       var tti = translateValue(oti);
-      if (tti !== oti){ if (e2.__i18nTitleOrig === undefined) e2.__i18nTitleOrig = oti; e2.setAttribute('title', tti); }
+      if (e2.__i18nTitleOrig !== undefined && ti !== oti && tti !== ti && !isKnownTranslation(ti, oti)){
+        delete e2.__i18nTitleOrig;
+        oti = ti;
+        tti = translateValue(oti);
+      }
+      if (tti !== ti){ if (e2.__i18nTitleOrig === undefined) e2.__i18nTitleOrig = oti; e2.setAttribute('title', tti); }
     }
     var ph = e2.getAttribute('placeholder');
     if (ph !== null){
       var oph = (e2.__i18nPhOrig !== undefined) ? e2.__i18nPhOrig : ph;
       var tph = translateValue(oph);
-      if (tph !== oph){ if (e2.__i18nPhOrig === undefined) e2.__i18nPhOrig = oph; e2.setAttribute('placeholder', tph); }
+      if (e2.__i18nPhOrig !== undefined && ph !== oph && tph !== ph && !isKnownTranslation(ph, oph)){
+        delete e2.__i18nPhOrig;
+        oph = ph;
+        tph = translateValue(oph);
+      }
+      if (tph !== ph){ if (e2.__i18nPhOrig === undefined) e2.__i18nPhOrig = oph; e2.setAttribute('placeholder', tph); }
     }
   }
 }
@@ -3688,7 +3725,7 @@ function setLang(l){
 function initLangSelect(){
   var sel = document.getElementById('langSelect');
   if (!sel) return;
-  LANGS.forEach(function(l){ var o = document.createElement('option'); o.value = l.code; o.textContent = l.label; sel.appendChild(o); });
+  LANGS.forEach(function(l){ var o = document.createElement('option'); o.value = l.code; o.textContent = (l.short || l.label); o.title = l.label; sel.appendChild(o); });
   sel.value = curLang;
   sel.addEventListener('change', function(){ setLang(sel.value); });
 }
