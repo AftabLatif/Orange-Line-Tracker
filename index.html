@@ -2137,6 +2137,19 @@ function fmtWalkTime(distM){
   var h=Math.floor(mins/60), r=Math.round(mins%60);
   return '~'+h+' h'+(r>0?' '+r+' min':'')+' walk';
 }
+/* The Google Maps destination is the station's place NAME, not its
+   coordinates: a raw lat/lon destination makes Google Maps drop a pin at
+   those coordinates instead of showing the real Ⓜ️ station place. The
+   name query resolves to the station place itself. " Terminal" is
+   stripped first (Ali Town Terminal -> Ali Town Station) and " Station"
+   is only added when the name does not already end with it (Railway
+   Station stays Railway Station) — "Railway Station Station" would
+   resolve worse. */
+function stationPlaceQuery(name){
+  var base = name.replace(/ Terminal$/,'');
+  if(!/ Station$/.test(base)) base += ' Station';
+  return base + ', Orange Line, Lahore';
+}
 function renderDirections(){
   var panel=document.getElementById('dirPanel');
   var body=document.getElementById('dirBody');
@@ -2150,20 +2163,27 @@ function renderDirections(){
   var name = STATIONS[dirStationIdx];
   var geo = STATION_GEO[dirStationIdx];
   var isNearest = gpsMatch && dirStationIdx===gpsMatch.nearestIdx;
-  if(!geo){
-    body.innerHTML = '<div class="dir-unavail"><strong>'+name+'</strong> — directions are not available for this station yet: its exact point is not verified yet, so this page will not guess a location for it. Pick any other station above, or head to your nearest verified station.</div>';
-    return;
-  }
-  var distM = haversineM(gpsLat, gpsLon, geo[0], geo[1]);
+  // Name-based destination: Google Maps shows the station place itself.
+  // Origin stays the rider's live GPS coordinates.
   var mapsUrl = 'https://www.google.com/maps/dir/?api=1&origin=' + gpsLat + ',' + gpsLon
-    + '&destination=' + geo[0] + ',' + geo[1] + '&travelmode=walking';
-  body.innerHTML = '<div class="dir-stats">'
-    + '<div class="dir-stat"><span>Station</span><b>' + name + (isNearest ? ' • nearest to you' : '') + '</b></div>'
-    + '<div class="dir-stat"><span>Distance from you</span><b>' + fmtDist(distM) + '</b></div>'
-    + '<div class="dir-stat"><span>Walking time</span><b>' + fmtWalkTime(distM) + '</b></div>'
-    + '</div>'
+    + '&destination=' + encodeURIComponent(stationPlaceQuery(name)) + '&travelmode=walking';
+  var statsHtml = '<div class="dir-stats">'
+    + '<div class="dir-stat"><span>Station</span><b>' + name + (isNearest ? ' • nearest to you' : '') + '</b></div>';
+  if(geo){
+    var distM = haversineM(gpsLat, gpsLon, geo[0], geo[1]);
+    statsHtml += '<div class="dir-stat"><span>Distance from you</span><b>' + fmtDist(distM) + '</b></div>'
+      + '<div class="dir-stat"><span>Walking time</span><b>' + fmtWalkTime(distM) + '</b></div>';
+  }
+  statsHtml += '</div>';
+  // No coordinates are needed for the button any more, so stations whose
+  // exact point is unverified (GPO, Lakshmi Chowk) get the button too —
+  // with distance and walking time omitted, never guessed.
+  var note = geo
+    ? '<p class="dir-note">Distance is the straight line from your live GPS position to the station\'s verified point (OpenStreetMap). The real walking route along streets is a little longer — tap the button and Google Maps draws the exact turn-by-turn route from where you are standing to <strong>' + name + '</strong>. Your coordinates go only into that Google Maps link, when you tap it.</p>'
+    : '<p class="dir-note">This station\'s exact point is not verified yet, so no distance or walking time is shown here — this page will not guess a location for it. Tap the button and Google Maps finds the <strong>' + name + '</strong> station place by name and draws the walking route from where you are standing. Your coordinates go only into that Google Maps link, when you tap it.</p>';
+  body.innerHTML = statsHtml
     + '<div style="margin-top:12px"><a class="btn btn-maps" href="' + mapsUrl + '" target="_blank" rel="noopener">🧭 Get walking directions →</a></div>'
-    + '<p class="dir-note">Distance is the straight line from your live GPS position to the station\'s verified point (OpenStreetMap). The real walking route along streets is a little longer — tap the button and Google Maps draws the exact turn-by-turn route from where you are standing to <strong>' + name + '</strong>. Your coordinates go only into that Google Maps link, when you tap it.</p>';
+    + note;
 }
 (function initDirections(){
   var sel=document.getElementById('dirStationSelect');
