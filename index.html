@@ -208,6 +208,33 @@ select.station-select{width:100%;border:1.5px solid var(--line);background:var(-
 .presence-status{margin:8px 0 0;font-size:13px;font-weight:700;color:#2563EB}
 .train-marker .riders{background:rgba(255,255,255,.22);font-weight:800;font-size:10px;padding:1px 6px;border-radius:99px;white-space:nowrap}
 .tc-riders{margin-top:6px;font-size:12px;font-weight:700;color:#2563EB}
+/* Live train positions (v7) — crowdsourced from opted-in riders. The blue
+   dot sits on the line at the train's real position; the modelled chip
+   stays where the timetable puts it. A train with no live data shows no
+   blue dot at all — never a guessed position. */
+.live-marker{position:absolute;left:50%;top:0;z-index:9;pointer-events:auto;cursor:pointer;transition:top 1.2s linear}
+.live-marker .live-dot{position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:#2563EB;border:2.5px solid #fff;box-shadow:0 0 0 4px rgba(37,99,235,.25),0 0 12px rgba(37,99,235,.6);display:block}
+.live-marker .live-tag{position:absolute;top:0;transform:translateY(-50%);background:#2563EB;color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:99px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.live-marker.down .live-tag{right:14px}
+.live-marker.up .live-tag{left:14px}
+.train-marker .live-badge{background:#2563EB;color:#fff;font-weight:800;font-size:10px;padding:1px 6px;border-radius:99px;white-space:nowrap}
+.tc-live{margin-top:6px;font-size:12px;font-weight:700;color:#2563EB}
+.tc-delay{margin-top:4px;font-size:12px;font-weight:700;color:var(--muted)}
+.train-marker .crowd-dot{font-size:10px}
+.radar-blip.live i{background:#2563EB;border-color:#fff;box-shadow:0 0 0 5px rgba(37,99,235,.3),0 0 18px rgba(37,99,235,.9)}
+.radar-blip.live span{background:#2563EB}
+/* Watch this train (v7) — in-app alert only, no push, no new permissions. */
+.watch-alert{margin:0 0 14px;border-radius:14px;padding:12px 16px;background:#FFFBEB;border:1.5px solid #F59E0B;color:#92400E;font-size:14px;line-height:1.6;font-weight:700}
+.watch-alert button{margin-left:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:6px 10px;font-weight:800;cursor:pointer;min-height:36px}
+.btn-watch{margin-top:8px;width:100%;min-height:42px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink);font-weight:800;font-size:13px;cursor:pointer}
+.btn-watch.on{background:#FFFBEB;border-color:#F59E0B;color:#92400E}
+/* Crowd level (v7) — one tap per rider, latest report wins, expires in 5 min. */
+.crowd-box{margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+.crowd-box b{font-size:13px}
+.crowd-btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.crowd-btns button{flex:1 1 40%;min-height:42px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink);font-weight:700;font-size:12.5px;cursor:pointer}
+.crowd-btns button.on{background:#2563EB;border-color:#2563EB;color:#fff}
+.crowd-clear{margin-top:6px;font-size:12px;font-weight:700;color:var(--muted);background:none;border:0;cursor:pointer;text-decoration:underline}
 .gs-yes{background:#2563EB;border:1.5px solid #2563EB;color:#fff}
 .gs-no{background:var(--surface);border:1.5px solid var(--line);color:var(--ink)}
 .progress-note{font-size:12px;color:var(--muted);line-height:1.55;background:var(--surface2);border-radius:12px;padding:10px 12px;margin-top:12px}
@@ -216,7 +243,6 @@ select.station-select{width:100%;border:1.5px solid var(--line);background:var(-
 .train-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:560px){.train-grid{grid-template-columns:1fr}}
 .train-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--surface)}
-.train-card top{display:flex}
 .tc-top{display:flex;align-items:center;gap:8px}
 .tc-id{font-weight:800;font-size:13px;background:var(--ink);color:var(--surface);padding:4px 8px;border-radius:8px}
 .tc-model{font-size:11px;color:var(--muted);font-weight:700;margin-left:2px;white-space:nowrap}
@@ -345,8 +371,6 @@ details.faq p{color:var(--muted);font-size:13px;line-height:1.65;margin:6px 0 0}
 .dir-stat b{font-size:17px;display:block;margin-top:4px;line-height:1.2}
 .btn-maps{background:#2563EB;color:#fff;border:1px solid #2563EB}
 .dir-note{font-size:12.5px;color:var(--muted);line-height:1.6;margin:10px 0 0}
-.dir-unavail{margin-top:12px;border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.6;font-weight:600;background:#FFFBEB;color:#92400E;border:1px solid #FDE68A}
-@media (prefers-color-scheme: dark){.dir-unavail{background:#2A2110;color:#FDE68A}}
 .you-marker{position:absolute;z-index:8;left:50%;transform:translate(-9px,-50%);display:flex;align-items:center;gap:6px;pointer-events:none;transition:top 1.2s linear}
 .you-marker .you-dot{width:18px;height:18px;border-radius:50%;background:#2563EB;border:3px solid #fff;box-shadow:0 0 0 5px rgba(37,99,235,.25),0 4px 10px rgba(0,0,0,.3);flex:0 0 auto}
 .you-marker .you-chip{background:#2563EB;color:#fff;font-weight:800;font-size:11px;padding:4px 8px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.25);white-space:nowrap}
@@ -551,6 +575,7 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
 
   <!-- MY TRAIN — shows when the rider marks the train they are on -->
   <div id="myTrainBanner" class="my-train-banner" hidden></div>
+  <div id="watchAlert" class="watch-alert" hidden></div>
 
   <!-- LIVE STATUS -->
   <section class="card" id="tracker">
@@ -614,7 +639,7 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
       <div id="gpsTrainSuggest" class="gps-suggest" hidden></div>
       <div class="presence-box" id="presenceBox">
         <label class="presence-toggle" for="presenceToggle"><input type="checkbox" id="presenceToggle"> Share my presence</label>
-        <p class="presence-note">Let other riders see how many people are on each train. Only the train you're on is counted — never your location, speed or identity. Off by default; switch it off any time and you disappear within 90 seconds.</p>
+        <p class="presence-note">Let other riders see how many people are on each train — and where each train really is. When sharing, your position along the line (a number like 14.2, never your GPS coordinates, speed or identity) is pooled with other riders on the same train and shown only as that train's live position. Off by default; switch it off any time and you disappear within 90 seconds.</p>
         <p class="presence-status" id="presenceStatus" hidden></p>
       </div>
       <div class="dir-panel" id="dirPanel" hidden>
@@ -658,6 +683,7 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
         <span style="color:#FB923C">● Train to Dera Gujran</span>
         <span style="color:#4ADE80">● Train to Ali Town</span>
         <span style="color:#60A5FA">● YOU — your live GPS (when switched on)</span>
+        <span style="color:#93C5FD">● Live position (from riders on that train)</span>
         <span id="radarCount">Scanning…</span>
       </div>
       <div class="radar-detail" id="radarDetail" aria-live="polite">
@@ -682,6 +708,7 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
         <div class="legend">
           <span><i style="background:var(--orange)"></i>To Dera Gujran ↓</span>
           <span><i style="background:var(--green)"></i>To Ali Town ↑</span>
+          <span><i style="background:#2563EB"></i>Live position (from riders)</span>
           <span>● Terminal &nbsp; ○ Station</span>
         </div>
         <div class="diagram-note" id="stationTimesNote" style="font-size:12px;color:var(--muted);font-weight:600;line-height:1.5;margin:0 0 10px">Times in the right column are the next train arriving at each station — updated every few seconds.</div>
@@ -694,7 +721,7 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
           </div>
         </div>
         <div class="progress-note"><strong>How to read this:</strong> each chip shows a train number and its next station. Times use real per-station timings measured from Google Maps full runs (18 Nov 2026): <strong>49 minutes end to end</strong>, each segment 1–3 minutes. Google's own times vary by about a minute between runs, and real trains can be a minute or two early or late — treat this as “should be here,” not a GPS guarantee.</div>
-        <div class="progress-note" style="margin-top:8px"><strong>ESTIMATE — timetable-based, not live GPS.</strong> This project is not connected to an authorized live train-location feed or an official per-station operational feed. Positions on this page are calculated, not tracked.</div>
+        <div class="progress-note" style="margin-top:8px"><strong>ESTIMATE — timetable-based, not live GPS.</strong> This project is not connected to an authorized live train-location feed. Modelled positions are calculated, not tracked. A blue LIVE marker appears only when riders on that train share their position — it shows the train's real position from riders, not from PMA.</div>
       </div>
     </section>
 
@@ -1130,14 +1157,18 @@ function reportTrainNumber(){
    reload would be a surprise). While on, the app sends a heartbeat every
    ~20 s naming ONLY the modelled train the rider is on (their marked
    my-train, else the nearest modelled train to live GPS) plus a random
-   per-session id. NEVER sent: coordinates, speed, heading, name, or
-   anything personal. The server counts riders per train and forgets rows
-   older than 90 s. The client shows counts only — never another rider's
-   position, marker or identity. */
+   per-session id — and, when live GPS is on, the rider's position ALONG
+   THE LINE as a single number (0-25, rounded to 0.1). NEVER sent:
+   coordinates, speed, heading, name, or anything personal. The server
+   counts riders per train, takes the median line position of the riders
+   on each train as that train's LIVE position, and forgets rows older
+   than 90 s. The client shows counts and the pooled live position only —
+   never another rider's position, marker or identity. */
 var PRESENCE_URL='https://orange-line-tracker-api.aftabmunna0786.workers.dev/api/presence';
 var presenceOn=false;
 var presenceAnonId=null;
 var presenceCounts={}; // key "modelId|dep" -> rider count
+var livePositions={}; // key "modelId|dep" -> median line position of riders on that train (null = no live data)
 var lastPresenceFetch=0;
 var lastPresenceBeat=0;
 function presenceAnon(){
@@ -1184,10 +1215,17 @@ function presenceBeat(force){
   if(!t) return; // no train known yet (GPS off and no my-train): stay silent
   lastPresenceBeat=nowT;
   if(typeof fetch!=='function') return;
+  // The line position comes from live GPS only. Without a fresh, reliable
+  // fix the heartbeat carries no position — the timetable position is
+  // never sent as if it were a live reading.
+  var body={modelId:t.id, dir:t.dir, dep:t.dep, anonId:presenceAnon()};
+  if(gpsIsReliable() && gpsMatch){
+    body.linePos=Math.round(Math.max(0, Math.min(25, gpsMatch.linePos))*10)/10;
+  }
   fetch(PRESENCE_URL, {
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({modelId:t.id, dir:t.dir, dep:t.dep, anonId:presenceAnon()})
+    body: JSON.stringify(body)
   }).catch(function(){ /* next beat retries; presence is best-effort */ });
 }
 function fetchPresenceCounts(force){
@@ -1195,18 +1233,43 @@ function fetchPresenceCounts(force){
   if(!force && nowT-lastPresenceFetch<30000) return;
   lastPresenceFetch=nowT;
   var now=nowMinutes();
-  if(now<SERVICE_START || now>=SERVICE_LAST_DEP+JOURNEY_MIN){ presenceCounts={}; return; }
+  if(now<SERVICE_START || now>=SERVICE_LAST_DEP+JOURNEY_MIN){ presenceCounts={}; livePositions={}; return; }
   if(typeof fetch!=='function') return;
   fetch(PRESENCE_URL).then(function(r){ return r.json(); }).then(function(data){
     if(!data || !data.ok || !data.counts) return;
-    var map={};
+    var map={}, live={};
     data.counts.forEach(function(c){
       if(!c || !c.modelId || typeof c.dep!=='number' || typeof c.riders!=='number') return;
       map[c.modelId+'|'+c.dep]=c.riders;
+      // livePos is the median line position of the riders on that train
+      // (absent when no rider shared a position, or on an older worker).
+      if(typeof c.livePos==='number' && c.livePos>=0 && c.livePos<=25) live[c.modelId+'|'+c.dep]=c.livePos;
     });
     presenceCounts=map;
+    livePositions=live;
     renderAll();
   }).catch(function(){ /* offline: keep last known counts */ });
+}
+function livePosFor(t){
+  var p=livePositions[t.id+'|'+t.dep];
+  return (typeof p==='number' && p>=0 && p<=25) ? p : null;
+}
+function delayFor(t){
+  // Compare the train's LIVE (crowdsourced) position with its timetable
+  // position. Returns null when no live data exists — never a guess.
+  // Positive minutes = late, negative = early, 0 = on time (within 1 min).
+  var lp=livePosFor(t);
+  if(lp===null) return null;
+  var signed=(t.dir==='down') ? (t.linePos-lp) : (lp-t.linePos);
+  var mins=Math.round(signed*(JOURNEY_MIN/25));
+  return {mins:mins, livePos:lp};
+}
+function delayText(t){
+  var d=delayFor(t);
+  if(!d) return '';
+  if(d.mins===0) return 'on time';
+  if(d.mins>0) return '~'+d.mins+' min late';
+  return '~'+(-d.mins)+' min early';
 }
 function presenceCountFor(t){
   var n=presenceCounts[t.id+'|'+t.dep];
@@ -1251,7 +1314,7 @@ function renderPresenceStatus(){
   st.hidden=false;
   if(t){
     var disp=displayTrainId(t);
-    st.textContent='Sharing: you\u2019re counted on Train '+disp+' → '+t.destName+'. Switch off any time to disappear.';
+    st.textContent='Sharing: you\u2019re counted on Train '+disp+' → '+t.destName+'. Your line position is shared in aggregate only — never your coordinates. Switch off any time to disappear.';
   } else {
     st.textContent='Sharing is on — mark your train or turn on Live GPS so the app knows which train to count you on.';
   }
@@ -1266,6 +1329,168 @@ function setPresence(on){
     fetchPresenceCounts(true);
   }
   renderPresenceStatus();
+}
+
+/* ---------- Live crowd level (v7) ----------
+   On the my-train card the rider taps how full their train feels
+   (Empty / Seats available / Standing room only / Packed). The report is
+   just the train match + a level + the same random session id as presence
+   — no personal data. The server keeps the latest report per rider and
+   forgets rows older than 5 minutes; the client shows the most common
+   level per train. A rider can change their report or clear it. */
+var CROWD_URL='https://orange-line-tracker-api.aftabmunna0786.workers.dev/api/crowd';
+var CROWD_LABELS=['Empty','Seats available','Standing room only','Packed'];
+var CROWD_KEY='ol_crowd_v1';
+var crowdLevels={}; // key "modelId|dep" -> {level, reports}
+var lastCrowdFetch=0;
+var crowdMine=null; // {id, dir, dep, level}
+function loadCrowdMine(){
+  try{
+    var raw=localStorage.getItem(CROWD_KEY);
+    if(!raw) return;
+    var d=JSON.parse(raw);
+    if(d && d.id && typeof d.level==='number' && d.level>=0 && d.level<=3) crowdMine=d;
+  }catch(e){ crowdMine=null; }
+}
+function saveCrowdMine(){
+  try{
+    if(crowdMine) localStorage.setItem(CROWD_KEY, JSON.stringify(crowdMine));
+    else localStorage.removeItem(CROWD_KEY);
+  }catch(e){ /* in-memory only */ }
+}
+function fetchCrowd(force){
+  var nowT=Date.now();
+  if(!force && nowT-lastCrowdFetch<30000) return;
+  lastCrowdFetch=nowT;
+  var now=nowMinutes();
+  if(now<SERVICE_START || now>=SERVICE_LAST_DEP+JOURNEY_MIN){ crowdLevels={}; return; }
+  if(typeof fetch!=='function') return;
+  fetch(CROWD_URL).then(function(r){ return r.json(); }).then(function(data){
+    if(!data || !data.ok || !data.levels) return;
+    var map={};
+    data.levels.forEach(function(c){
+      if(!c || !c.modelId || typeof c.dep!=='number' || typeof c.level!=='number') return;
+      map[c.modelId+'|'+c.dep]={level:c.level, reports:c.reports||0};
+    });
+    crowdLevels=map;
+    renderAll();
+  }).catch(function(){ /* offline: keep last known levels */ });
+}
+function crowdFor(t){
+  var c=crowdLevels[t.id+'|'+t.dep];
+  return c ? c : null;
+}
+function crowdLineFor(t){
+  var c=crowdFor(t);
+  if(!c) return '';
+  var label=CROWD_LABELS[c.level]||'';
+  return 'Crowd: '+label+(c.reports>1 ? ' ('+c.reports+' riders)' : ' (1 rider)');
+}
+function crowdDotFor(t){
+  var c=crowdFor(t);
+  if(!c) return '';
+  var colors=['#4ADE80','#FDE047','#FB923C','#EF4444'];
+  var col=colors[c.level]||'#4ADE80';
+  return '<span class="crowd-dot" title="Crowd: '+(CROWD_LABELS[c.level]||'')+'" style="color:'+col+'">●</span>';
+}
+function crowdBoxHtml(t){
+  var mine=(crowdMine && crowdMine.id===t.id && crowdMine.dep===t.dep) ? crowdMine.level : null;
+  var agg=crowdLineFor(t);
+  var html='<div class="crowd-box"><b>How full is your train?</b>'
+    + (agg ? '<div style="font-size:12px;font-weight:700;color:#2563EB;margin-top:2px">'+escHtml(agg)+'</div>' : '')
+    + '<div class="crowd-btns">'
+    + CROWD_LABELS.map(function(lab,i){
+        return '<button type="button" data-crowd="'+i+'" class="'+(mine===i?'on':'')+'">'+lab+'</button>';
+      }).join('')
+    + '</div>'
+    + (mine!==null ? '<button type="button" class="crowd-clear" data-crowd-clear>Clear my report</button>' : '')
+    + '</div>';
+  return html;
+}
+function reportCrowd(level){
+  if(!myTrain || myTrain.arrived) return;
+  if(typeof fetch!=='function') return;
+  fetch(CROWD_URL, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({modelId:myTrain.id, dir:myTrain.dir, dep:myTrain.dep, anonId:presenceAnon(), level:level})
+  }).then(function(r){ return r.json(); }).then(function(data){
+    if(data && data.ok){
+      if(level===null || level===undefined){ crowdMine=null; }
+      else { crowdMine={id:myTrain.id, dir:myTrain.dir, dep:myTrain.dep, level:level}; }
+      saveCrowdMine();
+      fetchCrowd(true);
+    }
+  }).catch(function(){ /* next tap retries */ });
+}
+
+/* ---------- Watch this train (v7) ----------
+   In-app alert only — no push service, no new permissions. The rider
+   watches a train; when that train is about 5 minutes from the rider's
+   nearest station (live GPS) or the departure board's station, a banner
+   appears. The watch clears itself once the train has passed the station. */
+var WATCH_KEY='ol_watch_train_v1';
+var watchedTrain=null; // {id, dir, dep, stationIdx}
+function loadWatchedTrain(){
+  try{
+    var raw=localStorage.getItem(WATCH_KEY);
+    if(!raw) return;
+    var d=JSON.parse(raw);
+    if(d && d.id && d.dir && typeof d.dep==='number' && typeof d.stationIdx==='number') watchedTrain=d;
+  }catch(e){ watchedTrain=null; }
+}
+function saveWatchedTrain(){
+  try{
+    if(watchedTrain) localStorage.setItem(WATCH_KEY, JSON.stringify(watchedTrain));
+    else localStorage.removeItem(WATCH_KEY);
+  }catch(e){ /* in-memory only */ }
+}
+function watchStationIdx(){
+  if(gpsOn && gpsMatch) return gpsMatch.nearestIdx;
+  return selectedStation;
+}
+function toggleWatch(id){
+  var t=findTrainById(id, getActiveTrains(nowMinutes()));
+  if(!t) return;
+  if(watchedTrain && watchedTrain.id===t.id && watchedTrain.dep===t.dep){
+    watchedTrain=null;
+  } else {
+    watchedTrain={id:t.id, dir:t.dir, dep:t.dep, stationIdx:watchStationIdx()};
+  }
+  saveWatchedTrain();
+  renderAll();
+}
+function renderWatchAlert(trains){
+  var el=document.getElementById('watchAlert');
+  if(!el) return;
+  if(!watchedTrain){ if(!el.hidden){ el.hidden=true; el.innerHTML=''; } return; }
+  var t=findTrainById(watchedTrain.id, trains);
+  if(!t || t.dep!==watchedTrain.dep){
+    // Train finished its journey: the watch is over.
+    watchedTrain=null; saveWatchedTrain();
+    if(!el.hidden){ el.hidden=true; el.innerHTML=''; }
+    return;
+  }
+  var stIdx=watchStationIdx();
+  var d=delayFor(t);
+  var arr=t.dep+offsetFor(t.dir, stIdx)+(d?d.mins:0);
+  var eta=arr-nowMinutes();
+  if(eta<-1){
+    // Train has passed the station: stop watching.
+    watchedTrain=null; saveWatchedTrain();
+    if(!el.hidden){ el.hidden=true; el.innerHTML=''; }
+    return;
+  }
+  if(eta<=5){
+    var disp=displayTrainId(t);
+    var msg = eta<=0.6
+      ? '🔔 Your train <b>Train '+escHtml(disp)+'</b> is arriving at <b>'+escHtml(STATIONS[stIdx])+'</b> now.'
+      : '🔔 Your train <b>Train '+escHtml(disp)+'</b> arrives at <b>'+escHtml(STATIONS[stIdx])+'</b> in ~'+Math.round(eta)+' min.';
+    el.hidden=false;
+    el.innerHTML=msg+'<button type="button" data-stop-watch>Stop watching</button>';
+    return;
+  }
+  if(!el.hidden){ el.hidden=true; el.innerHTML=''; }
 }
 
 function fmtElapsed(mins){
@@ -1420,8 +1645,12 @@ function radarDetailHtml(t, now){
   var etaTxt = eta < 0.5 ? 'Arriving now' : eta.toFixed(1) + ' min';
   var dispId = displayTrainId(t);
   var isReal = trainIdIsReal(t);
+  var dl = delayFor(t);
+  var cl = crowdLineFor(t);
   return '<b>🚆 Train ' + escHtml(dispId) + ' — ' + (t.dir==='down' ? 'to Dera Gujran' : 'to Ali Town') + '</b>'
     + '<p style="font-size:12px;color:#A7CDB2;margin:2px 0 0">' + (isReal ? 'Real number reported by a rider • Model ' + t.id : 'Model number — real number not reported yet') + '</p>'
+    + (dl ? '<p style="font-size:12px;color:#93C5FD;margin:2px 0 0">● LIVE — real position from riders • ' + escHtml(delayText(t)) + '</p>' : '')
+    + (cl ? '<p style="font-size:12px;color:#A7CDB2;margin:2px 0 0">' + escHtml(cl) + '</p>' : '')
     + '<p>Next station: <strong style="color:#fff">' + t.nextName + '</strong> &nbsp;•&nbsp; Just left: ' + t.prevName + '<br>'
     + 'Reaches ' + t.destName + ' at ' + fmtClock(t.arrivalAtDest) + ' &nbsp;•&nbsp; ' + t.progressPct + '% of journey done &nbsp;•&nbsp; Estimate</p>'
     + '<p>ETA to next station<br><span class="rd-eta">' + etaTxt + '</span></p>';
@@ -1479,6 +1708,47 @@ function renderRadar(trains, now){
   });
   Object.keys(existing).forEach(function(id){
     if(!seen[id] && existing[id].parentNode) existing[id].parentNode.removeChild(existing[id]);
+  });
+  // Live blips: one distinct blue marker per train with a fresh
+  // crowdsourced position, on the opposite side of the line from the
+  // modelled blip so the two never sit on top of each other.
+  var liveSeen = {};
+  var liveNodes = layer.querySelectorAll('[data-live-train]');
+  var liveExisting = {};
+  for(var ln=0;ln<liveNodes.length;ln++){ liveExisting[liveNodes[ln].getAttribute('data-live-train')] = liveNodes[ln]; }
+  trains.forEach(function(t){
+    var lp = livePosFor(t);
+    if(lp===null) return;
+    liveSeen[t.id] = true;
+    var lTop = 'top:calc(18px + (100% - 36px) * ' + (lp/25) + ');left:calc(50% + ' + (t.dir==='down' ? -22 : 22) + 'px)';
+    var lLabel = 'Live position from riders: Train ' + displayTrainId(t) + ' to ' + t.destName + (delayText(t) ? ' • ' + delayText(t) : '');
+    var lb = liveExisting[t.id];
+    if(lb){
+      if(lb.getAttribute('style') !== lTop) lb.setAttribute('style', lTop);
+      var lcls = 'radar-blip live ' + t.dir + (radarSelectedId===t.id?' selected':'');
+      if(lb.className !== lcls) lb.className = lcls;
+      if(lb.getAttribute('aria-label') !== lLabel) lb.setAttribute('aria-label', lLabel);
+      var lsp = lb.querySelector('span');
+      if(lsp && lsp.textContent !== 'LIVE') lsp.textContent = 'LIVE';
+    } else {
+      lb = document.createElement('button');
+      lb.type = 'button';
+      lb.className = 'radar-blip live ' + t.dir + (radarSelectedId===t.id?' selected':'');
+      lb.setAttribute('data-live-train', t.id);
+      lb.setAttribute('style', lTop);
+      lb.setAttribute('aria-label', lLabel);
+      lb.innerHTML = '<i></i><span>LIVE</span>';
+      lb.addEventListener('click', function(){
+        radarSelectedId = this.getAttribute('data-live-train');
+        var cur = radarLatestTrains.filter(function(x){ return x.id===radarSelectedId; })[0];
+        if(cur) document.getElementById('radarDetail').innerHTML = radarDetailHtml(cur, radarLatestNow);
+        renderRadar(getActiveTrains(nowMinutes()), nowMinutes());
+      });
+      layer.appendChild(lb);
+    }
+  });
+  Object.keys(liveExisting).forEach(function(id){
+    if(!liveSeen[id] && liveExisting[id].parentNode) liveExisting[id].parentNode.removeChild(liveExisting[id]);
   });
   if(radarSelectedId){
     var sel = trains.filter(function(x){ return x.id===radarSelectedId; })[0];
@@ -1768,7 +2038,19 @@ function renderAll(){
       var chipTitle = (trainIdIsReal(t) || (isMine && myTrain.realNo))
         ? 'Real train number reported by a rider (model '+t.id+')'
         : 'Model number '+t.id+' — real number not reported yet';
-      return '<div class="train-marker '+t.dir+(isMine?' my-train':'')+'" data-train-id="'+t.id+'" style="top:'+top+'px" title="'+chipTitle+'"><span class="chip"><span class="chip-id">'+escHtml(chipId)+'</span> <span class="arr">'+arrow+'</span><span class="chip-next"> → '+t.nextName+'</span>'+presenceChipFor(t)+(isMine?'<span class="you-badge">YOU</span>':'')+'</span></div>';
+      return '<div class="train-marker '+t.dir+(isMine?' my-train':'')+'" data-train-id="'+t.id+'" style="top:'+top+'px" title="'+chipTitle+'"><span class="chip"><span class="chip-id">'+escHtml(chipId)+'</span> <span class="arr">'+arrow+'</span><span class="chip-next"> → '+t.nextName+'</span>'+presenceChipFor(t)+(livePosFor(t)!==null?'<span class="live-badge">LIVE</span>':'')+crowdDotFor(t)+(isMine?'<span class="you-badge">YOU</span>':'')+'</span></div>';
+    }).join('')
+    // Live markers: one blue dot per train with a fresh crowdsourced
+    // position, sitting on the line at its real position. A train with
+    // no live data gets no dot — never a guessed position.
+    + trains.map(function(t){
+      var lp=livePosFor(t);
+      if(lp===null) return '';
+      var top=lp*ROW_H + ROW_H/2;
+      var disp=displayTrainId(t);
+      var dl=delayText(t);
+      var title='LIVE — real position from riders: Train '+disp+' → '+t.destName+(dl ? ' • '+dl : '')+'. The '+(t.dir==='down'?'orange':'green')+' chip is the timetable position.';
+      return '<div class="live-marker '+t.dir+'" data-train-id="'+t.id+'" style="top:'+top+'px" title="'+title+'"><span class="live-dot"></span><span class="live-tag">LIVE</span></div>';
     }).join('');
   }
   // Track height fix: train layer is inside .track which sizes to station rows; markers positioned absolutely relative to track
@@ -1785,15 +2067,20 @@ function renderAll(){
       var isMine = myTrain && myTrain.id===t.id;
       var dispId = (isMine && myTrain.realNo) ? myTrain.realNo : displayTrainId(t);
       var isReal = (isMine && myTrain.realNo) ? true : trainIdIsReal(t);
-      return '<article class="train-card'+(isMine?' my-train':'')+'"><div class="tc-top"><span class="tc-id mono">'+escHtml(dispId)+'</span><span class="tc-model">'+(isReal?'real no. • model '+t.id:'model no.')+'</span><span class="tc-dir '+t.dir+'">'+(t.dir==='down'?'↓ To Dera Gujran':'↑ To Ali Town')+'</span>'+(isMine?'<span class="my-train-tag">YOUR TRAIN'+(myTrain.realNo?' • '+escHtml(myTrain.realNo):'')+'</span>':'')+'</div>'
+      var isWatched = watchedTrain && watchedTrain.id===t.id && watchedTrain.dep===t.dep;
+      return '<article class="train-card'+(isMine?' my-train':'')+'"><div class="tc-top"><span class="tc-id mono">'+escHtml(dispId)+'</span><span class="tc-model">'+(isReal?'real no. • model '+t.id:'model no.')+'</span><span class="tc-dir '+t.dir+'">'+(t.dir==='down'?'↓ To Dera Gujran':'↑ To Ali Town')+'</span>'+(livePosFor(t)!==null?'<span class="live-badge">LIVE</span>':'')+(isMine?'<span class="my-train-tag">YOUR TRAIN'+(myTrain.realNo?' • '+escHtml(myTrain.realNo):'')+'</span>':'')+'</div>'
         + '<div class="tc-next"><span>Next station • ETA ~'+(t.etaNext<0.5?'arriving now':t.etaNext.toFixed(1)+' min')+'</span>'+t.nextName+'</div>'
         + (presenceCardLine(t) ? '<div class="tc-riders">👥 '+escHtml(presenceCardLine(t))+'</div>' : '')
+        + (livePosFor(t)!==null ? '<div class="tc-live">● LIVE — real position from riders • '+escHtml(delayText(t))+'</div>' : '')
+        + (crowdLineFor(t) ? '<div class="tc-delay">'+escHtml(crowdLineFor(t))+'</div>' : '')
         + '<div style="font-size:12px;color:var(--muted);margin-top:4px">Just left '+t.prevName+' • Reaches '+t.destName+' at '+fmtClock(t.arrivalAtDest)+'</div>'
         + '<div class="tc-bar"><i style="width:'+t.progressPct+'%"></i></div>'
         + '<div class="tc-foot"><span>Left terminal '+fmtClock(t.dep)+'</span><span>'+t.progressPct+'% of journey</span></div>'
         + (isMine
             ? '<button class="btn-my-train on" type="button" data-clear-train>✓ You\'re on this train — tap to clear</button>'
             : '<button class="btn-my-train" type="button" data-mark-train="'+t.id+'">I\'m on this train</button>')
+        + '<button class="btn-watch'+(isWatched?' on':'')+'" type="button" data-watch-train="'+t.id+'">'+(isWatched?'🔔 Watching — tap to stop':'🔔 Watch this train')+'</button>'
+        + (isMine ? crowdBoxHtml(t) : '')
         + '</article>';
     }).join('') + '</div>'
     + '<p style="font-size:11px;color:var(--muted);margin:12px 0 0">ESTIMATE — timetable-based, not live GPS. ETAs use real per-station timings from Google Maps (18 Nov 2026); headway is modelled.</p>';
@@ -1803,11 +2090,13 @@ function renderAll(){
   renderBoard();
   renderTimetable();
   renderMyTrainBanner(trains);
+  renderWatchAlert(trains);
   renderGpsSuggest(trains);
   positionYouMarkers();
   refreshGpsState();
   renderPresenceStatus();
   presenceBeat();
+  fetchCrowd();
 }
 
 /* ---------- Live GPS — the rider's own real position ---------- */
@@ -2416,6 +2705,10 @@ function renderMyTrainBanner(trains){
     var disp = escHtml(dispNo) + ' <span style="font-weight:600">(model ' + escHtml(myTrain.id) + ')</span>';
     var eta = t.etaNext < 0.5 ? 'arriving now' : '~' + t.etaNext.toFixed(1) + ' min';
     var live = 'Next station <b>' + escHtml(t.nextName) + '</b>, ETA ' + eta + ' — arrives ' + escHtml(myTrain.dest) + ' ~' + fmtClock(myTrain.arrivalAtDest) + '.';
+    var dl = delayFor(t);
+    if(dl) live += '<br>● LIVE — real position from riders • ' + escHtml(delayText(t)) + '.';
+    var cl = crowdLineFor(t);
+    if(cl) live += '<br>' + escHtml(cl) + '.';
     if(b.dataset.mode !== 'ontrain' || b.dataset.src !== dispSrc){
       b.hidden = false;
       b.classList.remove('arrived');
@@ -2501,7 +2794,7 @@ function renderGpsSuggest(trains){
     + '<button class="gs-no" type="button" data-dismiss-suggest="' + n1.t.id + '">No, not this one</button></div>';
 }
 document.getElementById('trainLayer').addEventListener('click', function(e){
-  var m = (e.target && e.target.closest) ? e.target.closest('.train-marker') : null;
+  var m = (e.target && e.target.closest) ? e.target.closest('.train-marker, .live-marker') : null;
   if(m && m.getAttribute('data-train-id')) markTrain(m.getAttribute('data-train-id'));
 });
 document.getElementById('trainList').addEventListener('click', function(e){
@@ -2509,6 +2802,15 @@ document.getElementById('trainList').addEventListener('click', function(e){
   if(mk){ markTrain(mk.getAttribute('data-mark-train')); return; }
   var cl = (e.target && e.target.closest) ? e.target.closest('[data-clear-train]') : null;
   if(cl){ clearMyTrain(); return; }
+  var w = (e.target && e.target.closest) ? e.target.closest('[data-watch-train]') : null;
+  if(w){ toggleWatch(w.getAttribute('data-watch-train')); return; }
+  var cr = (e.target && e.target.closest) ? e.target.closest('[data-crowd]') : null;
+  if(cr){ reportCrowd(parseInt(cr.getAttribute('data-crowd'),10)); return; }
+  var cc = (e.target && e.target.closest) ? e.target.closest('[data-crowd-clear]') : null;
+  if(cc){ reportCrowd(null); return; }
+});
+document.getElementById('watchAlert').addEventListener('click', function(e){
+  if(e.target && e.target.closest && e.target.closest('[data-stop-watch]')){ watchedTrain=null; saveWatchedTrain(); renderAll(); }
 });
 document.getElementById('myTrainBanner').addEventListener('click', function(e){
   var t = e.target;
@@ -2526,10 +2828,14 @@ document.getElementById('gpsTrainSuggest').addEventListener('click', function(e)
 var presenceToggleEl=document.getElementById('presenceToggle');
 if(presenceToggleEl) presenceToggleEl.addEventListener('change', function(){ setPresence(presenceToggleEl.checked); });
 loadMyTrain();
+loadWatchedTrain();
+loadCrowdMine();
 fetchTrainNumbers(true);
 setInterval(fetchTrainNumbers, 60000);
 fetchPresenceCounts(true);
 setInterval(fetchPresenceCounts, 30000);
+fetchCrowd(true);
+setInterval(fetchCrowd, 30000);
 setInterval(function(){ presenceBeat(); }, 20000);
 
 function tick(manual){ renderAll(); }
