@@ -198,6 +198,16 @@ select.station-select{width:100%;border:1.5px solid var(--line);background:var(-
 .gps-suggest{margin-top:12px;border-radius:12px;padding:12px 14px;background:#EFF6FF;border:1.5px solid #2563EB;font-size:14px;line-height:1.6;color:#1E3A8A}
 .gps-suggest .gs-actions{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
 .gps-suggest button{border-radius:10px;padding:8px 12px;font-weight:800;cursor:pointer;min-height:42px}
+/* Live rider presence (v5) — opt-in counts only, never positions. The
+   toggle is off by default on every page load; the rider count on a chip
+   is a compact "• N" so the narrow phone chip is not crowded. */
+.presence-box{margin-top:12px;border-radius:12px;padding:12px 14px;background:var(--surface2);border:1.5px solid var(--line);font-size:14px;line-height:1.6}
+.presence-toggle{display:flex;align-items:center;gap:10px;font-weight:800;cursor:pointer;min-height:44px}
+.presence-toggle input{width:22px;height:22px;accent-color:#2563EB;flex:0 0 auto;cursor:pointer}
+.presence-note{margin:8px 0 0;font-size:12.5px;color:var(--muted);line-height:1.6}
+.presence-status{margin:8px 0 0;font-size:13px;font-weight:700;color:#2563EB}
+.train-marker .riders{background:rgba(255,255,255,.22);font-weight:800;font-size:10px;padding:1px 6px;border-radius:99px;white-space:nowrap}
+.tc-riders{margin-top:6px;font-size:12px;font-weight:700;color:#2563EB}
 .gs-yes{background:#2563EB;border:1.5px solid #2563EB;color:#fff}
 .gs-no{background:var(--surface);border:1.5px solid var(--line);color:var(--ink)}
 .progress-note{font-size:12px;color:var(--muted);line-height:1.55;background:var(--surface2);border-radius:12px;padding:10px 12px;margin-top:12px}
@@ -602,6 +612,11 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
       </div>
       <p id="gpsWhere" style="font-size:13px;color:var(--muted);line-height:1.6;margin:12px 0 0" hidden></p>
       <div id="gpsTrainSuggest" class="gps-suggest" hidden></div>
+      <div class="presence-box" id="presenceBox">
+        <label class="presence-toggle" for="presenceToggle"><input type="checkbox" id="presenceToggle"> Share my presence</label>
+        <p class="presence-note">Let other riders see how many people are on each train. Only the train you're on is counted — never your location, speed or identity. Off by default; switch it off any time and you disappear within 90 seconds.</p>
+        <p class="presence-status" id="presenceStatus" hidden></p>
+      </div>
       <div class="dir-panel" id="dirPanel" hidden>
         <h3>🧭 How to reach your station</h3>
         <p class="dir-sub">Sitting a little away from your station — like just outside Anarkali? This uses your live GPS position to show how far the station really is and the exact walking route to it. It opens on your <strong>nearest station</strong>; pick any other station below.</p>
@@ -1109,6 +1124,150 @@ function reportTrainNumber(){
   }).catch(function(){ /* local fallback already shows it on this phone */ });
 }
 
+/* ---------- Live rider presence (v5) — opt-in counts only ----------
+   "Share my presence" is OFF by default on every page load (deliberately
+   not persisted: presence is per-ride, and resuming it silently after a
+   reload would be a surprise). While on, the app sends a heartbeat every
+   ~20 s naming ONLY the modelled train the rider is on (their marked
+   my-train, else the nearest modelled train to live GPS) plus a random
+   per-session id. NEVER sent: coordinates, speed, heading, name, or
+   anything personal. The server counts riders per train and forgets rows
+   older than 90 s. The client shows counts only — never another rider's
+   position, marker or identity. */
+var PRESENCE_URL='https://orange-line-tracker-api.aftabmunna0786.workers.dev/api/presence';
+var presenceOn=false;
+var presenceAnonId=null;
+var presenceCounts={}; // key "modelId|dep" -> rider count
+var lastPresenceFetch=0;
+var lastPresenceBeat=0;
+function presenceAnon(){
+  if(presenceAnonId) return presenceAnonId;
+  var hex='';
+  try{
+    var b=new Uint8Array(8);
+    if(window.crypto && window.crypto.getRandomValues){ window.crypto.getRandomValues(b); for(var i=0;i<8;i++) hex+=('0'+b[i].toString(16)).slice(-2); }
+  }catch(e){ hex=''; }
+  if(!hex){ for(var j=0;j<16;j++) hex+='0123456789abcdef'[Math.floor(Math.random()*16)]; }
+  presenceAnonId='p-'+hex;
+  return presenceAnonId;
+}
+function presenceTargetTrain(){
+  var now=nowMinutes();
+  var trains=getActiveTrains(now);
+  if(myTrain && myTrain.arrived) return null; // trip ended: mark a new train to share again
+  if(myTrain && !myTrain.arrived){
+    var mine=findTrainById(myTrain.id, trains);
+    if(mine) return mine;
+  }
+  if(!gpsIsReliable() || !gpsMatch) return null;
+  if(gpsMatch.offLine>400) return null;
+  var dir=gpsTravelDir();
+  var cands=trains.filter(function(x){ return dir ? x.dir===dir : true; })
+    .map(function(x){ return {t:x, d:Math.abs(x.linePos-gpsMatch.linePos)}; })
+    .sort(function(a,b){ return a.d-b.d; });
+  if(!cands.length) return null;
+  var n1=cands[0], n2=cands[1]||null;
+  var margin=dir?0.5:1.0;
+  // Looser than the GPS suggest's 0.8: presence is a count, not an identity
+  // claim, and the timetable model can drift ~2-3 min (~1-1.5 line units)
+  // from a real train. The margin rule still blocks ambiguity — a match
+  // must be clearly nearer than the next train. Silence would be worse:
+  // an uncounted rider is a missing rider for everyone.
+  if(n1.d>1.5 || (n2 && (n2.d-n1.d)<margin)) return null;
+  return n1.t;
+}
+function presenceBeat(force){
+  if(!presenceOn) return;
+  var nowT=Date.now();
+  if(!force && nowT-lastPresenceBeat<20000) return;
+  var t=presenceTargetTrain();
+  if(!t) return; // no train known yet (GPS off and no my-train): stay silent
+  lastPresenceBeat=nowT;
+  if(typeof fetch!=='function') return;
+  fetch(PRESENCE_URL, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({modelId:t.id, dir:t.dir, dep:t.dep, anonId:presenceAnon()})
+  }).catch(function(){ /* next beat retries; presence is best-effort */ });
+}
+function fetchPresenceCounts(force){
+  var nowT=Date.now();
+  if(!force && nowT-lastPresenceFetch<30000) return;
+  lastPresenceFetch=nowT;
+  var now=nowMinutes();
+  if(now<SERVICE_START || now>=SERVICE_LAST_DEP+JOURNEY_MIN){ presenceCounts={}; return; }
+  if(typeof fetch!=='function') return;
+  fetch(PRESENCE_URL).then(function(r){ return r.json(); }).then(function(data){
+    if(!data || !data.ok || !data.counts) return;
+    var map={};
+    data.counts.forEach(function(c){
+      if(!c || !c.modelId || typeof c.dep!=='number' || typeof c.riders!=='number') return;
+      map[c.modelId+'|'+c.dep]=c.riders;
+    });
+    presenceCounts=map;
+    renderAll();
+  }).catch(function(){ /* offline: keep last known counts */ });
+}
+function presenceCountFor(t){
+  var n=presenceCounts[t.id+'|'+t.dep];
+  return (typeof n==='number' && n>0) ? n : 0;
+}
+function presenceChipFor(t){
+  var n=presenceCountFor(t);
+  if(n<=0) return '';
+  var title=n+' rider'+(n===1?'':'s')+' sharing presence on this train';
+  return '<span class="riders" title="'+title+'">• '+n+'</span>';
+}
+function presenceCardLine(t){
+  var n=presenceCountFor(t);
+  if(n<=0) return '';
+  var isMine=myTrain && myTrain.id===t.id && !myTrain.arrived;
+  if(isMine && presenceOn){
+    var others=Math.max(0, n-1);
+    if(others<=0) return 'You are sharing presence on this train';
+    return 'You + '+others+' other'+(others===1?'':'s')+' sharing presence';
+  }
+  return n+' rider'+(n===1?'':'s')+' sharing presence';
+}
+function presenceBannerLine(){
+  var t=myTrain ? findTrainById(myTrain.id, getActiveTrains(nowMinutes())) : null;
+  if(!t) return '';
+  var n=presenceCountFor(t);
+  if(n<=0) return 'No riders are sharing presence on this train yet.';
+  if(presenceOn && !myTrain.arrived){
+    var others=Math.max(0, n-1);
+    if(others<=0) return 'You are the only rider sharing presence on this train.';
+    return 'You + '+others+' other'+(others===1?'':'s')+' are sharing presence on this train.';
+  }
+  return n+' rider'+(n===1?'':'s')+' sharing presence on this train.';
+}
+function renderPresenceStatus(){
+  var st=document.getElementById('presenceStatus');
+  var tog=document.getElementById('presenceToggle');
+  if(!st || !tog) return;
+  if(tog.checked!==presenceOn) tog.checked=presenceOn;
+  if(!presenceOn){ st.hidden=true; st.textContent=''; return; }
+  var t=presenceTargetTrain();
+  st.hidden=false;
+  if(t){
+    var disp=displayTrainId(t);
+    st.textContent='Sharing: you\u2019re counted on Train '+disp+' → '+t.destName+'. Switch off any time to disappear.';
+  } else {
+    st.textContent='Sharing is on — mark your train or turn on Live GPS so the app knows which train to count you on.';
+  }
+}
+function setPresence(on){
+  presenceOn=!!on;
+  var tog=document.getElementById('presenceToggle');
+  if(tog) tog.checked=presenceOn;
+  if(presenceOn){
+    presenceAnon();
+    presenceBeat(true);
+    fetchPresenceCounts(true);
+  }
+  renderPresenceStatus();
+}
+
 function fmtElapsed(mins){
   if(mins<=0) return 'Start';
   if(mins<10) return '+' + mins.toFixed(1).replace(/\.0$/,'') + ' min';
@@ -1609,7 +1768,7 @@ function renderAll(){
       var chipTitle = (trainIdIsReal(t) || (isMine && myTrain.realNo))
         ? 'Real train number reported by a rider (model '+t.id+')'
         : 'Model number '+t.id+' — real number not reported yet';
-      return '<div class="train-marker '+t.dir+(isMine?' my-train':'')+'" data-train-id="'+t.id+'" style="top:'+top+'px" title="'+chipTitle+'"><span class="chip"><span class="chip-id">'+escHtml(chipId)+'</span> <span class="arr">'+arrow+'</span><span class="chip-next"> → '+t.nextName+'</span>'+(isMine?'<span class="you-badge">YOU</span>':'')+'</span></div>';
+      return '<div class="train-marker '+t.dir+(isMine?' my-train':'')+'" data-train-id="'+t.id+'" style="top:'+top+'px" title="'+chipTitle+'"><span class="chip"><span class="chip-id">'+escHtml(chipId)+'</span> <span class="arr">'+arrow+'</span><span class="chip-next"> → '+t.nextName+'</span>'+presenceChipFor(t)+(isMine?'<span class="you-badge">YOU</span>':'')+'</span></div>';
     }).join('');
   }
   // Track height fix: train layer is inside .track which sizes to station rows; markers positioned absolutely relative to track
@@ -1628,6 +1787,7 @@ function renderAll(){
       var isReal = (isMine && myTrain.realNo) ? true : trainIdIsReal(t);
       return '<article class="train-card'+(isMine?' my-train':'')+'"><div class="tc-top"><span class="tc-id mono">'+escHtml(dispId)+'</span><span class="tc-model">'+(isReal?'real no. • model '+t.id:'model no.')+'</span><span class="tc-dir '+t.dir+'">'+(t.dir==='down'?'↓ To Dera Gujran':'↑ To Ali Town')+'</span>'+(isMine?'<span class="my-train-tag">YOUR TRAIN'+(myTrain.realNo?' • '+escHtml(myTrain.realNo):'')+'</span>':'')+'</div>'
         + '<div class="tc-next"><span>Next station • ETA ~'+(t.etaNext<0.5?'arriving now':t.etaNext.toFixed(1)+' min')+'</span>'+t.nextName+'</div>'
+        + (presenceCardLine(t) ? '<div class="tc-riders">👥 '+escHtml(presenceCardLine(t))+'</div>' : '')
         + '<div style="font-size:12px;color:var(--muted);margin-top:4px">Just left '+t.prevName+' • Reaches '+t.destName+' at '+fmtClock(t.arrivalAtDest)+'</div>'
         + '<div class="tc-bar"><i style="width:'+t.progressPct+'%"></i></div>'
         + '<div class="tc-foot"><span>Left terminal '+fmtClock(t.dep)+'</span><span>'+t.progressPct+'% of journey</span></div>'
@@ -1646,6 +1806,8 @@ function renderAll(){
   renderGpsSuggest(trains);
   positionYouMarkers();
   refreshGpsState();
+  renderPresenceStatus();
+  presenceBeat();
 }
 
 /* ---------- Live GPS — the rider's own real position ---------- */
@@ -2241,6 +2403,7 @@ function renderMyTrainBanner(trains){
       b.dataset.src = dispSrc;
       b.innerHTML = '<b>🚆 You\'re on Train ' + disp + ' → ' + escHtml(myTrain.dest) + '</b>'
         + '<br><span id="myTrainLive">' + live + '</span>'
+        + '<br><span id="myTrainPresence">' + escHtml(presenceBannerLine()) + '</span>'
         + '<br><span style="font-size:12.5px">' + (dispSrc==='shared' ? 'Real number reported by another rider — correct it below if it is wrong.' : dispSrc==='own' ? 'Your real train number is shared with other riders so they can find this train.' : 'Modelled position — the timetable estimate, not live train GPS. Add the real train number below to share it with other riders.') + '</span>'
         + '<div class="mt-actions"><label for="realNoInput" style="font-weight:700">Real train no. (optional)</label>'
         + '<input class="mt-realno" id="realNoInput" type="text" inputmode="text" autocomplete="off" maxlength="12" placeholder="e.g. OL-019" value="' + escHtml(myTrain.realNo || sharedNo || '') + '">'
@@ -2249,6 +2412,8 @@ function renderMyTrainBanner(trains){
     } else {
       var liveEl = document.getElementById('myTrainLive');
       if(liveEl) liveEl.innerHTML = live;
+      var presEl = document.getElementById('myTrainPresence');
+      if(presEl) presEl.textContent = presenceBannerLine();
       var titleEl = b.querySelector('b');
       if(titleEl) titleEl.innerHTML = '🚆 You\'re on Train ' + disp + ' → ' + escHtml(myTrain.dest);
     }
@@ -2338,9 +2503,14 @@ document.getElementById('gpsTrainSuggest').addEventListener('click', function(e)
   var n = (e.target && e.target.closest) ? e.target.closest('[data-dismiss-suggest]') : null;
   if(n){ dismissedSuggestId = n.getAttribute('data-dismiss-suggest'); renderAll(); return; }
 });
+var presenceToggleEl=document.getElementById('presenceToggle');
+if(presenceToggleEl) presenceToggleEl.addEventListener('change', function(){ setPresence(presenceToggleEl.checked); });
 loadMyTrain();
 fetchTrainNumbers(true);
 setInterval(fetchTrainNumbers, 60000);
+fetchPresenceCounts(true);
+setInterval(fetchPresenceCounts, 30000);
+setInterval(function(){ presenceBeat(); }, 20000);
 
 function tick(manual){ renderAll(); }
 renderAll();
