@@ -418,7 +418,7 @@ details.faq[open] summary::after{transform:rotate(45deg)}
 .radar-cross.h{left:0;right:0;top:50%;bottom:auto;width:auto;height:1px}
 .radar-sweep{position:absolute;left:50%;top:50%;width:820px;height:820px;transform:translate(-50%,-50%);border-radius:50%;background:conic-gradient(from 0deg,rgba(74,222,128,.34),rgba(74,222,128,.06) 55deg,transparent 80deg);animation:sweep 6s linear infinite;pointer-events:none}
 @keyframes sweep{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
-@media (prefers-reduced-motion: reduce){.radar-sweep{animation:none}.radar-blip{animation:none!important}}
+@media (prefers-reduced-motion: reduce){.radar-sweep{animation:none}.radar-blip{animation:none!important}.radar-nearest-mark .nn-ring{animation:none}}
 .radar-line{position:absolute;left:50%;top:18px;bottom:18px;width:4px;transform:translateX(-50%);background:linear-gradient(#F97316,#4ADE80);border-radius:99px;opacity:.85;box-shadow:0 0 14px rgba(74,222,128,.35)}
 .radar-station{position:absolute;left:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:#0B2417;border:2px solid rgba(167,243,208,.85);z-index:2}
 .radar-station.term{width:13px;height:13px;background:#F97316;border-color:#FED7AA}
@@ -430,6 +430,14 @@ details.faq[open] summary::after{transform:rotate(45deg)}
 .radar-blip.selected i{outline:3px solid #fff;outline-offset:2px}
 .radar-blip span{position:absolute;top:2px;left:26px;font-size:10px;font-weight:800;color:#fff;background:rgba(0,0,0,.65);padding:2px 6px;border-radius:99px;white-space:nowrap}
 @keyframes blipPulse{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+/* Nearest station (live GPS) — unmistakable blue ring + NEAREST tag on the
+   radar, plus a chip at the top of the radar. Blue #2563EB matches the
+   nearest-station highlight used in the departure board. */
+.radar-nearest-chip{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:8;font-size:12px;font-weight:800;color:#fff;background:rgba(37,99,235,.92);padding:5px 11px;border-radius:99px;white-space:nowrap;box-shadow:0 2px 10px rgba(0,0,0,.45);pointer-events:none;max-width:calc(100% - 20px);overflow:hidden;text-overflow:ellipsis}
+.radar-nearest-mark{position:absolute;left:50%;transform:translate(-50%,-50%);z-index:5;pointer-events:none}
+.radar-nearest-mark .nn-ring{position:absolute;left:50%;top:50%;width:28px;height:28px;transform:translate(-50%,-50%);border-radius:50%;border:3px solid #2563EB;animation:nnPulse 1.6s infinite}
+.radar-nearest-mark .nn-tag{position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:800;color:#fff;background:#2563EB;padding:2px 7px;border-radius:99px;white-space:nowrap;box-shadow:0 1px 6px rgba(0,0,0,.4)}
+@keyframes nnPulse{0%{box-shadow:0 0 0 2px rgba(37,99,235,.45),0 0 10px rgba(37,99,235,.5)}50%{box-shadow:0 0 0 9px rgba(37,99,235,.12),0 0 16px rgba(37,99,235,.7)}100%{box-shadow:0 0 0 2px rgba(37,99,235,.45),0 0 10px rgba(37,99,235,.5)}}
 .radar-detail{margin-top:12px;background:#0A1F13;border:1px solid rgba(74,222,128,.3);border-radius:14px;padding:14px;color:#D1FAE5}
 .radar-detail b{color:#fff;font-size:15px}
 .radar-detail p{margin:5px 0 0;font-size:13px;line-height:1.6;color:#A7CDB2}
@@ -677,12 +685,15 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
         <div id="radarStations"></div>
         <div id="radarBlips"></div>
         <div id="radarYou"></div>
+        <div id="radarNearest" class="radar-nearest-chip" hidden></div>
+        <div id="radarNearestMark" class="radar-nearest-mark" hidden><span class="nn-ring"></span><span class="nn-tag">NEAREST</span></div>
       </div>
       <div class="radar-legend">
         <span>● Ali Town (top) → Dera Gujran (bottom)</span>
         <span style="color:#FB923C">● Train to Dera Gujran</span>
         <span style="color:#4ADE80">● Train to Ali Town</span>
         <span style="color:#60A5FA">● YOU — your live GPS (when switched on)</span>
+        <span style="color:#93C5FD">● Nearest station to you (live GPS)</span>
         <span style="color:#93C5FD">● Live position (from riders on that train)</span>
         <span id="radarCount">Scanning…</span>
       </div>
@@ -2237,6 +2248,7 @@ function stopGpsInternal(){
   document.getElementById('dirPanel').hidden=true;
   positionYouMarkers();
   highlightNearestRow();
+  updateRadarNearest();
 }
 function stopGps(){
   stopGpsInternal();
@@ -2329,6 +2341,7 @@ function updateGpsPanel(){
   setGpsMsg('ok','<b>Live GPS is on.</b> Your real position is plotted below — watch the blue YOU marker move on the line diagram and radar. The departure board and timetable now follow your <b>nearest station</b>, like Google Maps. Trains remain timetable estimates.');
   syncNearestStation();
   highlightNearestRow();
+  updateRadarNearest();
   renderDirections();
 }
 
@@ -2421,6 +2434,26 @@ function highlightNearestRow(){
     if(rows[i].classList) rows[i].classList.toggle('nearest', i===n);
   }
 }
+/* ---------- Nearest station on the radar (live GPS) ----------
+   One code path, reusing the nearest station matchToLine already
+   computed (gpsMatch.nearestIdx / nearestDist — haversine over
+   STATION_GEO; null-geo stations GPO + Lakshmi Chowk are never in the
+   match list, so they can never be "nearest"). Shown ONLY on a fresh,
+   reliable fix (gpsIsReliable(): fix within 15 s AND accuracy within
+   150 m). Stale, denied or off => both elements hidden — never a
+   stale nearest station presented as live. */
+function updateRadarNearest(){
+  var mark=document.getElementById('radarNearestMark'), chip=document.getElementById('radarNearest');
+  if(!mark || !chip) return;
+  if(!gpsIsReliable()){
+    mark.hidden=true; chip.hidden=true;
+    return;
+  }
+  var idx=gpsMatch.nearestIdx;
+  mark.hidden=false; chip.hidden=false;
+  mark.style.top='calc(18px + (100% - 36px) * '+(idx/25)+')';
+  chip.textContent='Nearest station: '+STATIONS[idx]+' • '+fmtDist(gpsMatch.nearestDist)+' away';
+}
 function refreshGpsState(forceStale){
   if(!gpsOn || !gpsMatch) return;
   var stale=forceStale===true ? true : !gpsIsFresh();
@@ -2432,6 +2465,7 @@ function refreshGpsState(forceStale){
   if(!stale) gpsStaleShown=false;
   updateGpsReadouts();
   highlightNearestRow();
+  updateRadarNearest();
 }
 
 /* ---------- Directions to the station (from the rider's live GPS) ---------- */
