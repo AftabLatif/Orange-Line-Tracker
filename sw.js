@@ -1,4 +1,4 @@
-const CACHE = 'orange-line-v7';
+const CACHE = 'orange-line-v8';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
 self.addEventListener('install', function (event) {
