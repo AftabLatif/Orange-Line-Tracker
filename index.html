@@ -74,6 +74,10 @@ button,select{font:inherit;min-height:44px}
 .langbox{flex:0 0 auto}
 .lang-select{background:var(--surface2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:4px 4px;font-size:12px;font-weight:700;width:76px;max-width:76px;min-height:32px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lang-select:focus{outline:2px solid rgba(37,99,235,.45);outline-offset:1px}
+.notif-bell{position:relative;width:38px;height:38px;min-height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface2);font-size:17px;cursor:pointer;flex:0 0 auto;display:grid;place-items:center;padding:0}
+.notif-dot{position:absolute;top:1px;right:1px;width:10px;height:10px;border-radius:50%;background:#DC2626;border:2px solid var(--surface)}
+.alert-banner.flash{outline:3px solid var(--orange);outline-offset:3px;border-radius:12px}
+#tracker,#live-gps,#radar,#catch-class,#timetable,#my-station,#alertBanner{scroll-margin-top:72px}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .live-dot{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.08em}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--green2);box-shadow:0 0 0 0 rgba(22,163,74,.5);animation:pulse 1.8s infinite}
@@ -477,7 +481,7 @@ button,a,select,input{touch-action:manipulation}
 .hero-in{padding-top:28px;padding-bottom:26px}
 .hero h1{max-width:760px}
 .hero p{max-width:720px}
-@media(max-width:520px){.topbar-in{padding:8px 10px;gap:8px;flex-wrap:wrap}.logo{width:36px;height:36px}.brand{min-width:0;flex:1 1 auto}.brand b{font-size:15px}.brand span{display:block;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lang-select{width:72px;max-width:72px}.clockbox{flex:0 1 auto;min-width:0}.clockbox .live-dot{font-size:10px;white-space:nowrap}.clockbox .time{font-size:15px;white-space:nowrap}.clockbox .date{font-size:10px;white-space:nowrap}.hero-in{padding-top:22px}.bottom-nav a{font-size:10px}.bottom-nav a .ico{font-size:18px}}
+@media(max-width:520px){.topbar-in{padding:6px 10px;gap:8px;flex-wrap:nowrap}.logo{width:32px;height:32px;border-radius:9px}.logo svg{width:19px;height:19px}.brand{min-width:0;flex:1 1 auto}.brand b{font-size:16px}.brand span{display:none}.lang-select{width:64px;max-width:64px;min-height:32px}.clockbox{display:none}.hero-in{padding-top:22px}.bottom-nav a{font-size:10px}.bottom-nav a .ico{font-size:18px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
 /* ============ Mobile interface — most riders are on phones ============ */
@@ -541,6 +545,7 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
     </div>
     <div class="brand"><b>Orange Line</b><span data-i18n="brand_sub">LAHORE • TRANSIT GUIDE</span></div>
     <div class="langbox"><label for="langSelect" class="sr-only">Language</label><select id="langSelect" class="lang-select" aria-label="Language"></select></div>
+    <button id="notifBell" class="notif-bell" type="button" aria-label="Notifications">🔔<span id="notifDot" class="notif-dot" hidden></span></button>
     <div class="clockbox">
       <div class="live-dot"><span class="dot"></span> <span id="serviceDotLabel">TIMETABLE ESTIMATE</span></div>
       <div class="time mono" id="clock">--:--:--</div>
@@ -633,7 +638,7 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
     <div class="card-h">
       <div>
         <h2>📍 Live GPS — your real position on the line</h2>
-        <p>This part is genuinely live: your own phone's GPS, plotted on the Orange Line in real time. Location is requested automatically when the app opens — tap <strong>Allow</strong> on your browser's prompt and your live position appears here right away. Your location stays in your browser — it is never sent to or stored on any server.</p>
+        <p>Your phone's GPS, plotted live on the line. Tap <strong>Allow</strong> when asked — your location never leaves your phone.</p>
       </div>
       <span class="pill pill-livegps">LIVE GPS</span>
     </div>
@@ -1058,7 +1063,7 @@ var I18N = {
     "updated_auto": "• Positions recalculate automatically",
     "refresh_btn": "↻ Refresh now",
     "gps_h2": "📍 Live GPS — your real position on the line",
-    "gps_intro": "This part is genuinely live: your own phone's GPS, plotted on the Orange Line in real time. Location is requested automatically when the app opens — tap <strong>Allow</strong> on your browser's prompt and your live position appears here right away. Your location stays in your browser — it is never sent to or stored on any server.",
+    "gps_intro": "Your phone's GPS, plotted live on the line. Tap <strong>Allow</strong> when asked — your location never leaves your phone.",
     "gps_pill": "LIVE GPS",
     "gps_badge": "LIVE GPS — YOUR POSITION",
     "gps_msg_asking": "<b>Asking for your location automatically…</b> Choose <b>Allow</b> in your browser's location prompt — a blue <b>YOU</b> marker then appears on the line diagram and the radar below, showing your nearest station, the distance to your next station and your speed, moving as you move. The rest of the app — timetable, radar and planner — works either way.",
@@ -1481,7 +1486,7 @@ var I18N = {
     "updated_auto": "• جگہ خود بخود دوبارہ نکالی جاتی ہے",
     "refresh_btn": "↻ ابھی ریفریش کریں",
     "gps_h2": "📍 لائیو جی پی ایس — لائن پر آپ کی اصل جگہ",
-    "gps_intro": "یہ حصہ واقعی لائیو ہے: آپ کے اپنے فون کا جی پی ایس، اورنج لائن پر اصل وقت میں دکھایا گیا۔ ایپ کھلتے ہی لوکیشن خود بخود مانگی جاتی ہے — اپنے براؤزر کے پیغام پر <strong>Allow</strong> دبائیں اور آپ کی لائیو جگہ فوراً یہاں نظر آئے گی۔ آپ کی لوکیشن آپ کے براؤزر میں ہی رہتی ہے — یہ کسی سرور کو بھیجی یا محفوظ نہیں کی جاتی۔",
+    "gps_intro": "آپ کے فون کا GPS، لائن پر لائیو دکھایا جاتا ہے۔ پوچھے جانے پر <strong>Allow</strong> دبائیں — آپ کی لوکیشن آپ کے فون سے باہر نہیں جاتی۔",
     "gps_pill": "لائیو جی پی ایس",
     "gps_badge": "لائیو جی پی ایس — آپ کی جگہ",
     "gps_msg_asking": "<b>آپ کی لوکیشن خود بخود مانگی جا رہی ہے…</b> اپنے براؤزر کے لوکیشن پیغام پر <b>Allow</b> منتخب کریں — پھر نیچے لائن ڈایاگرام اور ریڈار پر نیلا <b>YOU</b> نشان نظر آئے گا، جو آپ کا قریبی اسٹیشن، اگلے اسٹیشن تک فاصلہ اور آپ کی رفتار دکھائے گا، آپ کے چلنے کے ساتھ ساتھ۔ باقی ایپ — ٹائم ٹیبل، ریڈار اور منصوبہ ساز — ویسے بھی کام کرتی ہے۔",
@@ -1904,7 +1909,7 @@ var I18N = {
     "updated_auto": "• جاہ خود بخود دوبارہ کڈھی ویندی ہے",
     "refresh_btn": "↻ ہݨے ریفریش کرو",
     "gps_h2": "📍 لائیو جی پی ایس — لائن تے تساں دی اصل جاہ",
-    "gps_intro": "یہ حصہ واقعی لائیو ہے: آپ کے اپنے فون کا جی پی ایس، اورنج لائن پر اصل وقت میں دکھایا گیا۔ ایپ کھلتے ہی لوکیشن خود بخود مانگی جاتی ہے — اپنے براؤزر کے پیغام پر <strong>Allow</strong> دبائیں اور آپ کی لائیو جگہ فوراً یہاں نظر آئے گی۔ آپ کی لوکیشن آپ کے براؤزر میں ہی رہتی ہے — یہ کسی سرور کو بھیجی یا محفوظ نہیں کی جاتی۔",
+    "gps_intro": "آپ کے فون کا GPS، لائن پر لائیو دکھایا جاتا ہے۔ پوچھے جانے پر <strong>Allow</strong> دبائیں — آپ کی لوکیشن آپ کے فون سے باہر نہیں جاتی۔",
     "gps_pill": "لائیو جی پی ایس",
     "gps_badge": "لائیو جی پی ایس — تساں دی جاہ",
     "gps_msg_asking": "<b>آپ کی لوکیشن خود بخود مانگی جا رہی ہے…</b> اپنے براؤزر کے لوکیشن پیغام پر <b>Allow</b> منتخب کریں — پھر نیچے لائن ڈایاگرام اور ریڈار پر نیلا <b>YOU</b> نشان نظر آئے گا، جو آپ کا قریبی اسٹیشن، اگلے اسٹیشن تک فاصلہ اور آپ کی رفتار دکھائے گا، آپ کے چلنے کے ساتھ ساتھ۔ باقی ایپ — ٹائم ٹیبل، ریڈار اور منصوبہ ساز — ویسے بھی کام کرتی ہے۔",
@@ -2327,7 +2332,7 @@ var I18N = {
     "updated_auto": "• ځای په خپله بیا ټاکل کېږي",
     "refresh_btn": "↻ اوس تازه کړئ",
     "gps_h2": "📍 ژوندی جی پی ایس — پر کرښه ستاسو رښتینی ځای",
-    "gps_intro": "یہ حصہ واقعی لائیو ہے: آپ کے اپنے فون کا جی پی ایس، اورنج لائن پر اصل وقت میں دکھایا گیا۔ ایپ کھلتے ہی لوکیشن خود بخود مانگی جاتی ہے — اپنے براؤزر کے پیغام پر <strong>Allow</strong> دبائیں اور آپ کی لائیو جگہ فوراً یہاں نظر آئے گی۔ آپ کی لوکیشن آپ کے براؤزر میں ہی رہتی ہے — یہ کسی سرور کو بھیجی یا محفوظ نہیں کی جاتی۔",
+    "gps_intro": "آپ کے فون کا GPS، لائن پر لائیو دکھایا جاتا ہے۔ پوچھے جانے پر <strong>Allow</strong> دبائیں — آپ کی لوکیشن آپ کے فون سے باہر نہیں جاتی۔",
     "gps_pill": "ژوندی جی پی ایس",
     "gps_badge": "ژوندی جی پی ایس — ستاسو ځای",
     "gps_msg_asking": "<b>آپ کی لوکیشن خود بخود مانگی جا رہی ہے…</b> اپنے براؤزر کے لوکیشن پیغام پر <b>Allow</b> منتخب کریں — پھر نیچے لائن ڈایاگرام اور ریڈار پر نیلا <b>YOU</b> نشان نظر آئے گا، جو آپ کا قریبی اسٹیشن، اگلے اسٹیشن تک فاصلہ اور آپ کی رفتار دکھائے گا، آپ کے چلنے کے ساتھ ساتھ۔ باقی ایپ — ٹائم ٹیبل، ریڈار اور منصوبہ ساز — ویسے بھی کام کرتی ہے۔",
@@ -2750,7 +2755,7 @@ var I18N = {
     "updated_auto": "• جاءِ پاڻمرادو ٻيهر ڪڍي ويندي آهي",
     "refresh_btn": "↻ هاڻي تازو ڪريو",
     "gps_h2": "📍 لائيو جي پي ايس — لائين تي توهان جي اصل جاءِ",
-    "gps_intro": "یہ حصہ واقعی لائیو ہے: آپ کے اپنے فون کا جی پی ایس، اورنج لائن پر اصل وقت میں دکھایا گیا۔ ایپ کھلتے ہی لوکیشن خود بخود مانگی جاتی ہے — اپنے براؤزر کے پیغام پر <strong>Allow</strong> دبائیں اور آپ کی لائیو جگہ فوراً یہاں نظر آئے گی۔ آپ کی لوکیشن آپ کے براؤزر میں ہی رہتی ہے — یہ کسی سرور کو بھیجی یا محفوظ نہیں کی جاتی۔",
+    "gps_intro": "آپ کے فون کا GPS، لائن پر لائیو دکھایا جاتا ہے۔ پوچھے جانے پر <strong>Allow</strong> دبائیں — آپ کی لوکیشن آپ کے فون سے باہر نہیں جاتی۔",
     "gps_pill": "لائيو جي پي ايس",
     "gps_badge": "لائيو جي پي ايس — توهان جي جاءِ",
     "gps_msg_asking": "<b>آپ کی لوکیشن خود بخود مانگی جا رہی ہے…</b> اپنے براؤزر کے لوکیشن پیغام پر <b>Allow</b> منتخب کریں — پھر نیچے لائن ڈایاگرام اور ریڈار پر نیلا <b>YOU</b> نشان نظر آئے گا، جو آپ کا قریبی اسٹیشن، اگلے اسٹیشن تک فاصلہ اور آپ کی رفتار دکھائے گا، آپ کے چلنے کے ساتھ ساتھ۔ باقی ایپ — ٹائم ٹیبل، ریڈار اور منصوبہ ساز — ویسے بھی کام کرتی ہے۔",
@@ -3173,7 +3178,7 @@ var I18N = {
     "updated_auto": "• جاگہ وت سرا دوبارہ در کنگ بیت",
     "refresh_btn": "↻ نوں تازہ بہ کن",
     "gps_h2": "📍 لائیو جی پی ایس — لائن ءَ تئی اصل جاگہ",
-    "gps_intro": "یہ حصہ واقعی لائیو ہے: آپ کے اپنے فون کا جی پی ایس، اورنج لائن پر اصل وقت میں دکھایا گیا۔ ایپ کھلتے ہی لوکیشن خود بخود مانگی جاتی ہے — اپنے براؤزر کے پیغام پر <strong>Allow</strong> دبائیں اور آپ کی لائیو جگہ فوراً یہاں نظر آئے گی۔ آپ کی لوکیشن آپ کے براؤزر میں ہی رہتی ہے — یہ کسی سرور کو بھیجی یا محفوظ نہیں کی جاتی۔",
+    "gps_intro": "آپ کے فون کا GPS، لائن پر لائیو دکھایا جاتا ہے۔ پوچھے جانے پر <strong>Allow</strong> دبائیں — آپ کی لوکیشن آپ کے فون سے باہر نہیں جاتی۔",
     "gps_pill": "لائیو جی پی ایس",
     "gps_badge": "لائیو جی پی ایس — تئی جاگہ",
     "gps_msg_asking": "<b>آپ کی لوکیشن خود بخود مانگی جا رہی ہے…</b> اپنے براؤزر کے لوکیشن پیغام پر <b>Allow</b> منتخب کریں — پھر نیچے لائن ڈایاگرام اور ریڈار پر نیلا <b>YOU</b> نشان نظر آئے گا، جو آپ کا قریبی اسٹیشن، اگلے اسٹیشن تک فاصلہ اور آپ کی رفتار دکھائے گا، آپ کے چلنے کے ساتھ ساتھ۔ باقی ایپ — ٹائم ٹیبل، ریڈار اور منصوبہ ساز — ویسے بھی کام کرتی ہے۔",
@@ -4730,6 +4735,20 @@ function syncTabs(){
 }
 document.getElementById('refreshBtn').addEventListener('click', function(){ tick(true); });
 
+/* ---------- Header notification bell — jumps to the service-alert banner ---------- */
+document.getElementById('notifBell').addEventListener('click', function(){
+  var b=document.getElementById('alertBanner'); if(!b) return;
+  b.scrollIntoView({behavior:'smooth',block:'center'});
+  b.classList.add('flash'); setTimeout(function(){ b.classList.remove('flash'); },1800);
+});
+function updateNotifDot(){
+  var dot=document.getElementById('notifDot'); if(!dot) return;
+  var show = SERVICE_ALERTS.length>0;
+  var w=document.getElementById('watchAlert'); if(w && !w.hidden) show=true;
+  var m=document.getElementById('myTrainBanner'); if(m && !m.hidden) show=true;
+  dot.hidden=!show;
+}
+
 function etaLabel(eta){
   if(eta<=0.6) return 'Due';
   if(eta<1.5) return '1 min';
@@ -4873,6 +4892,7 @@ function renderAll(){
   renderPresenceStatus();
   presenceBeat();
   fetchCrowd();
+  updateNotifDot();
 }
 
 /* ---------- Live GPS — the rider's own real position ---------- */
