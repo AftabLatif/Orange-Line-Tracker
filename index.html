@@ -159,12 +159,14 @@ select.station-select{width:100%;border:1.5px solid var(--line);background:var(-
 .station-row{position:relative;height:46px;display:flex;align-items:center}
 .station-dot{position:absolute;left:50%;transform:translate(-50%,0);width:14px;height:14px;border-radius:50%;background:var(--surface);border:3.5px solid var(--orange);z-index:2}
 .station-dot.terminal{width:18px;height:18px;background:var(--orange)}
+.station-row.nearest .station-name{color:#2563EB}
+.station-row.nearest .station-dot{background:#2563EB;border-color:#93C5FD;box-shadow:0 0 0 4px rgba(37,99,235,.2)}
 .station-name{position:absolute;right:calc(50% + 16px);text-align:right;font-size:13px;font-weight:700;line-height:1.15;max-width:104px;background:var(--surface);padding:2px 4px;border-radius:6px;z-index:6}
 @media(max-width:520px){.station-name{max-width:82px;font-size:12px}}
 .station-name small{display:block;font-weight:600;color:var(--muted);font-size:10px;letter-spacing:.04em}
 .station-side{position:absolute;left:calc(50% + 16px);font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap;background:var(--surface);padding:2px 4px;border-radius:6px;z-index:6}
-.train-marker{position:absolute;z-index:5;transform:translateY(-50%);display:flex;align-items:center;gap:0;transition:top 1.2s linear;pointer-events:none}
-.train-marker .chip{display:inline-flex;align-items:center;gap:5px;color:#fff;font-weight:800;font-size:11px;padding:5px 8px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.25);white-space:nowrap}
+.train-marker{position:absolute;z-index:7;transform:translateY(-50%);display:flex;align-items:center;gap:0;transition:top 1.2s linear;pointer-events:auto;cursor:pointer}
+.train-marker .chip{display:inline-flex;align-items:center;gap:5px;color:#fff;font-weight:800;font-size:11px;padding:5px 8px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.25),0 0 0 2px var(--surface);white-space:nowrap}
 .train-marker.down{left:calc(50% + 12px)}
 .train-marker.up{right:calc(50% + 12px);flex-direction:row-reverse}
 .train-marker.down .chip{background:var(--orange)}
@@ -177,6 +179,27 @@ select.station-select{width:100%;border:1.5px solid var(--line);background:var(-
   .train-marker.down{left:calc(50% + 10px)}
   .train-marker.up{right:calc(50% + 10px)}
 }
+/* My train — the rider's own train (v4). Markers sit above the station
+   labels (z-index 7) so the up-direction chips are readable instead of
+   hiding under the station names; the rider's own train sits higher still. */
+.train-marker.my-train{z-index:8}
+.train-marker.my-train .chip{outline:3px solid #2563EB;outline-offset:1px}
+.train-marker .you-badge{background:#fff;color:#2563EB;font-weight:800;font-size:10px;padding:1px 6px;border-radius:99px}
+.train-card.my-train{border:2px solid #2563EB;box-shadow:0 0 0 3px rgba(37,99,235,.18)}
+.my-train-tag{display:inline-block;background:#2563EB;color:#fff;font-size:11px;font-weight:800;padding:3px 8px;border-radius:99px;margin-left:6px}
+.btn-my-train{margin-top:10px;width:100%;min-height:46px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface2);color:var(--ink);font-weight:800;font-size:14px;cursor:pointer}
+.btn-my-train.on{background:#2563EB;border-color:#2563EB;color:#fff}
+.my-train-banner{margin:0 0 14px;border-radius:14px;padding:14px 16px;background:#EFF6FF;border:1.5px solid #2563EB;color:#1E3A8A;font-size:14px;line-height:1.6}
+.my-train-banner.arrived{background:#F0FDF4;border-color:#16A34A;color:#14532D}
+.my-train-banner b{font-size:15px}
+.my-train-banner .mt-actions{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.my-train-banner .mt-clear{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 12px;font-weight:800;cursor:pointer;min-height:42px}
+.my-train-banner input.mt-realno{border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;font:inherit;font-weight:700;min-height:42px;width:150px}
+.gps-suggest{margin-top:12px;border-radius:12px;padding:12px 14px;background:#EFF6FF;border:1.5px solid #2563EB;font-size:14px;line-height:1.6;color:#1E3A8A}
+.gps-suggest .gs-actions{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.gps-suggest button{border-radius:10px;padding:8px 12px;font-weight:800;cursor:pointer;min-height:42px}
+.gs-yes{background:#2563EB;border:1.5px solid #2563EB;color:#fff}
+.gs-no{background:var(--surface);border:1.5px solid var(--line);color:var(--ink)}
 .progress-note{font-size:12px;color:var(--muted);line-height:1.55;background:var(--surface2);border-radius:12px;padding:10px 12px;margin-top:12px}
 
 /* Train list */
@@ -186,6 +209,7 @@ select.station-select{width:100%;border:1.5px solid var(--line);background:var(-
 .train-card top{display:flex}
 .tc-top{display:flex;align-items:center;gap:8px}
 .tc-id{font-weight:800;font-size:13px;background:var(--ink);color:var(--surface);padding:4px 8px;border-radius:8px}
+.tc-model{font-size:11px;color:var(--muted);font-weight:700;margin-left:2px;white-space:nowrap}
 .tc-dir{font-size:12px;font-weight:800}
 .tc-dir.down{color:var(--orange-dark)} .tc-dir.up{color:var(--green)}
 .tc-next{margin-top:8px;font-size:14px;font-weight:700;line-height:1.4}
@@ -288,7 +312,7 @@ details.faq p{color:var(--muted);font-size:13px;line-height:1.65;margin:6px 0 0}
 .pill-livegps{background:#052E16;color:#86EFAC}
 .btn-gps{background:#052E16;color:#86EFAC;border:1px solid rgba(134,239,172,.55)}
 .btn-gps.on{background:#DC2626;color:#fff;border-color:#DC2626}
-.gps-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.gps-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
 @media(max-width:640px){.gps-stats{grid-template-columns:repeat(2,1fr)}}
 .gps-stat{background:var(--surface2);border-radius:12px;padding:12px}
 .gps-stat span{font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;display:block}
@@ -296,8 +320,9 @@ details.faq p{color:var(--muted);font-size:13px;line-height:1.65;margin:6px 0 0}
 .gps-msg{border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.6;font-weight:600;margin-top:12px}
 .gps-msg.info{background:var(--surface2);color:var(--muted)}
 .gps-msg.err{background:#FEF2F2;color:#991B1B}
+.gps-msg.warn{background:#FFFBEB;color:#92400E}
 .gps-msg.ok{background:var(--green-soft);color:var(--green)}
-@media (prefers-color-scheme: dark){.gps-msg.err{background:#2A1212;color:#FCA5A5}}
+@media (prefers-color-scheme: dark){.gps-msg.err{background:#2A1212;color:#FCA5A5}.gps-msg.warn{background:#2A2110;color:#FDE68A}}
 .dir-panel{margin-top:14px;border:1.5px solid rgba(37,99,235,.35);background:rgba(37,99,235,.05);border-radius:14px;padding:14px}
 @media (prefers-color-scheme: dark){.dir-panel{background:rgba(37,99,235,.10)}}
 .dir-panel h3{margin:0;font-size:15px;letter-spacing:-.01em}
@@ -312,12 +337,16 @@ details.faq p{color:var(--muted);font-size:13px;line-height:1.65;margin:6px 0 0}
 .dir-note{font-size:12.5px;color:var(--muted);line-height:1.6;margin:10px 0 0}
 .dir-unavail{margin-top:12px;border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.6;font-weight:600;background:#FFFBEB;color:#92400E;border:1px solid #FDE68A}
 @media (prefers-color-scheme: dark){.dir-unavail{background:#2A2110;color:#FDE68A}}
-.you-marker{position:absolute;z-index:8;left:50%;transform:translate(-9px,-50%);display:flex;align-items:center;gap:6px;pointer-events:none}
+.you-marker{position:absolute;z-index:8;left:50%;transform:translate(-9px,-50%);display:flex;align-items:center;gap:6px;pointer-events:none;transition:top 1.2s linear}
 .you-marker .you-dot{width:18px;height:18px;border-radius:50%;background:#2563EB;border:3px solid #fff;box-shadow:0 0 0 5px rgba(37,99,235,.25),0 4px 10px rgba(0,0,0,.3);flex:0 0 auto}
 .you-marker .you-chip{background:#2563EB;color:#fff;font-weight:800;font-size:11px;padding:4px 8px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.25);white-space:nowrap}
-.radar-you{position:absolute;z-index:7;left:50%;transform:translate(-8px,-50%);display:flex;align-items:center;gap:6px;pointer-events:none}
+.you-marker.stale .you-dot{background:#64748B;box-shadow:0 0 0 5px rgba(100,116,139,.25),0 4px 10px rgba(0,0,0,.3)}
+.you-marker.stale .you-chip{background:#64748B}
+.radar-you{position:absolute;z-index:7;left:50%;transform:translate(-8px,-50%);display:flex;align-items:center;gap:6px;pointer-events:none;transition:top 1.2s linear}
 .radar-you .you-dot{width:16px;height:16px;border-radius:50%;background:#60A5FA;border:3px solid #fff;box-shadow:0 0 0 6px rgba(96,165,250,.25),0 0 18px rgba(96,165,250,.9);flex:0 0 auto}
 .radar-you span.lbl{font-size:10px;font-weight:800;color:#fff;background:rgba(37,99,235,.9);padding:2px 6px;border-radius:99px;white-space:nowrap}
+.radar-you.stale .you-dot{background:#94A3B8;box-shadow:0 0 0 6px rgba(148,163,184,.25),0 0 18px rgba(148,163,184,.9)}
+.radar-you.stale span.lbl{background:rgba(100,116,139,.9)}
 
 /* Glass card (design-system 2.12, cheap CSS version) — only on the live-GPS card
    and the PWA install banner, where there is content behind to refract. */
@@ -510,6 +539,9 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
 
   <div class="alert-banner" id="alertBanner" role="status"><b>⚠ Service alert:</b> <span id="alertText">No service alerts reported — trains running to the normal timetable.</span> <span class="alert-note">Alerts are updated by hand; this is not a live PMA feed.</span></div>
 
+  <!-- MY TRAIN — shows when the rider marks the train they are on -->
+  <div id="myTrainBanner" class="my-train-banner" hidden></div>
+
   <!-- LIVE STATUS -->
   <section class="card" id="tracker">
     <div class="card-b">
@@ -565,8 +597,11 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
         <div class="gps-stat"><span>Next station</span><b id="gpsNext">—</b></div>
         <div class="gps-stat"><span>Distance to next</span><b id="gpsDistNext">—</b></div>
         <div class="gps-stat"><span>Your speed</span><b id="gpsSpeed">—</b></div>
+        <div class="gps-stat"><span id="gpsEtaDestLabel">ETA to destination</span><b id="gpsEtaDest">—</b></div>
+        <div class="gps-stat"><span>GPS accuracy</span><b id="gpsAcc">—</b></div>
       </div>
       <p id="gpsWhere" style="font-size:13px;color:var(--muted);line-height:1.6;margin:12px 0 0" hidden></p>
+      <div id="gpsTrainSuggest" class="gps-suggest" hidden></div>
       <div class="dir-panel" id="dirPanel" hidden>
         <h3>🧭 How to reach your station</h3>
         <p class="dir-sub">Sitting a little away from your station — like just outside Anarkali? This uses your live GPS position to show how far the station really is and the exact walking route to it. It opens on your <strong>nearest station</strong>; pick any other station below.</p>
@@ -634,7 +669,7 @@ input,select,textarea{font-size:16px} /* stops iOS auto-zoom when a field is tap
           <span><i style="background:var(--green)"></i>To Ali Town ↑</span>
           <span>● Terminal &nbsp; ○ Station</span>
         </div>
-        <div class="diagram-note" id="stationTimesNote" style="font-size:12px;color:var(--muted);font-weight:600;line-height:1.5;margin:0 0 10px">Times in the right column are the first train of the day (6:13 AM from Ali Town).</div>
+        <div class="diagram-note" id="stationTimesNote" style="font-size:12px;color:var(--muted);font-weight:600;line-height:1.5;margin:0 0 10px">Times in the right column are the next train arriving at each station — updated every few seconds.</div>
         <div class="diagram-wrap">
           <div class="track" id="track">
             <div class="track-line"></div>
@@ -1012,6 +1047,68 @@ function arrivalsCombined(stationIdx, now, count){
   return out.slice(0, count);
 }
 
+/* ---------- Shared rider-reported train numbers (v4) ----------
+   There is no PMA live feed, so real train numbers can only come from
+   riders: when a rider marks their train and enters its real number, the
+   app reports {model id, direction, departure, real number} to the Worker
+   — NO location is sent. Every client fetches the active reports and
+   shows the reported real number instead of the model id. A report only
+   counts while its train is still running today, so it can never stick
+   to a later run of the same model id. Latest report wins. Until a rider
+   reports a train, its model id is shown and labelled as a model number.
+   Defined here (before the planners) because renderClass runs at load. */
+var TRAIN_NUMBERS_URL='https://orange-line-tracker-api.aftabmunna0786.workers.dev/api/train-numbers';
+var reportedNumbers={}; // key "day|modelId|dep" -> {modelId, dir, dep, realNo, day}
+var lastNumbersFetch=0;
+function todayPKT(){
+  var d=new Date(Date.now()+5*60*60*1000);
+  return d.toISOString().slice(0,10);
+}
+function fetchTrainNumbers(force){
+  var nowT=Date.now();
+  if(!force && nowT-lastNumbersFetch<60000) return;
+  lastNumbersFetch=nowT;
+  if(typeof fetch!=='function') return;
+  fetch(TRAIN_NUMBERS_URL).then(function(r){ return r.json(); }).then(function(data){
+    if(!data || !data.ok || !data.numbers) return;
+    var map={};
+    data.numbers.forEach(function(n){
+      if(!n || !n.modelId || typeof n.dep!=='number' || !n.realNo) return;
+      map[(n.day||todayPKT())+'|'+n.modelId+'|'+n.dep]={modelId:n.modelId, dir:n.dir, dep:n.dep, realNo:n.realNo, day:n.day||todayPKT()};
+    });
+    reportedNumbers=map;
+    renderAll();
+  }).catch(function(){ /* offline: keep last known numbers + local fallback */ });
+}
+function reportedNumberFor(t){
+  if(!reportedNumbers) return null;
+  var row=reportedNumbers[todayPKT()+'|'+t.id+'|'+t.dep];
+  if(!row) return null;
+  var now=nowMinutes();
+  if(now<row.dep || now>row.dep+49) return null;
+  return row.realNo;
+}
+function displayTrainId(t){
+  var r=reportedNumberFor(t);
+  return r || t.id;
+}
+function trainIdIsReal(t){ return !!reportedNumberFor(t); }
+function reportTrainNumber(){
+  if(!myTrain || !myTrain.realNo) return;
+  if(typeof fetch!=='function') return;
+  fetch(TRAIN_NUMBERS_URL, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({modelId:myTrain.id, dir:myTrain.dir, dep:myTrain.dep, realNo:myTrain.realNo})
+  }).then(function(r){ return r.json(); }).then(function(data){
+    if(data && data.ok){
+      var key=todayPKT()+'|'+myTrain.id+'|'+myTrain.dep;
+      reportedNumbers[key]={modelId:myTrain.id, dir:myTrain.dir, dep:myTrain.dep, realNo:myTrain.realNo, day:todayPKT()};
+      renderAll();
+    }
+  }).catch(function(){ /* local fallback already shows it on this phone */ });
+}
+
 function fmtElapsed(mins){
   if(mins<=0) return 'Start';
   if(mins<10) return '+' + mins.toFixed(1).replace(/\.0$/,'') + ' min';
@@ -1035,10 +1132,12 @@ function renderTtStation(){
     var away = r.eta<=0.6 ? 'Due now' : (r.eta<1.5 ? '1 min away' : Math.round(r.eta) + ' min away');
     var state = nowMinutes() < r.dep ? 'Not yet departed — leaves ' + r.origin.replace(' Terminal','') + ' at ' + fmtClock(r.dep)
       : 'On its way — left ' + r.origin.replace(' Terminal','') + ' at ' + fmtClock(r.dep);
+    var dispId = displayTrainId({id:r.id, dep:r.dep});
+    var isReal = trainIdIsReal({id:r.id, dep:r.dep});
     return '<div class="tt-arr-row' + (i===0?' is-next':'') + '"><div class="tt-arr-main">'
       + '<span class="dir-badge ' + r.dir + '">' + (r.dir==='down'?'↓ ':'↑ ') + dirLabel + '</span>'
-      + '<b>Train ' + r.id + ' → ' + r.dest + '</b>'
-      + '<span>' + state + ' • Estimate</span></div>'
+      + '<b>Train ' + escHtml(dispId) + ' → ' + r.dest + '</b>'
+      + '<span>' + state + ' • ' + (isReal ? 'Model '+r.id : 'Model number') + ' • Estimate</span></div>'
       + '<div class="tt-arr-time"><b class="mono">' + fmtClock(r.arr) + '</b><span>' + away + '</span></div></div>';
   }).join('');
 }
@@ -1070,8 +1169,10 @@ function renderTtFull(){
   var arrDest = dep + JOURNEY_MIN;
   var statusText = now < dep ? ('Departs in ' + Math.max(1, Math.round(dep-now)) + ' min')
     : (now < arrDest ? 'On its way now — ' + Math.round((now-dep)/JOURNEY_MIN*100) + '% of journey done' : 'Journey completed');
+  var fullDispId = trainId ? displayTrainId({id:trainId, dep:dep}) : '';
+  var fullIsReal = trainId ? trainIdIsReal({id:trainId, dep:dep}) : false;
   document.getElementById('ttFullSummary').innerHTML =
-    '<div>Train <b>' + trainId + '</b></div>'
+    '<div>Train <b>' + escHtml(fullDispId) + '</b>' + (trainId ? ' <span style="font-size:12px;color:var(--muted)">(' + (fullIsReal ? 'model ' + trainId : 'model number') + ')</span>' : '') + '</div>'
     + '<div>Leaves <b>' + origin + '</b> at <b>' + fmtClock(dep) + '</b></div>'
     + '<div>Reaches <b>' + dest + '</b> at <b>' + fmtClock(arrDest) + '</b></div>'
     + '<div>Status: <b>' + statusText + '</b></div>';
@@ -1158,7 +1259,10 @@ var radarSelectedId = null;
 function radarDetailHtml(t, now){
   var eta = t.etaNext;
   var etaTxt = eta < 0.5 ? 'Arriving now' : eta.toFixed(1) + ' min';
-  return '<b>🚆 Train ' + t.id + ' — ' + (t.dir==='down' ? 'to Dera Gujran' : 'to Ali Town') + '</b>'
+  var dispId = displayTrainId(t);
+  var isReal = trainIdIsReal(t);
+  return '<b>🚆 Train ' + escHtml(dispId) + ' — ' + (t.dir==='down' ? 'to Dera Gujran' : 'to Ali Town') + '</b>'
+    + '<p style="font-size:12px;color:#A7CDB2;margin:2px 0 0">' + (isReal ? 'Real number reported by a rider • Model ' + t.id : 'Model number — real number not reported yet') + '</p>'
     + '<p>Next station: <strong style="color:#fff">' + t.nextName + '</strong> &nbsp;•&nbsp; Just left: ' + t.prevName + '<br>'
     + 'Reaches ' + t.destName + ' at ' + fmtClock(t.arrivalAtDest) + ' &nbsp;•&nbsp; ' + t.progressPct + '% of journey done &nbsp;•&nbsp; Estimate</p>'
     + '<p>ETA to next station<br><span class="rd-eta">' + etaTxt + '</span></p>';
@@ -1188,13 +1292,15 @@ function renderRadar(trains, now){
   trains.forEach(function(t){
     seen[t.id] = true;
     var topStyle = 'top:calc(18px + (100% - 36px) * ' + (t.linePos/25) + ');left:calc(50% + ' + (t.dir==='down' ? 22 : -22) + 'px)';
-    var label = 'Train ' + t.id + ' to ' + t.destName + ', next station ' + t.nextName;
+    var label = 'Train ' + displayTrainId(t) + ' to ' + t.destName + ', next station ' + t.nextName + (trainIdIsReal(t) ? ' (model ' + t.id + ')' : ' (model number)');
     var btn = existing[t.id];
     if(btn){
       if(btn.getAttribute('style') !== topStyle) btn.setAttribute('style', topStyle);
       var cls = 'radar-blip ' + t.dir + (radarSelectedId===t.id?' selected':'');
       if(btn.className !== cls) btn.className = cls;
       if(btn.getAttribute('aria-label') !== label) btn.setAttribute('aria-label', label);
+      var sp = btn.querySelector('span');
+      if(sp && sp.textContent !== displayTrainId(t)) sp.textContent = displayTrainId(t);
     } else {
       btn = document.createElement('button');
       btn.type = 'button';
@@ -1202,7 +1308,7 @@ function renderRadar(trains, now){
       btn.setAttribute('data-train', t.id);
       btn.setAttribute('style', topStyle);
       btn.setAttribute('aria-label', label);
-      btn.innerHTML = '<i></i><span>' + t.id + '</span>';
+      btn.innerHTML = '<i></i><span>' + escHtml(displayTrainId(t)) + '</span>';
       btn.addEventListener('click', function(){
         radarSelectedId = this.getAttribute('data-train');
         var cur = radarLatestTrains.filter(function(x){ return x.id===radarSelectedId; })[0];
@@ -1278,14 +1384,16 @@ function renderClass(){
     : buffer>=5
     ? '⚠ Tight — only ' + buffer + ' minutes of buffer. One small delay on your way to the station and you miss it. Take the train before this one if you can.'
     : '⚠ Very risky — only ' + buffer + ' minutes of buffer. 2 minutes late can mean a missed train — take an earlier train.';
+  var classDispId = displayTrainId(best);
+  var classIsReal = trainIdIsReal(best);
   el.innerHTML = '<div class="class-stats">'
-    + '<div class="class-stat"><span>Latest train to catch</span><b>🚆 ' + best.id + '</b></div>'
+    + '<div class="class-stat"><span>Latest train to catch' + (classIsReal?'':' • model no.') + '</span><b>🚆 ' + escHtml(classDispId) + '</b></div>'
     + '<div class="class-stat"><span>Arrives at ' + fromName + '</span><b>' + fmtClock(best.arrBoard) + '</b></div>'
     + '<div class="class-stat"><span>You reach ' + toName + '</span><b>' + fmtClock(best.arrDest) + '</b></div>'
     + '<div class="class-stat"><span>Buffer before you must be there</span><b>' + buffer + ' min</b></div></div>'
-    + '<p style="font-size:13px;color:var(--muted);line-height:1.6;margin:10px 0 0">' + dirTxt + ' • Ride time ' + fromName + ' → ' + toName + ': ~' + (travelMins<10?travelMins.toFixed(1).replace(/\.0$/,''):Math.round(travelMins)) + ' min (' + travelSegs + ' stations) • Be on the platform before <strong>' + fmtClock(best.arrBoard) + '</strong> — do not plan to arrive at the station at the same minute as the train. Estimate.</p>'
+    + '<p style="font-size:13px;color:var(--muted);line-height:1.6;margin:10px 0 0">' + dirTxt + ' • Train ' + (classIsReal ? escHtml(classDispId) + ' (model ' + best.id + ')' : best.id + ' (model number)') + ' • Ride time ' + fromName + ' → ' + toName + ': ~' + (travelMins<10?travelMins.toFixed(1).replace(/\.0$/,''):Math.round(travelMins)) + ' min (' + travelSegs + ' stations) • Be on the platform before <strong>' + fmtClock(best.arrBoard) + '</strong> — do not plan to arrive at the station at the same minute as the train. Estimate.</p>'
     + '<div class="class-warn ' + warnClass + '">' + warnTxt + '</div>';
-  lastPlan = {fromName:fromName, toName:toName, trainId:best.id, boardTime:fmtClock(best.arrBoard), destTime:fmtClock(best.arrDest), buffer:buffer, dirTxt:dirTxt};
+  lastPlan = {fromName:fromName, toName:toName, trainId:classDispId, trainModel:best.id, trainIsReal:classIsReal, boardTime:fmtClock(best.arrBoard), destTime:fmtClock(best.arrDest), buffer:buffer, dirTxt:dirTxt};
   syncShareBtn();
 }
 function syncShareBtn(){
@@ -1294,7 +1402,7 @@ function syncShareBtn(){
 }
 document.getElementById('shareTripBtn').addEventListener('click', function(){
   if(!lastPlan) return;
-  var text = 'Orange Line Lahore: ' + lastPlan.fromName + ' to ' + lastPlan.toName + '. Take train ' + lastPlan.trainId + ' (' + lastPlan.dirTxt + ') — leaves ' + lastPlan.fromName + ' at ' + lastPlan.boardTime + ', reach ' + lastPlan.toName + ' at ' + lastPlan.destTime + ' (estimate, ' + lastPlan.buffer + ' min buffer).';
+  var text = 'Orange Line Lahore: ' + lastPlan.fromName + ' to ' + lastPlan.toName + '. Take train ' + lastPlan.trainId + ' (' + lastPlan.dirTxt + (lastPlan.trainIsReal ? ', model ' + lastPlan.trainModel : ', model number') + ') — leaves ' + lastPlan.fromName + ' at ' + lastPlan.boardTime + ', reach ' + lastPlan.toName + ' at ' + lastPlan.destTime + ' (estimate, ' + lastPlan.buffer + ' min buffer).';
   if(navigator.share){
     navigator.share({title:'Orange Line trip plan', text:text}).catch(function(){});
   } else if(navigator.clipboard && navigator.clipboard.writeText){
@@ -1334,6 +1442,39 @@ document.getElementById('shareTripBtn').addEventListener('click', function(){
   sel.innerHTML = STATIONS.map(function(n,i){ return '<option value="'+i+'"'+(i===selectedStation?' selected':'')+'>'+(i+1)+'. '+n+'</option>'; }).join('');
   sel.addEventListener('change', function(){ selectedStation = parseInt(sel.value,10); boardStationManual = true; renderBoard(); });
 })();
+
+/* ---------- Diagram right column: next arrival per station (v4) ----------
+   The column used to show the first train of the day — useless after
+   6:13 AM. It now shows the next train arriving at each station right
+   now (either direction: ↓ towards Dera Gujran, ↑ towards Ali Town),
+   refreshed on the same 5-second tick as everything else. First-train
+   times stay available in the Timetable tab (full view: pick the 6:13 AM
+   or 6:14 AM departure to see that train's time at every station). */
+function renderStationTimes(now){
+  var sides=document.querySelectorAll('#stationRows .station-side');
+  if(!sides || !sides.length) return;
+  var before=now<SERVICE_START;
+  for(var i=0;i<26 && i<sides.length;i++){
+    var el=sides[i];
+    var d=arrivalsForStation(i,'down',now)[0]||null;
+    var u=arrivalsForStation(i,'up',now)[0]||null;
+    var next=null, nextDir=null;
+    if(d && u){ if(d.arr<=u.arr){ next=d; nextDir='down'; } else { next=u; nextDir='up'; } }
+    else if(d){ next=d; nextDir='down'; }
+    else if(u){ next=u; nextDir='up'; }
+    if(next){
+      el.textContent=fmtClock(next.arr).replace(' ',' ')+(nextDir==='down'?' ↓':' ↑');
+      el.title='Next train '+next.id+' → '+next.dest+', '+(next.eta<=0.6?'due now':Math.round(next.eta)+' min away');
+    } else if(before){
+      var first=Math.min(FIRST_DOWN+OFF_DOWN[i], FIRST_UP+OFF_UP[i]);
+      el.textContent=fmtClock(first).replace(' ',' ');
+      el.title='First train today at this station';
+    } else {
+      el.textContent='—';
+      el.title='No more trains today';
+    }
+  }
+}
 
 document.getElementById('tabDown').addEventListener('click', function(){ boardDir='down'; syncTabs(); renderBoard(); });
 document.getElementById('tabUp').addEventListener('click', function(){ boardDir='up'; syncTabs(); renderBoard(); });
@@ -1401,7 +1542,9 @@ function renderBoard(){
     return;
   }
   el.innerHTML = rows.map(function(r,i){
-    return '<div class="board-row dir-'+boardDir+(i===0?' next':'')+'"><div><div class="dest">'+(i===0?'▶ ':'')+'Train '+r.id+' → '+r.dest+'</div><div class="meta">Departs terminal '+fmtClock(r.dep)+' • Arrives here '+fmtClock(r.arr)+' • Estimate</div></div>'
+    var dispId = displayTrainId({id:r.id, dep:r.dep});
+    var isReal = trainIdIsReal({id:r.id, dep:r.dep});
+    return '<div class="board-row dir-'+boardDir+(i===0?' next':'')+'"><div><div class="dest">'+(i===0?'▶ ':'')+'Train '+escHtml(dispId)+' → '+r.dest+'</div><div class="meta">Departs terminal '+fmtClock(r.dep)+' • Arrives here '+fmtClock(r.arr)+' • '+(isReal?'Model '+r.id:'Model number')+' • Estimate</div></div>'
       + '<div class="eta"><b>'+etaLabel(r.eta)+'</b><span>'+(r.eta<=0.6?'ARRIVING':'ETA')+'</span></div></div>';
   }).join('');
 }
@@ -1440,10 +1583,11 @@ function renderAll(){
 
   var timesNote = document.getElementById('stationTimesNote');
   if(timesNote){
-    if(beforeService) timesNote.textContent = 'Times in the right column are the first train today (6:13 AM from Ali Town). Service starts at 6:13 AM.';
-    else if(afterService || now>=SERVICE_LAST_DEP) timesNote.textContent = 'Service finished for today. Times in the right column are the first train tomorrow (6:13 AM from Ali Town).';
-    else timesNote.textContent = 'Times in the right column are the first train of the day (6:13 AM from Ali Town). For next departures, see the board below.';
+    if(beforeService) timesNote.textContent = 'Service starts at 6:13 AM. Times in the right column are the first train today at each station.';
+    else if(afterService || now>=SERVICE_LAST_DEP) timesNote.textContent = 'Service finished for today. First trains tomorrow: 6:13 AM from Ali Town, 6:14 AM from Dera Gujran. First-train times are in the Timetable tab.';
+    else timesNote.textContent = 'Times in the right column are the next train arriving at each station — updated every few seconds. ↓ towards Dera Gujran, ↑ towards Ali Town.';
   }
+  renderStationTimes(now);
 
   countUp(document.getElementById('kpiActive'), inServiceWindow ? trains.length : 0);
   document.getElementById('kpiHeadway').textContent = (now>=SERVICE_START && now<=SERVICE_LAST_DEP) ? ('~'+headwayAt(now)+' min') : '—';
@@ -1460,7 +1604,12 @@ function renderAll(){
     layer.innerHTML = trains.map(function(t){
       var top = t.linePos*ROW_H + ROW_H/2;
       var arrow = t.dir==='down' ? '▼' : '▲';
-      return '<div class="train-marker '+t.dir+'" style="top:'+top+'px"><span class="chip"><span class="chip-id">'+t.id+'</span> <span class="arr">'+arrow+'</span><span class="chip-next"> → '+t.nextName+'</span></span></div>';
+      var isMine = myTrain && myTrain.id===t.id;
+      var chipId = (isMine && myTrain.realNo) ? myTrain.realNo : displayTrainId(t);
+      var chipTitle = (trainIdIsReal(t) || (isMine && myTrain.realNo))
+        ? 'Real train number reported by a rider (model '+t.id+')'
+        : 'Model number '+t.id+' — real number not reported yet';
+      return '<div class="train-marker '+t.dir+(isMine?' my-train':'')+'" data-train-id="'+t.id+'" style="top:'+top+'px" title="'+chipTitle+'"><span class="chip"><span class="chip-id">'+escHtml(chipId)+'</span> <span class="arr">'+arrow+'</span><span class="chip-next"> → '+t.nextName+'</span>'+(isMine?'<span class="you-badge">YOU</span>':'')+'</span></div>';
     }).join('');
   }
   // Track height fix: train layer is inside .track which sizes to station rows; markers positioned absolutely relative to track
@@ -1469,16 +1618,23 @@ function renderAll(){
 
   // Train list
   var list = document.getElementById('trainList');
-  document.getElementById('trainListSub').textContent = trains.length ? ('Every train the model places on the line at '+fmtClock(now)+'. Sorted in the order they left their terminal.') : 'No trains are on the line right now.';
+  document.getElementById('trainListSub').textContent = trains.length ? ('Every train the model places on the line at '+fmtClock(now)+'. Sorted in the order they left their terminal. Train numbers are model numbers unless a rider has reported the real one.') : 'No trains are on the line right now.';
   if(!trains.length){
     list.innerHTML = '<div class="empty"><b>'+(beforeService?'First train at 6:13 AM':'Service finished — back at 6:13 AM')+'</b><p>'+(beforeService?'Trains leave Ali Town at 6:13 AM and Dera Gujran at 6:14 AM and then run all day until the last departures at 10:00 PM / 9:59 PM.':'The last departures were 10:00 PM (towards Dera Gujran) and 9:59 PM (towards Ali Town). Trains start again tomorrow at 6:13 AM from Ali Town and 6:14 AM from Dera Gujran.')+'<br><br><span class="pill pill-amber">ESTIMATE — timetable-based, not live GPS</span></p></div>';
   } else {
     list.innerHTML = '<div class="train-grid">' + trains.map(function(t){
-      return '<article class="train-card"><div class="tc-top"><span class="tc-id mono">'+t.id+'</span><span class="tc-dir '+t.dir+'">'+(t.dir==='down'?'↓ To Dera Gujran':'↑ To Ali Town')+'</span></div>'
+      var isMine = myTrain && myTrain.id===t.id;
+      var dispId = (isMine && myTrain.realNo) ? myTrain.realNo : displayTrainId(t);
+      var isReal = (isMine && myTrain.realNo) ? true : trainIdIsReal(t);
+      return '<article class="train-card'+(isMine?' my-train':'')+'"><div class="tc-top"><span class="tc-id mono">'+escHtml(dispId)+'</span><span class="tc-model">'+(isReal?'real no. • model '+t.id:'model no.')+'</span><span class="tc-dir '+t.dir+'">'+(t.dir==='down'?'↓ To Dera Gujran':'↑ To Ali Town')+'</span>'+(isMine?'<span class="my-train-tag">YOUR TRAIN'+(myTrain.realNo?' • '+escHtml(myTrain.realNo):'')+'</span>':'')+'</div>'
         + '<div class="tc-next"><span>Next station • ETA ~'+(t.etaNext<0.5?'arriving now':t.etaNext.toFixed(1)+' min')+'</span>'+t.nextName+'</div>'
         + '<div style="font-size:12px;color:var(--muted);margin-top:4px">Just left '+t.prevName+' • Reaches '+t.destName+' at '+fmtClock(t.arrivalAtDest)+'</div>'
         + '<div class="tc-bar"><i style="width:'+t.progressPct+'%"></i></div>'
-        + '<div class="tc-foot"><span>Left terminal '+fmtClock(t.dep)+'</span><span>'+t.progressPct+'% of journey</span></div></article>';
+        + '<div class="tc-foot"><span>Left terminal '+fmtClock(t.dep)+'</span><span>'+t.progressPct+'% of journey</span></div>'
+        + (isMine
+            ? '<button class="btn-my-train on" type="button" data-clear-train>✓ You\'re on this train — tap to clear</button>'
+            : '<button class="btn-my-train" type="button" data-mark-train="'+t.id+'">I\'m on this train</button>')
+        + '</article>';
     }).join('') + '</div>'
     + '<p style="font-size:11px;color:var(--muted);margin:12px 0 0">ESTIMATE — timetable-based, not live GPS. ETAs use real per-station timings from Google Maps (18 Nov 2026); headway is modelled.</p>';
   }
@@ -1486,7 +1642,10 @@ function renderAll(){
   renderRadar(trains, now);
   renderBoard();
   renderTimetable();
+  renderMyTrainBanner(trains);
+  renderGpsSuggest(trains);
   positionYouMarkers();
+  refreshGpsState();
 }
 
 /* ---------- Live GPS — the rider's own real position ---------- */
@@ -1563,6 +1722,17 @@ function matchToLine(lat, lon){
 
 var gpsOn=false, gpsWatchId=null, gpsPrev=null, gpsMatch=null;
 var gpsLat=null, gpsLon=null;
+var gpsSpeedSmooth=null, lastFixAt=0, gpsStaleShown=false;
+/* Total line length (metres) for speed-based ETAs: sum of verified
+   station-to-station distances; the unverified gaps (GPO / Lakshmi Chowk)
+   are filled with the mean verified segment length. */
+var LINE_LENGTH_M=(function(){
+  var sum=0,n=0,i;
+  for(i=0;i<25;i++){ if(STATION_GEO[i]&&STATION_GEO[i+1]){ sum+=haversineM(STATION_GEO[i][0],STATION_GEO[i][1],STATION_GEO[i+1][0],STATION_GEO[i+1][1]); n++; } }
+  var mean=n?sum/n:1000, total=sum;
+  for(i=0;i<25;i++){ if(!STATION_GEO[i]||!STATION_GEO[i+1]) total+=mean; }
+  return total;
+})();
 var dirStationIdx=13, dirStationManual=false; // directions target; defaults to nearest station until the rider picks one
 
 function setGpsMsg(kind, html){
@@ -1593,27 +1763,33 @@ function stopGpsInternal(){
   setGpsLoader(false);
   if(gpsWatchId!==null && ('geolocation' in navigator)) navigator.geolocation.clearWatch(gpsWatchId);
   gpsWatchId=null; gpsOn=false; gpsMatch=null; gpsPrev=null; gpsLat=null; gpsLon=null;
+  gpsSpeedSmooth=null; lastFixAt=0; gpsStaleShown=false;
   syncGpsButtons();
   document.getElementById('gpsStats').hidden=true;
   document.getElementById('gpsWhere').hidden=true;
   document.getElementById('dirPanel').hidden=true;
   positionYouMarkers();
+  highlightNearestRow();
 }
 function stopGps(){
   stopGpsInternal();
   setGpsMsg('info','Live GPS is <b>off</b>. Tap “Use my live location” any time to show your real position on the line again. Train positions remain timetable estimates.');
 }
 function onGpsError(err){
-  stopGpsInternal();
   if(err.code===1){
     // Denied: the browser will not show its system prompt again until the
     // rider enables location in settings — show the in-place help below.
+    stopGpsInternal();
     showLocationHelp();
     setGpsMsg('err','<b>Location permission denied.</b> Live GPS is off, but the rest of the app still works. To switch Live GPS on, allow location in your browser settings (lock / tune icon → Site settings → Location → Allow), then tap Try again below.');
   } else if(err.code===2){
-    setGpsMsg('err','<b>GPS position unavailable.</b> Your device could not get a fix — common indoors or in the underground section (Anarkali–Railway Station). Try again at an elevated station or near a window.');
+    // Position unavailable (tunnel / underground): keep the watch running
+    // and keep the last known position visible — it resumes by itself.
+    setGpsMsg('warn','<b>GPS signal lost.</b> Showing your last known position — it will resume automatically when the signal returns (common in the underground section, Anarkali–Railway Station).');
+    refreshGpsState(true);
   } else {
-    setGpsMsg('err','<b>GPS timed out.</b> No position arrived in time. Tap “Use my live location” to try again.');
+    setGpsMsg('warn','<b>GPS timed out.</b> Showing your last known position — it will resume automatically when the next fix arrives.');
+    refreshGpsState(true);
   }
 }
 function onGpsFix(pos){
@@ -1634,6 +1810,8 @@ function onGpsFix(pos){
   }
   gpsPrev={lat:c.latitude, lon:c.longitude, t:nowT};
   gpsLat=c.latitude; gpsLon=c.longitude;
+  lastFixAt=nowT; gpsStaleShown=false;
+  if(speed!==null && !isNaN(speed)) gpsSpeedSmooth=(gpsSpeedSmooth===null)?speed:gpsSpeedSmooth*0.65+speed*0.35;
   var m=matchToLine(c.latitude, c.longitude);
   // Next station: the station at the end of the current segment the rider is heading towards
   var A=STATION_GEO[m.i0], B=STATION_GEO[m.i1];
@@ -1645,8 +1823,9 @@ function onGpsFix(pos){
     else { nextIdx=m.i0; distNext=m.t*m.segLen; }
   } else if(m.t>=0.5){ nextIdx=m.i1; distNext=(1-m.t)*m.segLen; }
   else { nextIdx=m.i0; distNext=m.t*m.segLen; }
-  m.nextIdx=nextIdx; m.distNext=distNext; m.speed=speed; m.acc=c.accuracy;
+  m.nextIdx=nextIdx; m.distNext=distNext; m.speed=speed; m.acc=c.accuracy; m.heading=heading;
   gpsMatch=m;
+  if(myTrain && !myTrain.arrived){ myTrain.lastSeenIdx = m.nearestIdx; saveMyTrain(); }
   updateGpsPanel();
   positionYouMarkers();
 }
@@ -1679,18 +1858,113 @@ function updateGpsPanel(){
   document.getElementById('gpsNearest').textContent=STATIONS[m.nearestIdx];
   document.getElementById('gpsNext').textContent=STATIONS[m.nextIdx];
   document.getElementById('gpsDistNext').textContent=fmtDist(m.distNext);
-  document.getElementById('gpsSpeed').textContent=(m.speed!=null && !isNaN(m.speed)) ? (Math.round(m.speed*3.6)+' km/h') : '—';
-  var where=document.getElementById('gpsWhere');
-  where.hidden=false;
-  var between = (m.i0===m.i1) ? STATIONS[m.i0] : ('Between <strong>'+STATIONS[m.i0]+'</strong> and <strong>'+STATIONS[m.i1]+'</strong>');
-  where.innerHTML = between
-    + ' • Nearest station <strong>'+STATIONS[m.nearestIdx]+'</strong> is '+fmtDist(m.nearestDist)+' away'
-    + (m.offLine>400 ? ' • You are currently '+fmtDist(m.offLine)+' from the line itself' : ' • You are on the line')
-    + (m.acc ? ' • GPS accuracy ±'+Math.round(m.acc)+' m' : '')
-    + ' • <strong>LIVE GPS — your position</strong>, updated as you move.';
+  updateGpsReadouts();
   setGpsMsg('ok','<b>Live GPS is on.</b> Your real position is plotted below — watch the blue YOU marker move on the line diagram and radar. The departure board and timetable now follow your <b>nearest station</b>, like Google Maps. Trains remain timetable estimates.');
   syncNearestStation();
+  highlightNearestRow();
   renderDirections();
+}
+
+/* ---------- GPS signal state + live readouts (v4) ----------
+   A fix that stops arriving (tunnel / underground) no longer wipes the
+   marker: the last known position stays visible, greyed out, until the
+   signal returns. Speed is smoothed; the ETA to the destination is
+   computed from real movement when the speed is trustworthy, and falls
+   back to the timetable when it is not. Coordinates never leave the device. */
+function gpsIsFresh(){
+  return gpsOn && gpsMatch && (Date.now()-lastFixAt<=15000);
+}
+function gpsIsReliable(){
+  // Fresh fix AND good enough accuracy to trust the station match.
+  return gpsIsFresh() && !(gpsMatch.acc && gpsMatch.acc>150);
+}
+function gpsTravelDir(){
+  if(!gpsMatch) return null;
+  if(gpsMatch.heading!==null && gpsMatch.heading!==undefined && gpsMatch.speed!==null && gpsMatch.speed>1){
+    var A=STATION_GEO[gpsMatch.i0], B=STATION_GEO[gpsMatch.i1];
+    var brg=bearingDeg(A[0],A[1],B[0],B[1]);
+    var diff=Math.abs(((gpsMatch.heading-brg+540)%360)-180);
+    return (diff<90)?'down':'up';
+  }
+  return null;
+}
+function gpsEtaToDest(){
+  // Returns {mins, fromSpeed, destIdx, destName} or null when no destination can be fixed.
+  if(!gpsMatch) return null;
+  var destIdx=null, destName='';
+  if(myTrain){ destIdx=(myTrain.dir==='down')?25:0; destName=myTrain.dest; }
+  else {
+    var d=gpsTravelDir();
+    if(!d) return null;
+    destIdx=(d==='down')?25:0; destName=STATIONS[destIdx];
+  }
+  var remainIdx=Math.abs(destIdx-gpsMatch.linePos);
+  if(remainIdx<0.05) return {mins:0, fromSpeed:false, destIdx:destIdx, destName:destName};
+  var remainM=remainIdx*(LINE_LENGTH_M/25);
+  if(gpsSpeedSmooth!==null && gpsSpeedSmooth>1){
+    return {mins:remainM/gpsSpeedSmooth/60, fromSpeed:true, destIdx:destIdx, destName:destName};
+  }
+  return {mins:remainIdx*(49/25), fromSpeed:false, destIdx:destIdx, destName:destName};
+}
+function fmtEta(mins){
+  if(mins<=0) return 'Arriving now';
+  if(mins<1) return 'Under 1 min';
+  return '~'+Math.round(mins)+' min';
+}
+function updateGpsReadouts(){
+  var m=gpsMatch; if(!m) return;
+  var sp=document.getElementById('gpsSpeed');
+  if(sp) sp.textContent=(gpsSpeedSmooth!==null && !isNaN(gpsSpeedSmooth)) ? (Math.round(gpsSpeedSmooth*3.6)+' km/h') : '—';
+  var acc=document.getElementById('gpsAcc');
+  if(acc) acc.textContent=(m.acc!==null && m.acc!==undefined && !isNaN(m.acc)) ? ('±'+Math.round(m.acc)+' m') : '—';
+  var eta=gpsEtaToDest();
+  var lab=document.getElementById('gpsEtaDestLabel'), val=document.getElementById('gpsEtaDest');
+  if(lab) lab.textContent=eta ? ('ETA to '+eta.destName.replace(' Terminal','')) : 'ETA to destination';
+  if(val) val.textContent=eta ? (fmtEta(eta.mins)+(eta.fromSpeed?'':' (timetable)')) : '—';
+  var where=document.getElementById('gpsWhere');
+  if(where){
+    where.hidden=false;
+    var fresh=gpsIsFresh();
+    var between=(m.i0===m.i1)?STATIONS[m.i0]:('Between <strong>'+STATIONS[m.i0]+'</strong> and <strong>'+STATIONS[m.i1]+'</strong>');
+    var ageS=Math.max(0,Math.round((Date.now()-lastFixAt)/1000));
+    where.innerHTML=between
+      + ' • Nearest station <strong>'+STATIONS[m.nearestIdx]+'</strong> is '+fmtDist(m.nearestDist)+' away'
+      + (m.offLine>400 ? ' • You are currently '+fmtDist(m.offLine)+' from the line itself' : ' • You are on the line')
+      + (m.acc ? ' • GPS accuracy ±'+Math.round(m.acc)+' m' : '')
+      + (m.acc && m.acc>150 ? ' • Low accuracy — positions are approximate.' : '')
+      + (fresh ? ' • <strong>LIVE GPS — your position</strong>, updated as you move.'
+               : ' • <strong>GPS weak — last known position</strong> (last fix '+ageS+' s ago).');
+  }
+}
+function setYouStale(markerEl, radarEl, stale){
+  [markerEl, radarEl].forEach(function(el){
+    if(!el || !el.classList) return;
+    el.classList.toggle('stale', stale);
+    var chip=el.querySelector ? el.querySelector('.you-chip') : null;
+    if(chip) chip.textContent=stale ? 'YOU • LAST KNOWN' : 'YOU • LIVE GPS';
+    var lbl=el.querySelector ? el.querySelector('.lbl') : null;
+    if(lbl) lbl.textContent=stale ? 'YOU • LAST KNOWN' : 'YOU • LIVE';
+  });
+}
+function highlightNearestRow(){
+  var rows=document.querySelectorAll('#stationRows .station-row');
+  if(!rows || !rows.length) return;
+  var n=(gpsOn && gpsMatch)?gpsMatch.nearestIdx:-1;
+  for(var i=0;i<rows.length;i++){
+    if(rows[i].classList) rows[i].classList.toggle('nearest', i===n);
+  }
+}
+function refreshGpsState(forceStale){
+  if(!gpsOn || !gpsMatch) return;
+  var stale=forceStale===true ? true : !gpsIsFresh();
+  setYouStale(youMarkerEl, radarYouEl, stale);
+  if(stale && !gpsStaleShown){
+    gpsStaleShown=true;
+    setGpsMsg('warn','<b>GPS signal weak.</b> Showing your last known position — the marker stays where you were last seen and resumes automatically when the signal returns.');
+  }
+  if(!stale) gpsStaleShown=false;
+  updateGpsReadouts();
+  highlightNearestRow();
 }
 
 /* ---------- Directions to the station (from the rider's live GPS) ---------- */
@@ -1735,14 +2009,34 @@ function renderDirections(){
   sel.innerHTML = STATIONS.map(function(n,i){ return '<option value="'+i+'"'+(i===dirStationIdx?' selected':'')+'>'+(i+1)+'. '+n+'</option>'; }).join('');
   sel.addEventListener('change', function(){ dirStationIdx = parseInt(sel.value,10); dirStationManual = true; renderDirections(); });
 })();
+var youMarkerEl=null, radarYouEl=null;
 function positionYouMarkers(){
   var dy=document.getElementById('youLayer'), ry=document.getElementById('radarYou');
   if(!dy || !ry) return;
-  if(!gpsOn || !gpsMatch){ dy.innerHTML=''; ry.innerHTML=''; return; }
+  if(!gpsOn || !gpsMatch){
+    dy.innerHTML=''; ry.innerHTML='';
+    youMarkerEl=null; radarYouEl=null;
+    return;
+  }
   var top = gpsMatch.linePos*ROW_H + ROW_H/2;
   dy.style.position='absolute'; dy.style.left='0'; dy.style.right='0'; dy.style.top='0'; dy.style.bottom='0'; dy.style.pointerEvents='none';
-  dy.innerHTML='<div class="you-marker" style="top:'+top+'px"><span class="you-dot"></span><span class="you-chip">YOU • LIVE GPS</span></div>';
-  ry.innerHTML='<div class="radar-you" style="top:calc(18px + (100% - 36px) * '+(gpsMatch.linePos/25)+')"><span class="you-dot"></span><span class="lbl">YOU • LIVE</span></div>';
+  // Reuse the marker element and move it: rebuilding it on every fix
+  // would destroy the CSS transition and make the marker jump instead
+  // of gliding along the line as the train moves.
+  if(!youMarkerEl){
+    dy.innerHTML='<div class="you-marker" style="top:'+top+'px"><span class="you-dot"></span><span class="you-chip">YOU • LIVE GPS</span></div>';
+    youMarkerEl=dy.firstChild;
+  } else {
+    youMarkerEl.style.top=top+'px';
+  }
+  var rtop='calc(18px + (100% - 36px) * '+(gpsMatch.linePos/25)+')';
+  if(!radarYouEl){
+    ry.innerHTML='<div class="radar-you" style="top:'+rtop+'"><span class="you-dot"></span><span class="lbl">YOU • LIVE</span></div>';
+    radarYouEl=ry.firstChild;
+  } else {
+    radarYouEl.style.top=rtop;
+  }
+  setYouStale(youMarkerEl, radarYouEl, !gpsIsFresh());
 }
 document.getElementById('gpsBtn').addEventListener('click', toggleGps);
 document.getElementById('gpsBtnCard').addEventListener('click', toggleGps);
@@ -1832,6 +2126,221 @@ if(locSettingsBtn) locSettingsBtn.addEventListener('click', function(e){
     };
   }).catch(function(){ requestLocationNow(); });
 })();
+
+/* ---------- My train — "I'm on this train" (v4) ----------
+   The timetable model cannot know which modelled train a rider is on:
+   model IDs (OL-D## / OL-U##) come from the departure index, not real PMA
+   train-set numbers — so a real train like OL-019 never appears in the
+   model and a rider could never recognise it from the chips alone. The
+   rider picks the modelled train they are on; the page highlights it,
+   follows it in the banner, and on arrival offers a trip report. The real
+   train number is optional and shown next to the model ID. Nothing here
+   submits anything: the report form is only prefilled, the rider taps
+   Send themselves. */
+var MY_TRAIN_KEY = 'ol_my_train_v1';
+var myTrain = null;      // {id, dir, dest, dep, arrivalAtDest, markedAt, boardingIdx, lastSeenIdx, realNo, arrived, arrivedAt}
+var dismissedSuggestId = null;
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function loadMyTrain(){
+  try{
+    var raw = localStorage.getItem(MY_TRAIN_KEY);
+    if(!raw) return;
+    var d = JSON.parse(raw);
+    if(d && d.id && d.dir && typeof d.arrivalAtDest === 'number' && typeof d.markedAt === 'number'){
+      myTrain = d;
+      if(typeof myTrain.arrived !== 'boolean') myTrain.arrived = false;
+    }
+  }catch(e){ myTrain = null; }
+}
+function saveMyTrain(){
+  try{
+    if(myTrain) localStorage.setItem(MY_TRAIN_KEY, JSON.stringify(myTrain));
+    else localStorage.removeItem(MY_TRAIN_KEY);
+  }catch(e){ /* private mode etc: in-memory only */ }
+}
+function findTrainById(id, trains){
+  for(var i=0;i<trains.length;i++){ if(trains[i].id===id) return trains[i]; }
+  return null;
+}
+function markTrain(id){
+  var t = findTrainById(id, getActiveTrains(nowMinutes()));
+  if(!t) return;
+  myTrain = {
+    id: t.id, dir: t.dir, dest: t.destName, dep: t.dep, arrivalAtDest: t.arrivalAtDest,
+    markedAt: Date.now(), boardingIdx: (gpsOn && gpsMatch && gpsIsReliable()) ? gpsMatch.nearestIdx : null,
+    lastSeenIdx: (gpsOn && gpsMatch) ? gpsMatch.nearestIdx : null,
+    realNo: '', arrived: false, arrivedAt: null
+  };
+  dismissedSuggestId = null;
+  saveMyTrain();
+  renderAll();
+  var b = document.getElementById('myTrainBanner');
+  if(b) b.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+function clearMyTrain(){
+  if(myTrain) dismissedSuggestId = myTrain.id; // do not re-suggest the train just cleared
+  myTrain = null;
+  saveMyTrain();
+  renderAll();
+}
+function saveRealNo(){
+  var inp = document.getElementById('realNoInput');
+  if(!inp || !myTrain) return;
+  myTrain.realNo = inp.value.replace(/[^A-Za-z0-9-]/g, '').toUpperCase().slice(0, 12);
+  saveMyTrain();
+  reportTrainNumber();
+  renderAll();
+}
+function tripMinutes(){
+  if(!myTrain) return 0;
+  var end = myTrain.arrivedAt || Date.now();
+  return Math.max(0, (end - myTrain.markedAt) / 60000);
+}
+function tripAlightIdx(){
+  if(gpsOn && gpsMatch) return gpsMatch.nearestIdx;
+  if(myTrain && myTrain.lastSeenIdx !== null && myTrain.lastSeenIdx !== undefined) return myTrain.lastSeenIdx;
+  return (myTrain && myTrain.dir === 'down') ? 25 : 0; // destination terminal
+}
+function prefillTripReport(){
+  if(!myTrain) return;
+  var alight = tripAlightIdx();
+  var prev = myTrain.dir === 'up' ? alight + 1 : alight - 1;
+  if(prev < 0) prev = 1;
+  if(prev > 25) prev = 24;
+  var fromEl = document.getElementById('reportFrom');
+  var toEl = document.getElementById('reportTo');
+  var minEl = document.getElementById('reportMinutes');
+  if(!fromEl || !toEl || !minEl) return;
+  fromEl.value = STATIONS[prev];
+  toEl.value = STATIONS[alight];
+  minEl.value = '';
+  minEl.placeholder = 'Minutes for this hop';
+  [fromEl, toEl].forEach(function(el){
+    if(document.createEvent){ var ev = document.createEvent('HTMLEvents'); ev.initEvent('change', true, false); el.dispatchEvent(ev); }
+  });
+  var sec = document.getElementById('report-time');
+  if(sec) sec.scrollIntoView({behavior:'smooth'});
+  if(minEl.focus) minEl.focus({preventScroll:true});
+}
+function renderMyTrainBanner(trains){
+  var b = document.getElementById('myTrainBanner');
+  if(!b) return;
+  if(!myTrain){ if(!b.hidden){ b.hidden = true; b.innerHTML = ''; b.dataset.mode = ''; } return; }
+  var t = findTrainById(myTrain.id, trains);
+  if(t && !myTrain.arrived){
+    var sharedNo = reportedNumberFor({id:myTrain.id, dep:myTrain.dep});
+    var dispNo = myTrain.realNo || sharedNo || myTrain.id;
+    var dispSrc = myTrain.realNo ? 'own' : (sharedNo ? 'shared' : 'model');
+    var disp = escHtml(dispNo) + ' <span style="font-weight:600">(model ' + escHtml(myTrain.id) + ')</span>';
+    var eta = t.etaNext < 0.5 ? 'arriving now' : '~' + t.etaNext.toFixed(1) + ' min';
+    var live = 'Next station <b>' + escHtml(t.nextName) + '</b>, ETA ' + eta + ' — arrives ' + escHtml(myTrain.dest) + ' ~' + fmtClock(myTrain.arrivalAtDest) + '.';
+    if(b.dataset.mode !== 'ontrain' || b.dataset.src !== dispSrc){
+      b.hidden = false;
+      b.classList.remove('arrived');
+      b.dataset.mode = 'ontrain';
+      b.dataset.src = dispSrc;
+      b.innerHTML = '<b>🚆 You\'re on Train ' + disp + ' → ' + escHtml(myTrain.dest) + '</b>'
+        + '<br><span id="myTrainLive">' + live + '</span>'
+        + '<br><span style="font-size:12.5px">' + (dispSrc==='shared' ? 'Real number reported by another rider — correct it below if it is wrong.' : dispSrc==='own' ? 'Your real train number is shared with other riders so they can find this train.' : 'Modelled position — the timetable estimate, not live train GPS. Add the real train number below to share it with other riders.') + '</span>'
+        + '<div class="mt-actions"><label for="realNoInput" style="font-weight:700">Real train no. (optional)</label>'
+        + '<input class="mt-realno" id="realNoInput" type="text" inputmode="text" autocomplete="off" maxlength="12" placeholder="e.g. OL-019" value="' + escHtml(myTrain.realNo || sharedNo || '') + '">'
+        + '<button class="mt-clear" type="button" data-save-realno>Save number</button>'
+        + '<button class="mt-clear" type="button" data-clear-train>Not on this train</button></div>';
+    } else {
+      var liveEl = document.getElementById('myTrainLive');
+      if(liveEl) liveEl.innerHTML = live;
+      var titleEl = b.querySelector('b');
+      if(titleEl) titleEl.innerHTML = '🚆 You\'re on Train ' + disp + ' → ' + escHtml(myTrain.dest);
+    }
+    return;
+  }
+  // Train no longer in the active list: it has reached its destination.
+  if(!myTrain.arrived){
+    myTrain.arrived = true;
+    if(!myTrain.arrivedAt) myTrain.arrivedAt = Date.now();
+    saveMyTrain();
+  }
+  if(b.dataset.mode !== 'arrived'){
+    var alight = tripAlightIdx();
+    var mins = tripMinutes();
+    var boardName = (myTrain.boardingIdx !== null && myTrain.boardingIdx !== undefined) ? STATIONS[myTrain.boardingIdx] : null;
+    var alightNote = '';
+    if(!(gpsOn && gpsMatch) && (myTrain.lastSeenIdx === null || myTrain.lastSeenIdx === undefined)){
+      alightNote = ' (train\'s destination — change it in the form if you got off earlier)';
+    } else if(!(gpsOn && gpsMatch)){
+      alightNote = ' (last GPS position)';
+    }
+    b.hidden = false;
+    b.classList.add('arrived');
+    b.dataset.mode = 'arrived';
+    b.innerHTML = '<b>🎉 You\'ve arrived at ' + escHtml(STATIONS[alight]) + alightNote + '</b>'
+      + '<br>Your trip: boarded at <b>' + (boardName ? escHtml(boardName) : 'not recorded (GPS was off when you marked the train)') + '</b>'
+      + ' → arrived at <b>' + escHtml(STATIONS[alight]) + '</b> · on board ~' + mins.toFixed(1) + ' min since you marked the train.'
+      + '<br><span style="font-size:12.5px">The report form below accepts one hop at a time — tap the button to prefill the last hop of this trip, enter the minutes for that hop, then send it.</span>'
+      + '<div class="mt-actions"><button class="mt-clear" type="button" data-report-trip>Report the last hop of this trip →</button>'
+      + '<button class="mt-clear" type="button" data-clear-train>Clear</button></div>';
+  }
+}
+function renderGpsSuggest(trains){
+  var box = document.getElementById('gpsTrainSuggest');
+  if(!box) return;
+  if(!gpsOn || !gpsMatch || myTrain){ if(!box.hidden){ box.hidden = true; box.innerHTML = ''; box.dataset.suggestId = ''; } if(!gpsOn) dismissedSuggestId = null; return; }
+  if(!gpsIsReliable()){ box.hidden = true; box.innerHTML = ''; box.dataset.suggestId = ''; return; }
+  if(gpsMatch.offLine > 400){ box.hidden = true; box.innerHTML = ''; box.dataset.suggestId = ''; return; }
+  // Direction of travel, only when the phone reports a real heading and is moving.
+  var dir = null;
+  if(gpsMatch.heading !== null && gpsMatch.heading !== undefined && gpsMatch.speed !== null && gpsMatch.speed > 1){
+    var A = STATION_GEO[gpsMatch.i0], B = STATION_GEO[gpsMatch.i1];
+    var brg = bearingDeg(A[0], A[1], B[0], B[1]);
+    var diff = Math.abs(((gpsMatch.heading - brg + 540) % 360) - 180);
+    dir = (diff < 90) ? 'down' : 'up';
+  }
+  var cands = trains.filter(function(x){ return dir ? x.dir === dir : true; })
+    .map(function(x){ return { t: x, d: Math.abs(x.linePos - gpsMatch.linePos) }; })
+    .sort(function(a, b){ return a.d - b.d; });
+  if(!cands.length){ box.hidden = true; box.innerHTML = ''; box.dataset.suggestId = ''; return; }
+  var n1 = cands[0], n2 = cands[1] || null;
+  var margin = dir ? 0.5 : 1.0;
+  if(n1.d > 0.8 || (n2 && (n2.d - n1.d) < margin)){ box.hidden = true; box.innerHTML = ''; box.dataset.suggestId = ''; return; }
+  if(dismissedSuggestId === n1.t.id){ box.hidden = true; box.innerHTML = ''; box.dataset.suggestId = ''; return; }
+  if(box.dataset.suggestId === n1.t.id && !box.hidden) return; // already showing this train
+  var eta = n1.t.etaNext < 0.5 ? 'arriving now' : '~' + n1.t.etaNext.toFixed(1) + ' min';
+  box.hidden = false;
+  box.dataset.suggestId = n1.t.id;
+  var sugId = displayTrainId(n1.t);
+  var sugNote = trainIdIsReal(n1.t) ? ' (model ' + n1.t.id + ')' : ' (model number)';
+  box.innerHTML = '<b>Is this your train?</b> Train <b>' + escHtml(sugId) + '</b>' + sugNote + ' → ' + n1.t.destName
+    + ' — next <b>' + n1.t.nextName + '</b>, ETA ' + eta + '.'
+    + '<br><span style="font-size:12.5px">Matched to your live GPS position. If it is not your train, ignore this — nothing is marked without your tap.</span>'
+    + '<div class="gs-actions"><button class="gs-yes" type="button" data-confirm-suggest="' + n1.t.id + '">Yes, that\'s my train</button>'
+    + '<button class="gs-no" type="button" data-dismiss-suggest="' + n1.t.id + '">No, not this one</button></div>';
+}
+document.getElementById('trainLayer').addEventListener('click', function(e){
+  var m = (e.target && e.target.closest) ? e.target.closest('.train-marker') : null;
+  if(m && m.getAttribute('data-train-id')) markTrain(m.getAttribute('data-train-id'));
+});
+document.getElementById('trainList').addEventListener('click', function(e){
+  var mk = (e.target && e.target.closest) ? e.target.closest('[data-mark-train]') : null;
+  if(mk){ markTrain(mk.getAttribute('data-mark-train')); return; }
+  var cl = (e.target && e.target.closest) ? e.target.closest('[data-clear-train]') : null;
+  if(cl){ clearMyTrain(); return; }
+});
+document.getElementById('myTrainBanner').addEventListener('click', function(e){
+  var t = e.target;
+  if(!t || !t.closest) return;
+  if(t.closest('[data-clear-train]')){ clearMyTrain(); return; }
+  if(t.closest('[data-save-realno]')){ saveRealNo(); return; }
+  if(t.closest('[data-report-trip]')){ prefillTripReport(); return; }
+});
+document.getElementById('gpsTrainSuggest').addEventListener('click', function(e){
+  var y = (e.target && e.target.closest) ? e.target.closest('[data-confirm-suggest]') : null;
+  if(y){ markTrain(y.getAttribute('data-confirm-suggest')); return; }
+  var n = (e.target && e.target.closest) ? e.target.closest('[data-dismiss-suggest]') : null;
+  if(n){ dismissedSuggestId = n.getAttribute('data-dismiss-suggest'); renderAll(); return; }
+});
+loadMyTrain();
+fetchTrainNumbers(true);
+setInterval(fetchTrainNumbers, 60000);
 
 function tick(manual){ renderAll(); }
 renderAll();
