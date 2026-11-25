@@ -1,4 +1,4 @@
-const CACHE = 'orange-line-v17';
+const CACHE = 'orange-line-v18'; // v18: GA4 gtag added to index.html — new cache forces the new shell on returning visitors
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
 self.addEventListener('install', function (event) {
